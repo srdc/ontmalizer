@@ -1,0 +1,2059 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<!-- 
+********************************************************
+CDA Header
+********************************************************
+-->
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+	<templateId root="2.16.840.1.113883.10.20.1"/>
+	<id root="db734647-fc99-424c-a864-7e3cda82e703"/>
+	<code code="34133-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Summarization of episode note"/>
+	<title>SALUS Patient Summary Instance</title>
+	<effectiveTime value="20121105130000+0200"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+	<languageCode code="en-US"/>
+	<recordTarget>
+		<patientRole>
+			<id extension="54321678901" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+			<addr use="HP">
+				<streetAddressLine>Via Lago di Nemi, No 4</streetAddressLine>
+				<city>Milan</city>
+				<state>MI</state>
+				<country>Italy</country>
+				<postalCode>20142</postalCode>
+			</addr>
+			<telecom use="HP" value="tel:+390239112233"/>
+			<patient>
+				<name>
+					<given>Sabina</given>
+					<family>Cremona</family>
+				</name>
+				<administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender"/>
+				<birthTime value="19560708"/>
+				<maritalStatusCode code="M" displayName="Married" codeSystem="2.16.840.1.113883.5.2" codeSystemName="MaritalStatus"/>
+				<religiousAffiliationCode code="1013" displayName="Christian (non-Catholic, non-specific)" codeSystem="2.16.840.1.113883.5.1076" codeSystemName="ReligiousAffiliation"/>
+				<raceCode code="2108-9" displayName="European" codeSystem="2.16.840.1.113883.6.238" codeSystemName="CDC Race and Ethnicity"/>
+				<ethnicGroupCode code="2114-7" displayName="Italian" codeSystem="2.16.840.1.113883.6.238" codeSystemName="CDC Race and Ethnicity"/>
+				<birthplace>
+					<place>
+						<addr>
+							<city>Biella</city>
+							<country>Italy</country>
+						</addr>
+					</place>
+				</birthplace>
+			</patient>
+			<providerOrganization>
+				<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178901"/>
+			</providerOrganization>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<time value="20121105130000+0200"/>
+		<assignedAuthor>
+			<id root="2.16.840.1.113883.2.9.4.3.2.5" extension="76543218901"/>
+			<assignedAuthoringDevice>
+				<softwareName>Good Health Clinic System v1.0</softwareName>
+			</assignedAuthoringDevice>
+			<representedOrganization>
+				<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178901"/>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<!-- Data Reporter required in E2B XML -->
+	<author>
+		<time value="20121105130000+0200"/>
+		<assignedAuthor>
+			<id extension="54321678905" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+			<code code="1" codeSystem="OID-TO-BE-DECIDED" codeSystemName="E2B Data Reporter Qualification Codes" displayName="Physician"/>
+			<addr use="WP">
+				<streetAddressLine>Via Marostica, No 33/3</streetAddressLine>
+				<city>Milan</city>
+				<state>MI</state>
+				<country>Italy</country>
+				<postalCode>20146</postalCode>
+			</addr>
+			<telecom use="WP" value="tel:+390239008811"/>
+			<assignedPerson>
+				<name>
+					<prefix>Dr.</prefix>
+					<given>Ersilia</given>
+					<family>Palladino</family>
+				</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178901"/>
+				<name>Good Health Clinic</name>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178901"/>
+				<name>Good Health Clinic</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<documentationOf>
+		<serviceEvent classCode="PCPR">
+			<effectiveTime>
+				<low value="20070806"/>
+				<high value="20121104"/>
+			</effectiveTime>
+			<performer typeCode="PRF">
+				<functionCode code="PCP" displayName="Primary Care Physician" codeSystem="2.16.840.1.113883.5.88" codeSystemName="ParticipationFunction"/>
+				<assignedEntity>
+					<id extension="54321678905" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+					<addr use="WP">
+						<streetAddressLine>Via Marostica, No 33/3</streetAddressLine>
+						<city>Milan</city>
+						<state>MI</state>
+						<country>Italy</country>
+						<postalCode>20146</postalCode>
+					</addr>
+					<telecom use="WP" value="tel:+390239008811"/>
+					<assignedPerson>
+						<name>
+							<prefix>Dr.</prefix>
+							<given>Ersilia</given>
+							<family>Palladino</family>
+						</name>
+					</assignedPerson>
+					<representedOrganization>
+						<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178901"/>
+						<name>Good Health Clinic</name>
+					</representedOrganization>
+				</assignedEntity>
+			</performer>
+		</serviceEvent>
+	</documentationOf>
+	<component>
+		<structuredBody>
+			<!-- 
+********************************************************
+Allergies, adverse reactions and alerts section
+********************************************************
+-->
+			<component>
+				<section>
+					<templateId root="2.16.840.1.113883.10.20.1.2"/>
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.13"/>
+					<id root="c1887da8-a196-4e04-853e-7d4825e45ba9"/>
+					<code code="48765-2" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" codeSystemVersion="June 2010" displayName="Allergies, adverse reactions, alerts"/>
+					<title>Allergies, adverse reactions, alerts</title>
+					<text>
+						<table>
+							<thead>
+								<tr>
+									<th>Substance</th>
+									<th>Reaction</th>
+									<th>Severity</th>
+									<th>Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="allergy1">
+									<td ID="allergy1_substance">Penicillin</td>
+									<td ID="allergy1_reaction">Bronchospasm</td>
+									<td ID="allergy1_severity">High</td>
+									<td ID="allergy1_status">Active</td>
+								</tr>
+								<tr ID="allergy2">
+									<td ID="allergy2_substance">Egg protein</td>
+									<td ID="allergy2_reaction">Eczema</td>
+									<td ID="allergy2_severity">Moderate</td>
+									<td ID="allergy2_status">Resolved</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="ALG" displayName="Allergy" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy1"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20080624"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="419199007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Allergy to substance">
+										<originalText>Allergy to substance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="J01CA" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC" displayName="Penicillins with extended spectrum">
+													<originalText>Penicillin</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="723c3d9b-655d-44ae-8ac0-9f410fbd28e2"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy1_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="4386001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Bronchospasm"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Haaa" displayName="Highaaa" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Hbbb" displayName="Highbbb" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="71ccf49e-2585-4db0-bc12-b8c84e6177f0"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="FINT" displayName="Food Intolerance" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy2"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20090624"/>
+										<high value="20100301"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="235719002" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Food intolerance">
+										<originalText>Food intolerance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="303300008" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Egg protein">
+													<originalText>
+														<reference value="#allergy2_substance"/>
+													</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="965e4b20-3fd9-4590-ba2f-70c9c5cc0816"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy2_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="43116000" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Eczema"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy2_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="413322009" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Resolved"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy2_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="M" displayName="Moderate" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="ALG" displayName="Allergy" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy1"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20080624"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="419199007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Allergy to substance">
+										<originalText>Allergy to substance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="J01CA" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC" displayName="Penicillins with extended spectrum">
+													<originalText>Penicillin</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="723c3d9b-655d-44ae-8ac0-9f410fbd28e2"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy1_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="4386001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Bronchospasm"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Haaa" displayName="Highaaa" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Hbbb" displayName="Highbbb" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="ALG" displayName="Allergy" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy1"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20080624"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="419199007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Allergy to substance">
+										<originalText>Allergy to substance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="J01CA" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC" displayName="Penicillins with extended spectrum">
+													<originalText>Penicillin</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="723c3d9b-655d-44ae-8ac0-9f410fbd28e2"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy1_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="4386001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Bronchospasm"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Haaa" displayName="Highaaa" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Hbbb" displayName="Highbbb" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="ALG" displayName="Allergy" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy1"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20080624"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="419199007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Allergy to substance">
+										<originalText>Allergy to substance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="J01CA" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC" displayName="Penicillins with extended spectrum">
+													<originalText>Penicillin</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="723c3d9b-655d-44ae-8ac0-9f410fbd28e2"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy1_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="4386001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Bronchospasm"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Haaa" displayName="Highaaa" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Hbbb" displayName="Highbbb" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="ALG" displayName="Allergy" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy1"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20080624"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="419199007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Allergy to substance">
+										<originalText>Allergy to substance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="J01CA" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC" displayName="Penicillins with extended spectrum">
+													<originalText>Penicillin</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="723c3d9b-655d-44ae-8ac0-9f410fbd28e2"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy1_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="4386001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Bronchospasm"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Haaa" displayName="Highaaa" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Hbbb" displayName="Highbbb" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="ALG" displayName="Allergy" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy1"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20080624"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="419199007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Allergy to substance">
+										<originalText>Allergy to substance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="J01CA" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC" displayName="Penicillins with extended spectrum">
+													<originalText>Penicillin</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="723c3d9b-655d-44ae-8ac0-9f410fbd28e2"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy1_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="4386001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Bronchospasm"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Haaa" displayName="Highaaa" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Hbbb" displayName="Highbbb" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="ALG" displayName="Allergy" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy1"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20080624"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="419199007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Allergy to substance">
+										<originalText>Allergy to substance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="J01CA" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC" displayName="Penicillins with extended spectrum">
+													<originalText>Penicillin</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="723c3d9b-655d-44ae-8ac0-9f410fbd28e2"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy1_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="4386001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Bronchospasm"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Haaa" displayName="Highaaa" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Hbbb" displayName="Highbbb" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="ALG" displayName="Allergy" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy1"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20080624"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="419199007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Allergy to substance">
+										<originalText>Allergy to substance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="J01CA" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC" displayName="Penicillins with extended spectrum">
+													<originalText>Penicillin</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="723c3d9b-655d-44ae-8ac0-9f410fbd28e2"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy1_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="4386001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Bronchospasm"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Haaa" displayName="Highaaa" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Hbbb" displayName="Highbbb" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.3"/>
+							<id root="36e3e930-7b14-11db-9fe1-0800200c9a66"/>
+							<code nullFlavor="NA"/>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.18"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6"/>
+									<id root="4adc1020-7b14-11db-9fe1-0800200c9a66"/>
+									<code code="ALG" displayName="Allergy" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ObservationIntoleranceType"/>
+									<text>
+										<reference value="#allergy1"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20080624"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="419199007" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Allergy to substance">
+										<originalText>Allergy to substance</originalText>
+									</value>
+									<participant typeCode="CSM">
+										<participantRole classCode="MANU">
+											<playingEntity classCode="MMAT">
+												<code code="J01CA" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC" displayName="Penicillins with extended spectrum">
+													<originalText>Penicillin</originalText>
+												</code>
+											</playingEntity>
+										</participantRole>
+									</participant>
+									<entryRelationship typeCode="MFST" inversionInd="true">
+										<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.6.1"/>
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.54"/>
+											<templateId root="2.16.840.1.113883.10.20.1.28"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+											<id root="723c3d9b-655d-44ae-8ac0-9f410fbd28e2"/>
+											<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<text>
+												<reference value="#allergy1_reaction"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="4386001" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Bronchospasm"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#allergy1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Haaa" displayName="Highaaa" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#allergy1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="Hbbb" displayName="Highbbb" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+				</section>
+			</component>
+			<!-- 
+********************************************************
+Active problems section
+********************************************************
+-->
+			<component>
+				<section>
+					<templateId root="2.16.840.1.113883.10.20.1.11"/>
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.6"/>
+					<id root="087e4130-770a-42ee-879e-e60a1fc76110"/>
+					<code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Problem list - Reported"/>
+					<title>Problem Listesi</title>
+					<text>
+						<table>
+							<thead>
+								<tr>
+									<th>Condition</th>
+									<th>Effective Dates</th>
+									<th>Severity</th>
+									<th>Condition Status</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="actprob1">
+									<td ID="actprob1_condition">Asthma</td>
+									<td ID="actprob1_date">01.08.2003</td>
+									<td ID="actprob1_severity">High</td>
+									<td ID="actprob1_status">Active</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20030801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="493" displayName="Asthma" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Asthma</originalText>
+									</value>
+									<performer>
+										<assignedEntity>
+											<id extension="54321678906" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+											<code code="309345004" displayName="Chest Physicians" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<addr use="WP">
+												<streetAddressLine>Via Don Giovanni Minzoni, No 24</streetAddressLine>
+												<city>Milan</city>
+												<state>MI</state>
+												<country>Italy</country>
+												<postalCode>20158</postalCode>
+											</addr>
+											<telecom use="WP" value="tel:+390239445566"/>
+											<assignedPerson>
+												<name>
+													<prefix>Dr.</prefix>
+													<given>Fabiola</given>
+													<family>Passerini</family>
+												</name>
+											</assignedPerson>
+											<representedOrganization>
+												<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178902"/>
+												<name>Wellness Care Clinic</name>
+											</representedOrganization>
+										</assignedEntity>
+									</performer>
+									<entryRelationship typeCode="SUBJ" inversionInd="true">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1"/>
+											<templateId root="2.16.840.1.113883.10.20.1.55"/>
+											<code code="SEV" displayName="Severity" codeSystem="2.16.840.1.113883.5.4" codeSystemName="ActCode"/>
+											<text>
+												<reference value="#actprob1_severity"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CD" code="H" displayName="High" codeSystem="2.16.840.1.113883.5.1063" codeSystemName="ObservationValue"/>
+										</observation>
+									</entryRelationship>
+									<entryRelationship typeCode="REFR" inversionInd="false">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="2.16.840.1.113883.10.20.1.57"/>
+											<templateId root="2.16.840.1.113883.10.20.1.50"/>
+											<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.1.1"/>
+											<code code="33999-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Status"/>
+											<text>
+												<reference value="#actprob1_status"/>
+											</text>
+											<statusCode code="completed"/>
+											<value xsi:type="CE" code="55561003" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT" displayName="Active"/>
+										</observation>
+									</entryRelationship>
+									<!-- Death might seem non-sense here, but we are trying to construct a full instance. -->
+									<entryRelationship typeCode="CAUS">
+										<observation classCode="OBS" moodCode="EVN">
+											<code code="419620001" displayName="Death" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+											<effectiveTime value="20120510"/>
+										</observation>
+									</entryRelationship>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>

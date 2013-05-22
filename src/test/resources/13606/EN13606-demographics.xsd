@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2004-2010 IBIME, Universidad Politécnica de Valencia, Spain -->
+<!-- This file is published under the CC-BY license. -->
+<!-- You can distribute, remix, tweak, and build upon this file, even commercially, as long as you credit the copyright holder for the original creation. -->
+<!-- http://creativecommons.org/ -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="CEN/13606/RM" targetNamespace="CEN/13606/RM" elementFormDefault="qualified" version="v20100218" id="EN13606-demographics.xsd">
+	<xs:include schemaLocation="TS14796-dataTypes.xsd"/>
+	<!-- IDENTIFIED_ENTITY GROUP -->
+	<xs:complexType name="IDENTIFIED_ENTITY" abstract="true">
+		<xs:sequence>
+			<xs:element name="extract_id" type="II" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="telecom" type="TELECOM" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- TELECOM -->
+	<xs:complexType name="TELECOM">
+		<xs:sequence>
+			<xs:element name="telecom_address" type="URI"/>
+			<xs:element name="use" type="CS" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="valid_time" type="IVLTS" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<!-- SOFTWARE_OR_DEVICE -->
+	<xs:element name="SOFTWARE_OR_DEVICE" type="SOFTWARE_OR_DEVICE"/>
+	<xs:complexType name="SOFTWARE_OR_DEVICE">
+		<xs:complexContent>
+			<xs:extension base="IDENTIFIED_ENTITY">
+				<xs:sequence>
+					<xs:element name="code" type="CV"/>
+					<xs:element name="desc" type="xs:string"/>
+					<xs:element name="manufacturer_model_name" type="xs:string"/>
+					<xs:element name="version" type="xs:string" minOccurs="0"/>
+						<xs:element name="owning_organisation" type="II" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- ORGANISATION -->
+	<xs:element name="ORGANISATION" type="ORGANISATION"/>
+	<xs:complexType name="ORGANISATION">
+		<xs:complexContent>
+			<xs:extension base="IDENTIFIED_ENTITY">
+				<xs:sequence>
+					<xs:element name="code" type="CV"/>
+					<xs:element name="desc" type="xs:string"/>
+					<xs:element name="name" type="xs:string"/>
+					<xs:element name="addr" type="POSTAL_ADDRESS" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- PERSON -->
+	<xs:element name="PERSON" type="PERSON"/>
+	<xs:complexType name="PERSON">
+		<xs:complexContent>
+			<xs:extension base="IDENTIFIED_ENTITY">
+				<xs:sequence>
+					<xs:element name="name" type="ENTITY_NAME" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="addr" type="POSTAL_ADDRESS" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<!-- IDENTIFIED_HEALTHCARE_PROFESSIONAL -->
+	<xs:element name="IDENTIFIED_HEALTHCARE_PROFESSIONAL" type="IDENTIFIED_HEALTHCARE_PROFESSIONAL"/>
+	<xs:complexType name="IDENTIFIED_HEALTHCARE_PROFESSIONAL">
+		<xs:complexContent>
+			<xs:extension base="PERSON">
+				<xs:sequence>
+					<xs:element name="role" type="HEALTHCARE_PROFESSIONAL_ROLE" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<!-- HEALTHCARE_PROFESSIONAL_ROLE -->
+	<xs:complexType name="HEALTHCARE_PROFESSIONAL_ROLE">
+		<xs:sequence>
+			<xs:element name="id" type="II" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="position_or_grade" type="CV" minOccurs="0"/>
+			<xs:element name="profession" type="CV" minOccurs="0"/>
+			<xs:element name="speciality" type="CV" minOccurs="0"/>
+			<xs:element name="scoping_organisation" type="II" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- POSTAL_ADDRESS -->
+	<xs:complexType name="POSTAL_ADDRESS">
+		<xs:sequence>
+			<xs:element name="address_use" type="CS" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="postal_code" type="xs:string" minOccurs="0"/>
+			<xs:element name="valid_time" type="IVLTS" minOccurs="0"/>
+			<xs:element name="addr_part" type="POSTAL_ADDRESS_PART" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- POSTAL_ADDRESS_PART -->
+	<xs:complexType name="POSTAL_ADDRESS_PART">
+		<xs:sequence>
+			<xs:element name="address_line" type="xs:string"/>
+			<xs:element name="address_line_type" type="CS" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ENTITY_NAME -->
+	<xs:complexType name="ENTITY_NAME">
+		<xs:sequence>
+			<xs:element name="use" type="CV"/>
+			<xs:element name="valid_time" type="IVLTS"/>
+			<xs:element name="name_part" type="ENTITY_NAME_PART" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- ENTITY_NAME_PART -->
+	<xs:complexType name="ENTITY_NAME_PART">
+		<xs:sequence>
+			<xs:element name="entity_part_name" type="xs:string"/>
+			<xs:element name="name_part_qualifier" type="CS"/>
+			<xs:element name="name_part_type" type="CS"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- SUBJECT_OF_CARE_PERSON_IDENTIFICATION -->
+	<xs:element name="SUBJECT_OF_CARE_PERSON_IDENTIFICATION" type="SUBJECT_OF_CARE_PERSON_IDENTIFICATION"/>
+	<xs:complexType name="SUBJECT_OF_CARE_PERSON_IDENTIFICATION">
+		<xs:complexContent>
+			<xs:extension base="PERSON">
+				<xs:sequence>
+					<xs:element name="administrative_gender_code" type="CS"/>
+					<xs:element name="birth_time" type="TS"/>
+					<xs:element name="deceased_time" type="TS" minOccurs="0"/>
+					<xs:element name="birth_order_number" type="xs:integer" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

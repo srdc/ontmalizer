@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 sp1 (http://www.altova.com) by aa (bb) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:salus="http://www.salusproject.eu/ontology/common-information-model" targetNamespace="http://www.salusproject.eu/ontology/common-information-model" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="datatypes.xsd"/>
+	<xs:include schemaLocation="basetypes.xsd"/>
+	<xs:element name="patient" type="salus:Patient"/>
+	<xs:element name="eligibilityCriteria" type="salus:EligibilityCriteria"/>
+	<xs:complexType name="Patient">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="ID" type="salus:ii"/>
+					<xs:element name="title" type="xs:string" minOccurs="0"/>
+					<xs:element name="givenName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="familyName" type="xs:string" minOccurs="0"/>
+					<xs:element name="gender" type="salus:cd"/>
+					<xs:element name="dateOfBirth" type="xs:date"/>
+					<xs:element name="maritalStatus" type="salus:cd" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="religiousAffiliation" type="salus:cd" minOccurs="0"/>
+					<xs:element name="race" type="salus:cd" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="ethnicity" type="salus:cd" minOccurs="0"/>
+					<xs:element name="birthPlace" type="salus:addr" minOccurs="0"/>
+					<xs:element name="address" type="salus:addr" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="telecom" type="salus:tele" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="healthcareProvider" type="salus:HealthcareProvider" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="providerOrganization" type="salus:OrganizationInformation" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="dataReporter" type="salus:DataReporter" minOccurs="0"/>
+					<xs:element name="insuranceProvider" type="salus:InsuranceProvider" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Payers Section contains data on the patient’s payers, whether a ‘third party’ insurance, self-pay, other payer or guarantor, or some combination. At a minimum, the patient's pertinent current payment sources should be listed. If no payment sources are supplied, the reason shall be supplied as free text in the narrative block (e.g., Not Insured, Payer Unknown, Medicare Pending, etc.).</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="encounter" type="salus:Encounter" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Encounters Section contains information describing the patient history of encounters. At a minimum, current and pertinent historical encounters should be included; a full encounter history may be included.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="allergy" type="salus:Allergy" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Allergies and Other Adverse Reactions Section contains data on the substance intolerances and the associated adverse reactions suffered by the patient. At a minimum, currently active and any relevant historical allergies and adverse reactions shall be listed.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="condition" type="salus:Condition" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Problem List Section contains data on the problems currently being monitored for the patient.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="familyHistory" type="salus:FamilyHistory" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Family History section contains information on the diagnoses of family members of the patient.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="immunization" type="salus:Immunization" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Immunizations Section contains information describing the immunizations administered to the patient.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="medication" type="salus:Medication" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Medications Section contains information about the relevant medications for the patient. At a minimum, the currently active medications should be listed.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="planOfCare" type="salus:PlannedEvent" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Plan of Care Section contains information about the expectations for care to be provided including proposed interventions and goals for improving the condition of the patient.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="pregnancy" type="salus:Pregnancy" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Pregnancy Section contains information about the past and current pregnancies of the patient.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="procedure" type="salus:Procedure" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Procedures and Interventions Section may be used to record the procedures and interventions that have been performed.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="result" type="salus:Result" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Diagnostic Results Section contains information about the results from diagnostic procedures the patient received.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="socialHistory" type="salus:SocialHistory" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Social History section contains information on patient’s occupational, personal (e.g., lifestyle), social, and environmental history.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="vitalSign" type="salus:Result" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The Vital Signs Section contains information documenting the patient vital signs.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

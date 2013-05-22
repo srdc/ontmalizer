@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:salus="http://www.salusproject.eu/ontology/common-information-model" targetNamespace="http://www.salusproject.eu/ontology/common-information-model" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:complexType name="ii">
+		<xs:attribute name="root" type="xs:string"/>
+		<xs:attribute name="extension" type="xs:string"/>
+		<xs:attribute name="nullFlavor" type="salus:nullFlavorType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="cd">
+		<xs:attribute name="code" type="xs:string"/>
+		<xs:attribute name="codeSystem" type="xs:string" use="optional"/>
+		<xs:attribute name="codeSystemName" type="xs:string" use="optional"/>
+		<xs:attribute name="codeSystemVersion" type="xs:string" use="optional"/>
+		<xs:attribute name="displayName" type="xs:string" use="optional"/>
+		<xs:attribute name="nullFlavor" type="salus:nullFlavorType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="pq">
+		<xs:annotation>
+			<xs:documentation>Physical Quantity</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="translation" type="salus:pqr" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>An alternative representation of the same physical quantity expressed in a different unit, of a different unit code system and possibly with a different value.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:string"/>
+		<xs:attribute name="unit" type="xs:string"/>
+		<xs:attribute name="nullFlavor" type="salus:nullFlavorType"/>
+	</xs:complexType>
+	<xs:complexType name="ivlPq">
+		<xs:sequence>
+			<xs:element name="low" type="salus:pq" minOccurs="0"/>
+			<xs:element name="high" type="salus:pq" minOccurs="0"/>
+			<xs:element name="center" type="salus:pq" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="pqr">
+		<xs:sequence>
+			<xs:element name="originalText" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="code" type="xs:string" use="optional"/>
+		<xs:attribute name="codeSystem" type="xs:string" use="optional"/>
+		<xs:attribute name="codeSystemName" type="xs:string" use="optional"/>
+		<xs:attribute name="codeSystemVersion" type="xs:string" use="optional"/>
+		<xs:attribute name="displayName" type="xs:string" use="optional"/>
+		<xs:attribute name="value" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>The magnitude of the measurement value in terms of the unit specified in the code.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="nullFlavor" type="salus:nullFlavorType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="addr" mixed="true">
+		<xs:sequence>
+			<xs:element name="streetAddressLine" type="xs:string" minOccurs="0" maxOccurs="2"/>
+			<xs:element name="postalCode" type="xs:string" minOccurs="0"/>
+			<xs:element name="city" type="xs:string" minOccurs="0"/>
+			<xs:element name="state" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A sub-unit of a country with limited sovereignty in a federally organized country.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="country" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A self-governing political entity. Identical with State, but not state.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="use" type="xs:string" use="optional"/>
+		<xs:attribute name="nullFlavor" type="salus:nullFlavorType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="tele">
+		<xs:annotation>
+			<xs:documentation>A telephone number (voice or fax), e-mail address, or other locator for a resource (information or service) mediated by telecommunication equipment. The address is specified as a Universal Resource Locator (URL) qualified by time specification and use codes that help in deciding which address to use for a given time and purpose.</xs:documentation>
+		</xs:annotation>
+		<xs:attribute name="value" type="xs:string" use="optional"/>
+		<xs:attribute name="use" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>One or more codes advising a system or user which telecommunication address in a set of like addresses to select for a given telecommunication need.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="nullFlavor" type="salus:nullFlavorType" use="optional"/>
+	</xs:complexType>
+	<xs:complexType name="ivlTs">
+		<xs:sequence>
+			<xs:element name="low" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="high" type="xs:dateTime" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:dateTime"/>
+		<xs:attribute name="nullFlavor" type="salus:nullFlavorType" use="optional"/>
+		<xs:attribute name="operator" type="xs:string"/>
+	</xs:complexType>
+	<xs:complexType name="pivlTs">
+		<xs:sequence>
+			<xs:element name="phase" type="salus:ivlTs" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A prototype of the repeating interval specifying the duration of each occurrence and anchors the periodic interval sequence at a certain point in time.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="period" type="salus:pq" minOccurs="0">
+				<xs:annotation>
+					<xs:documentation>A time duration specifying a reciprocal measure of the frequency at which the periodic interval repeats.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="value" type="xs:dateTime" use="optional"/>
+		<xs:attribute name="operator" type="xs:string" use="optional" default="I">
+			<xs:annotation>
+				<xs:documentation>
+                     A code specifying whether the set component is included
+                     (union) or excluded (set-difference) from the set, or
+                     other set operations with the current set component and
+                     the set as constructed from the representation stream
+                     up to the current point.
+                  </xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="alignment" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Specifies if and how the repetitions are aligned to the cycles of the underlying calendar (e.g., to distinguish every 30 days from "the 5th of every month".) A non-aligned periodic interval recurs independently from the calendar. An aligned periodic interval is synchronized with the calendar.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="institutionSpecified" type="xs:boolean" use="optional" default="false">
+			<xs:annotation>
+				<xs:documentation>Indicates whether the exact timing is up to the party executing the schedule (e.g., to distinguish "every 8 hours" from "3 times a day".)</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="nullFlavor" type="salus:nullFlavorType" use="optional"/>
+	</xs:complexType>
+	<xs:simpleType name="statusType">
+		<xs:annotation>
+			<xs:documentation>Enumeration of the different status values available for status codes</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="normal"/>
+			<xs:enumeration value="active"/>
+			<xs:enumeration value="cancelled"/>
+			<xs:enumeration value="pending"/>
+			<xs:enumeration value="suspended"/>
+			<xs:enumeration value="terminated"/>
+			<xs:enumeration value="nullified"/>
+			<xs:enumeration value="completed"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="nullFlavorType">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NP"/>
+			<xs:enumeration value="NI"/>
+			<xs:enumeration value="MSK"/>
+			<xs:enumeration value="NA"/>
+			<xs:enumeration value="OTH"/>
+			<xs:enumeration value="NINF"/>
+			<xs:enumeration value="PINF"/>
+			<xs:enumeration value="UNK"/>
+			<xs:enumeration value="NASK"/>
+			<xs:enumeration value="TRC"/>
+			<xs:enumeration value="ASKU"/>
+			<xs:enumeration value="NAV"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

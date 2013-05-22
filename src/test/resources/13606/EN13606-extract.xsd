@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2004-2010 IBIME, Universidad Politécnica de Valencia, Spain -->
+<!-- This file is published under the CC-BY license. -->
+<!-- You can distribute, remix, tweak, and build upon this file, even commercially, as long as you credit the copyright holder for the original creation. -->
+<!-- http://creativecommons.org/ -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="CEN/13606/RM" targetNamespace="CEN/13606/RM" elementFormDefault="qualified" version="v20100218" id="EN13606-extract.xsd">      
+        <xs:include schemaLocation="EN13606-RM.xsd"/>
+        <xs:include schemaLocation="EN13606-demographics.xsd"/>
+        <xs:element name="EHR_EXTRACT" type="EHR_EXTRACT"/>
+        <xs:complexType name="EHR_EXTRACT">
+            <xs:sequence>
+                <xs:element name="ehr_system" type="II" minOccurs="1"></xs:element>
+                <xs:element name="ehr_id" type="II" minOccurs="1"></xs:element>
+                <xs:element name="subject_of_care" type="II" minOccurs="1"></xs:element>
+                <xs:element name="time_created" type="TS" minOccurs="1"></xs:element>
+                <xs:element name="authorising_party" type="II" minOccurs="0"></xs:element>
+                <xs:element name="rm_id" type="xs:string" minOccurs="1"></xs:element>
+                <xs:element name="folders" type="FOLDER" minOccurs="0" maxOccurs="unbounded"></xs:element>
+                <xs:element name="all_compositions" type="COMPOSITION" minOccurs="0" maxOccurs="unbounded"></xs:element>
+                <xs:element name="criteria" type="EXTRACT_CRITERIA" minOccurs="0" maxOccurs="unbounded"></xs:element>
+                <xs:element name="demographic_extract" type="IDENTIFIED_ENTITY" minOccurs="0" maxOccurs="unbounded"></xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    <xs:complexType name="EXTRACT_CRITERIA">
+        <xs:sequence>
+            <xs:element name="time_period" type="IVLTS" minOccurs="0"></xs:element>
+            <xs:element name="max_sensitivity" type="xs:integer" minOccurs="0"></xs:element>
+            <xs:element name="all_versions" type="xs:boolean" minOccurs="0"></xs:element>
+            <xs:element name="multimedia_included" type="xs:boolean" minOccurs="0"></xs:element>
+            <xs:element name="archetype_ids" type="II" minOccurs="0" maxOccurs="unbounded"></xs:element>
+            <xs:element name="other_constraints" type="xs:string" minOccurs="0"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>

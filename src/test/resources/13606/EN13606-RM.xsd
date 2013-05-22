@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2004-2010 IBIME, Universidad Politécnica de Valencia, Spain -->
+<!-- This file is published under the CC-BY license. -->
+<!-- You can distribute, remix, tweak, and build upon this file, even commercially, as long as you credit the copyright holder for the original creation. -->
+<!-- http://creativecommons.org/ -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="CEN/13606/RM" targetNamespace="CEN/13606/RM" elementFormDefault="qualified" version="v20100218" id="EN13606-RM.xsd">
+	<xs:include schemaLocation="TS14796-dataTypes.xsd"/>
+	<xs:complexType name="LINK">
+		<xs:sequence>
+			<xs:element name="nature" type="CS"/>
+			<xs:element name="role" type="CV" minOccurs="0"/>
+			<xs:element name="follow_link" type="xs:boolean" default="false"/>
+			<xs:element name="target" type="II" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="AUDIT_INFO">
+		<xs:sequence>
+			<xs:element name="ehr_system" type="II"/>
+			<xs:element name="time_committed" type="TS"/>
+			<xs:element name="committer" type="II"/>
+			<xs:element name="version_status" type="CS" minOccurs="0"/>
+			<xs:element name="reason_for_revision" type="CV" minOccurs="0"/>
+			<xs:element name="previous_version" type="II" minOccurs="0"/>
+			<xs:element name="version_set_id" type="II" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ATTESTATION_INFO">
+		<xs:sequence>
+			<xs:element name="time" type="TS"/>
+			<xs:element name="proof" type="ED" minOccurs="0"/>
+			<xs:element name="attested_view" type="ED" minOccurs="0"/>
+			<xs:element name="reason_for_attestation" type="CV"/>
+			<xs:element name="attester" type="FUNCTIONAL_ROLE" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="target" type="II" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FUNCTIONAL_ROLE">
+		<xs:sequence>
+			<xs:element name="function" type="CV" minOccurs="0"/>
+			<xs:element name="performer" type="II"/>
+			<xs:element name="mode" type="CS" minOccurs="0"/>
+			<xs:element name="healthcare_facillity" type="II" minOccurs="0"/>
+			<xs:element name="service_setting" type="CV" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RELATED_PARTY">
+		<xs:sequence>
+			<xs:element name="party" type="II" minOccurs="0"/>
+			<xs:element name="relationship" type="TEXT"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RECORD_COMPONENT" abstract="true">
+		<xs:sequence>
+			<xs:element name="name" type="TEXT" minOccurs="1"/>
+			<xs:element name="archetype_id" type="xs:string" minOccurs="0"/>
+			<xs:element name="rc_id" type="II" minOccurs="1"/>
+			<xs:element name="meaning" type="CV" minOccurs="0"/>
+			<xs:element name="synthesised" type="xs:boolean" default="false" minOccurs="1"/>
+			<xs:element name="policy_ids" type="II" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="sensitivity" type="xs:integer" minOccurs="0"/>
+			<xs:element name="orig_parent_ref" type="II" minOccurs="0"/>
+			<xs:element name="links" type="LINK" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="feeder_audit" type="AUDIT_INFO" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="FOLDER" type="FOLDER"/>
+	<xs:complexType name="FOLDER">
+		<xs:complexContent>
+			<xs:extension base="RECORD_COMPONENT">
+				<xs:sequence>
+					<xs:element name="sub_folders" type="FOLDER" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="attestations" type="ATTESTATION_INFO" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="compositions" type="II" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="COMPOSITION" type="COMPOSITION"/>
+	<xs:complexType name="COMPOSITION">
+		<xs:complexContent>
+			<xs:extension base="RECORD_COMPONENT">
+				<xs:sequence>
+					<xs:element name="session_time" type="IVLTS" minOccurs="0"/>
+					<xs:element name="territory" type="CS" minOccurs="0"/>
+					<xs:element name="contribution_id" type="II" minOccurs="0"/>
+					<xs:element name="committal" type="AUDIT_INFO" minOccurs="1"/>
+					<xs:element name="composer" type="FUNCTIONAL_ROLE" minOccurs="0"/>
+					<xs:element name="other_participation" type="FUNCTIONAL_ROLE" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="attestations" type="ATTESTATION_INFO" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="content" type="CONTENT" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CONTENT" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="RECORD_COMPONENT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SECTION">
+		<xs:complexContent>
+			<xs:extension base="CONTENT">
+				<xs:sequence>
+					<xs:element name="members" type="CONTENT" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ENTRY">
+		<xs:complexContent>
+			<xs:extension base="CONTENT">
+				<xs:sequence>
+					<xs:element name="act_id" type="xs:string" minOccurs="0"/>
+					<xs:element name="act_status" type="CS" minOccurs="0"/>
+					<xs:element name="uncertainty_expressed" type="xs:boolean" default="false" minOccurs="1"/>
+					<xs:element name="subject_of_information_category" type="CS" minOccurs="0"/>
+					<xs:element name="info_provider" type="FUNCTIONAL_ROLE" minOccurs="0"/>
+					<xs:element name="subject_of_information" type="RELATED_PARTY" minOccurs="0"/>
+					<xs:element name="other_participations" type="FUNCTIONAL_ROLE" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="items" type="ITEM" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ITEM" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="RECORD_COMPONENT">
+				<xs:sequence>
+					<xs:element name="emphasis" type="CV" minOccurs="0"/>
+					<xs:element name="obs_time" type="IVLTS" minOccurs="0"/>
+					<xs:element name="item_category" type="CS" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CLUSTER">
+		<xs:complexContent>
+			<xs:extension base="ITEM">
+				<xs:sequence>
+					<xs:element name="structure_type" type="CS"/>
+					<xs:element name="parts" type="ITEM" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ELEMENT">
+		<xs:complexContent>
+			<xs:extension base="ITEM">
+				<xs:sequence>
+					<xs:element name="value" type="DATA_VALUE" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:salus="http://www.salusproject.eu/ontology/common-information-model" targetNamespace="http://www.salusproject.eu/ontology/common-information-model" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:include schemaLocation="datatypes.xsd"/>
+	<xs:complexType name="ClinicalStatement" abstract="true"/>
+	<xs:complexType name="Allergy">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="adverseEventType" type="salus:cd"/>
+					<xs:element name="adverseEventDate" type="salus:ivlTs" minOccurs="0"/>
+					<xs:element name="product" type="salus:cd" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="reaction" type="salus:Condition" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="status" type="salus:cd" minOccurs="0"/>
+					<xs:element name="severity" type="salus:cd" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Condition">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="problemDate" type="salus:ivlTs" minOccurs="0"/>
+					<xs:element name="problemType" type="salus:cd" minOccurs="0"/>
+					<xs:element name="problemName" type="xs:string" minOccurs="0"/>
+					<xs:element name="problemCode" type="salus:cd" minOccurs="0"/>
+					<xs:element name="problemStatus" type="salus:cd" minOccurs="0"/>
+					<xs:element name="problemSeverity" type="salus:cd" minOccurs="0"/>
+					<xs:element name="timeOfDeath" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="treatingProvider" type="salus:HealthcareProvider" minOccurs="0"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="FamilyHistory">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="familyHistoryObservationDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="kinshipType" type="salus:cd"/>
+					<xs:element name="familyHistoryObservationCode" type="salus:cd"/>
+					<xs:element name="ageAtOnset" type="xs:int" minOccurs="0"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Encounter">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="encounterID" type="salus:ii" maxOccurs="unbounded"/>
+					<xs:element name="encounterType" type="salus:cd" minOccurs="0"/>
+					<xs:element name="encounterDateTime" type="salus:ivlTs"/>
+					<xs:element name="encounterProvider" type="salus:HealthcareProvider" minOccurs="0"/>
+					<xs:element name="encounterOrganization" type="salus:OrganizationInformation" minOccurs="0"/>
+					<xs:element name="reasonForVisit" type="salus:Condition" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Immunization">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="administeredDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="medicationSeriesNumber" type="xs:int" minOccurs="0"/>
+					<xs:element name="route" type="salus:cd" minOccurs="0"/>
+					<xs:element name="dose" type="salus:pq" minOccurs="0"/>
+					<xs:element name="site" type="salus:cd" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="reaction" type="salus:cd" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="performer" type="salus:HealthcareProvider" minOccurs="0"/>
+					<xs:element name="medicationInformation" type="salus:MedicationInformation" maxOccurs="unbounded"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="InsuranceProvider">
+		<xs:sequence>
+			<xs:element name="groupNumber" type="salus:ii"/>
+			<xs:element name="healthInsuranceType" type="salus:cd" minOccurs="0"/>
+			<xs:element name="payer" type="salus:OrganizationInformation"/>
+			<xs:element name="memberInformation" type="salus:MemberInformation"/>
+			<xs:element name="financialResponsibilityPartyType" type="salus:cd" minOccurs="0"/>
+			<xs:element name="subscriberInformation" type="salus:SubscriberInformation" minOccurs="0"/>
+			<xs:element name="guarantorInformation" type="salus:GuarantorInformation" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="healthPlanName" type="xs:string" minOccurs="0"/>
+			<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Medication">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="indicateMedicationStartStop" type="salus:ivlTs" minOccurs="0"/>
+					<xs:element name="administrationTiming" type="salus:pivlTs" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="route" type="salus:cd" minOccurs="0"/>
+					<xs:element name="dose" type="salus:pq" minOccurs="0"/>
+					<xs:element name="site" type="salus:cd" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="doseRestriction" type="salus:ivlPq" minOccurs="0"/>
+					<xs:element name="productForm" type="salus:cd" minOccurs="0"/>
+					<xs:element name="deliveryMethod" type="salus:cd" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="medicationInformation" type="salus:MedicationInformation" maxOccurs="unbounded"/>
+					<xs:element name="indication" type="salus:Condition" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="patientInstructions" type="xs:string" minOccurs="0"/>
+					<xs:element name="reaction" type="salus:cd" minOccurs="0"/>
+					<xs:element name="orderInformation" type="salus:OrderInformation" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="fulfillmentInstructions" type="xs:string" minOccurs="0"/>
+					<xs:element name="fulfillmentHistory" type="salus:FulfillmentHistory" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PlannedEvent">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="planId" type="salus:ii"/>
+					<xs:element name="plannedTime" type="salus:ivlTs" minOccurs="0"/>
+					<xs:element name="planType" type="salus:cd"/>
+					<xs:element name="plannedEventCode" type="salus:cd" minOccurs="0"/>
+					<xs:element name="planFreeText" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Pregnancy">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="pregnancyObservationDate" type="xs:dateTime"/>
+					<xs:element name="lastMenstrualPeriodDate" type="xs:dateTime"/>
+					<xs:element name="deliveryDate" type="xs:dateTime"/>
+					<xs:element name="pregnancyStatus" type="salus:cd"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Procedure">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="procedureID" type="salus:ii" maxOccurs="unbounded"/>
+					<xs:element name="procedureDateTime" type="salus:ivlTs" minOccurs="0"/>
+					<xs:element name="procedureType" type="salus:cd" minOccurs="0"/>
+					<xs:element name="procedureFreeTextType" type="xs:string" minOccurs="0"/>
+					<xs:element name="procedureStatus" type="salus:cd" minOccurs="0"/>
+					<xs:element name="bodySite" type="salus:cd" minOccurs="0"/>
+					<xs:element name="procedureProvider" type="salus:HealthcareProvider" minOccurs="0"/>
+					<xs:element name="indication" type="salus:Condition" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="relatedEncounter" type="salus:Encounter" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Result">
+		<xs:annotation>
+			<xs:documentation>Reusable result</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="resultID" type="salus:ii" maxOccurs="unbounded"/>
+					<xs:element name="resultDateTime" type="salus:ivlTs"/>
+					<xs:element name="resultType" type="salus:cd"/>
+					<xs:element name="resultValue" type="salus:Value"/>
+					<xs:element name="resultInterpretation" type="salus:cd" minOccurs="0"/>
+					<xs:element name="resultProvider" type="salus:HealthcareProvider" minOccurs="0"/>
+					<xs:element name="resultReferenceRange" type="salus:ivlPq" minOccurs="0"/>
+					<xs:element name="relatedCondition" type="salus:Condition" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SocialHistory">
+		<xs:complexContent>
+			<xs:extension base="salus:ClinicalStatement">
+				<xs:sequence>
+					<xs:element name="socialHistoryDate" type="salus:ivlTs"/>
+					<xs:element name="socialHistoryObservationCode" type="salus:cd"/>
+					<xs:element name="socialHistoryObservationValue" type="salus:Value" minOccurs="0"/>
+					<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="MemberInformation">
+		<xs:sequence>
+			<xs:element name="healthPlanCoverageDates" type="salus:ivlTs" minOccurs="0"/>
+			<xs:element name="memberID" type="salus:ii" minOccurs="0"/>
+			<xs:element name="patientRelationshipToSubscriber" type="salus:cd" minOccurs="0"/>
+			<xs:element name="patientAddress" type="salus:addr" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="patientTelecom" type="salus:tele" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="title" type="xs:string" minOccurs="0"/>
+			<xs:element name="givenName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="familyName" type="xs:string" minOccurs="0"/>
+			<xs:element name="patientDateOfBirth" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SubscriberInformation">
+		<xs:sequence>
+			<xs:element name="subscriberID" type="salus:ii"/>
+			<xs:element name="subscriberAddress" type="salus:addr"/>
+			<xs:element name="subscriberTelecom" type="salus:tele" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="title" type="xs:string" minOccurs="0"/>
+			<xs:element name="givenName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="familyName" type="xs:string" minOccurs="0"/>
+			<xs:element name="subscriberDateOfBirth" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GuarantorInformation">
+		<xs:sequence>
+			<xs:element name="responsibilityEffectiveDate" type="salus:ivlTs" minOccurs="0"/>
+			<xs:element name="partyAddress" type="salus:addr" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="partyTelecom" type="salus:tele" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="title" type="xs:string" minOccurs="0"/>
+			<xs:element name="givenName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="familyName" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrderInformation">
+		<xs:sequence>
+			<xs:element name="orderNumber" type="salus:ii" minOccurs="0"/>
+			<xs:element name="orderingProvider" type="salus:HealthcareProvider" minOccurs="0"/>
+			<xs:element name="fills" type="xs:int" minOccurs="0"/>
+			<xs:element name="quantityOrdered" type="salus:pq" minOccurs="0"/>
+			<xs:element name="orderExpirationDateTime" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="orderDateTime" type="xs:dateTime" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="FulfillmentHistory">
+		<xs:sequence>
+			<xs:element name="prescriptionNumber" type="salus:ii" minOccurs="0"/>
+			<xs:element name="dispensingProvider" type="salus:HealthcareProvider" minOccurs="0"/>
+			<xs:element name="dispenseDate" type="xs:dateTime" minOccurs="0"/>
+			<xs:element name="quantityDispensed" type="salus:pq" minOccurs="0"/>
+			<xs:element name="fillNumber" type="xs:int" minOccurs="0"/>
+			<xs:element name="fillStatus" type="salus:cd" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Value">
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="stValue" type="xs:string"/>
+				<xs:element name="pqValue" type="salus:pq"/>
+				<xs:element name="cdValue" type="salus:cd"/>
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="MedicationInformation">
+		<xs:sequence>
+			<xs:element name="codedProductName" type="salus:cd"/>
+			<xs:element name="freeTextProductName" type="xs:string" minOccurs="0"/>
+			<xs:element name="codedActiveIngredient" type="salus:cd" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="codedBrandName" type="salus:cd" minOccurs="0"/>
+			<xs:element name="freeTextBrandName" type="xs:string" minOccurs="0"/>
+			<xs:element name="drugManufacturer" type="salus:OrganizationInformation" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrganizationInformation">
+		<xs:sequence>
+			<xs:element name="organizationID" type="salus:ii" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="organizationAddress" type="salus:addr" maxOccurs="unbounded"/>
+			<xs:element name="organizationTelecom" type="salus:tele" maxOccurs="unbounded"/>
+			<xs:element name="organizationName" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="HealthcareProvider">
+		<xs:sequence>
+			<xs:element name="dateRange" type="salus:ivlTs" minOccurs="0"/>
+			<xs:element name="providerID" type="salus:ii" minOccurs="0"/>
+			<xs:element name="providerRole" type="salus:cd" minOccurs="0"/>
+			<xs:element name="title" type="xs:string" minOccurs="0"/>
+			<xs:element name="givenName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="familyName" type="xs:string" minOccurs="0"/>
+			<xs:element name="providerAddress" type="salus:addr" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="providerTelecom" type="salus:tele" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="providerOrganization" type="salus:OrganizationInformation" minOccurs="0"/>
+			<xs:element name="providerPatientID" type="salus:ii" minOccurs="0"/>
+			<xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DataReporter">
+		<xs:sequence>
+			<xs:element name="reporterID" type="salus:ii" minOccurs="0"/>
+			<xs:element name="title" type="xs:string" minOccurs="0"/>
+			<xs:element name="givenName" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="familyName" type="xs:string" minOccurs="0"/>
+			<xs:element name="reporterQualification" type="salus:cd" minOccurs="0"/>
+			<xs:element name="reporterOrganization" type="salus:OrganizationInformation" minOccurs="0"/>
+			<xs:element name="reporterAddress" type="salus:addr" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="reporterTelecom" type="salus:tele" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<!-- Eligibility Criteria related classes -->
+	<xs:complexType name="TemporalConstraint">
+		<xs:sequence>
+			<xs:element name="pauseQuantity" type="salus:ivlPq"/>
+			<xs:element name="typeCode" type="salus:cd"/>
+			<xs:element name="targetCriterion" type="salus:Criterion"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CriterionBase" abstract="true"/>
+	<xs:complexType name="Criterion">
+		<xs:complexContent>
+			<xs:extension base="salus:CriterionBase">
+				<xs:sequence>
+					<xs:element name="clinicalStatement" type="salus:ClinicalStatement"/>
+					<xs:element name="temporalRelation" type="salus:TemporalConstraint" minOccurs="0"/>
+					<xs:element name="negationIndicator" type="xs:boolean" default="false" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CriteriaGroup">
+		<xs:complexContent>
+			<xs:extension base="salus:CriterionBase">
+				<xs:sequence>
+					<xs:element name="conjunctionCode" type="salus:cd"/>
+					<xs:element name="groupItem" type="salus:CriterionBase" maxOccurs="unbounded"/>
+					<xs:element name="negationIndicator" type="xs:boolean" default="false" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EligibilityCriteria">
+		<xs:sequence>
+			<xs:element name="inclusionCriteria" type="salus:CriteriaGroup"/>
+			<xs:element name="exclusionCriteria" type="salus:CriteriaGroup" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

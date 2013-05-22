@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<EHR_EXTRACT  xmlns="CEN/13606/RM" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  xsi:schemaLocation="CEN/13606/RM EN13606-extract.xsd">
+	<ehr_system>
+		<extension>NA</extension>
+		<assigningAuthorityName>MoH, Turkey</assigningAuthorityName>
+		<validTime/>
+		<root>
+			<oid>NA</oid>
+		</root>
+	</ehr_system>
+	<ehr_id>
+		<extension>NA</extension>
+		<assigningAuthorityName>MoH, Turkey</assigningAuthorityName>
+		<validTime/>
+		<root>
+			<oid>NA</oid>
+		</root>
+	</ehr_id>
+	<subject_of_care>
+		<extension>12345678905</extension>
+		<assigningAuthorityName>NVI, Turkey</assigningAuthorityName>
+		<validTime/>
+		<root>
+			<oid>2.16.840.1.113883.3.129.1.1.1</oid>
+		
+		</root>
+	</subject_of_care>
+	<time_created>
+		<time>2001-12-17T09:30:47.0Z</time>
+	</time_created>
+	<rm_id>EN13606</rm_id>
+			
+	<all_compositions>
+	<name xsi:type="SIMPLE_TEXT"> <originalText> Patient Summary</originalText></name>
+<rc_id>
+		<root>
+				<oid>2.16.840.1.113883.3.129.2.1.4</oid>
+			</root>
+</rc_id>
+<meaning xsi:type="CD">
+<codingSchemeName>CEN-EN13606.COMPOSITION.Patient_Summary.v1</codingSchemeName> 
+<codeValue>at0000</codeValue>
+</meaning>
+<synthesised>true</synthesised>
+<committal>
+	<ehr_system>
+		<root xsi:type="OID"><oid>EHR System OID</oid> </root>
+	</ehr_system>
+	<time_committed xsi:type="TS">
+		<time>2011-11-11T09:15:47.0Z</time>
+	</time_committed>
+	<committer>
+		<root></root>
+	</committer>
+</committal>
+<content xsi:type="ENTRY">
+	<name xsi:type="SIMPLE_TEXT"><originalText>Patient Clinical Data</originalText></name>
+	<rc_id>
+		<root></root>
+	</rc_id>
+	<synthesised></synthesised>
+	<uncertainty_expressed></uncertainty_expressed>
+	<items xsi:type="CLUSTER">
+	<name xsi:type="SIMPLE_TEXT"><originalText>History of Past Ilness</originalText> </name>
+	<rc_id xsi:type="II">
+		<root xsi:type="OID"> <oid>History of Past Ilness Cluster ID</oid></root>
+	</rc_id>
+	<meaning xsi:type="CD">
+	<codingSchemeName>CEN-EN13606.COMPOSITION.Patient_Summary.v1</codingSchemeName>
+	<codeValue>at0050</codeValue>
+	</meaning>
+	<synthesised>true</synthesised>
+	<structure_type xsi:type="CS">
+	<codingSchemeName></codingSchemeName>
+	<codeValue></codeValue>
+	</structure_type>
+	<parts xsi:type="CLUSTER">
+		<name xsi:type="SIMPLE_TEXT">
+		<originalText>Resolved, Closed, Inactive Problems</originalText>
+		</name>
+		<rc_id xsi:type="II">
+			<root xsi:type="OID"> <oid>Resolved, Closed, Inactive Problems ID</oid></root>
+		</rc_id>
+		<meaning xsi:type="CD">
+		<codingSchemeName>CEN-EN13606.COMPOSITION.Patient_Summary.v1</codingSchemeName>
+	<codeValue>at0022</codeValue>
+		</meaning>
+		<synthesised>true</synthesised>
+		<structure_type xsi:type="CS">
+	<codingSchemeName></codingSchemeName>
+	<codeValue></codeValue>
+	</structure_type>
+	<parts xsi:type="CLUSTER">
+	<name xsi:type="SIMPLE_TEXT">
+		<originalText>Resolved Problem</originalText>
+		</name>
+		<rc_id xsi:type="II">
+			<root xsi:type="OID"> <oid>Resolved Problem ID</oid></root>
+		</rc_id>
+		<meaning xsi:type="CD">
+		<codingSchemeName>CEN-EN13606.COMPOSITION.Patient_Summary.v1</codingSchemeName>
+	<codeValue>at0023</codeValue>
+		</meaning>
+		<synthesised>true</synthesised>
+		<obs_time xsi:type="IVLTS">
+		<low>
+			<time>2011-11-11T09:00:00.0Z</time>
+		</low>
+		</obs_time>
+		<structure_type xsi:type="CS">
+	<codingSchemeName></codingSchemeName>
+	<codeValue></codeValue>
+	</structure_type>
+	<parts xsi:type="ELEMENT">
+		<name xsi:type="SIMPLE_TEXT"><originalText>Problem Description</originalText></name>
+		<rc_id>
+			<root></root>
+		</rc_id>
+		<meaning>
+		<codingSchemeName>CEN-EN13606.COMPOSITION.Patient_Summary.v1</codingSchemeName>
+	    <codeValue>at0024</codeValue>
+		</meaning>
+		<synthesised>true</synthesised>
+		<value xsi:type="CODED_TEXT">
+			<codedValue>
+			<codingSchemeName>SNOMEDCT</codingSchemeName>
+			<codeValue>A3040307</codeValue>
+			</codedValue>			
+		</value>
+	</parts>
+	
+	</parts>
+	</parts>
+	</items>
+</content>
+	</all_compositions>
+	
+	<demographic_extract xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SUBJECT_OF_CARE_PERSON_IDENTIFICATION">
+		<extract_id>
+			<extension>12345678905</extension>
+			<assigningAuthorityName>NVI, Turkey</assigningAuthorityName>
+			<validTime/>
+			<root>
+				<oid>2.16.840.1.113883.3.129.1.1.1</oid>
+			</root>
+		</extract_id>
+		<id xsi:type="II">
+		
+			<root xsi:type="OID"> <oid>17093879666</oid></root>
+		</id>
+		<name>
+			<use>
+				<codeValue>Patient Name</codeValue>
+			</use>
+			<valid_time></valid_time>
+			
+			<name_part>
+			
+				<entity_part_name>Yüksel</entity_part_name>			
+				<name_part_qualifier><codeValue>CL</codeValue></name_part_qualifier>
+				<name_part_type xsi:type="CS">
+				<codingSchemeName>CEN/TC251/EN13606-1:ENTITY_NAME_PART</codingSchemeName>
+				<codeValue>FAM</codeValue>
+				</name_part_type>
+				
+			</name_part>
+			<name_part>
+				<entity_part_name>Mustafa</entity_part_name>
+				
+				<name_part_qualifier>
+					<codeValue>CL</codeValue>
+				</name_part_qualifier>
+				<name_part_type xsi:type="CS">
+				<codingSchemeName>CEN/TC251/EN13606-1:ENTITY_NAME_PART</codingSchemeName>
+					<codeValue>GIV</codeValue>
+				</name_part_type>
+			</name_part>
+		</name>
+		<administrative_gender_code>
+			<codingScheme>
+				<oid>2.16.840.1.113883.5.1</oid>
+			</codingScheme>
+			<codingSchemeName>AdministrativeGender</codingSchemeName>
+			<codingSchemeVersion/>
+			<codeValue>M</codeValue>
+		</administrative_gender_code>
+		<birth_time>
+			<time>1984-01-01T09:30:47.0Z</time>
+		</birth_time>
+	</demographic_extract>
+	<demographic_extract xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="IDENTIFIED_HEALTHCARE_PROFESSIONAL">
+		<extract_id>
+			<extension>12345678905</extension>
+			<assigningAuthorityName>MoH, Turkey</assigningAuthorityName>
+			<validTime>
+				<low>
+					<time>2018-01-01T09:30:47.0Z</time>
+				</low>
+			</validTime>
+			<root>
+				<oid>2.16.840.1.113883.3.129.1.1.1</oid>
+			</root>
+		</extract_id>
+	</demographic_extract>
+	<demographic_extract xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ORGANISATION">
+		<extract_id>
+			<extension>4553</extension>
+			<assigningAuthorityName>MoH, Turkey</assigningAuthorityName>
+			<validTime/>
+			<root>
+				<oid>2.16.840.1.113883.3.129.1.1.6</oid>
+			</root>
+		</extract_id>
+		<code>
+			<codeValue>4553</codeValue>
+		</code>
+		<desc>Custodian Organization</desc>
+		<name>Custodian Organization</name>
+	</demographic_extract>
+	<demographic_extract xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="ORGANISATION">
+		<extract_id>
+			<extension>5881</extension>
+			<assigningAuthorityName>MoH, Turkey</assigningAuthorityName>
+			<validTime/>
+			<root>
+				<oid>2.16.840.1.113883.3.129.1.1.6</oid>
+			</root>
+		</extract_id>
+		<code>
+			<codeValue>5881</codeValue>
+		</code>
+		<desc>Information Recipient Organization</desc>
+		<name>Ministry of Health, Turkey</name>
+	</demographic_extract>
+</EHR_EXTRACT>

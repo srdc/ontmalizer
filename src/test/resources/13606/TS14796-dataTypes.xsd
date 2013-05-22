@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (c) 2004-2010 IBIME, Universidad Politécnica de Valencia, Spain -->
+<!-- This file is published under the CC-BY license. -->
+<!-- You can distribute, remix, tweak, and build upon this file, even commercially, as long as you credit the copyright holder for the original creation. -->
+<!-- http://creativecommons.org/ -->
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="CEN/13606/RM" targetNamespace="CEN/13606/RM" elementFormDefault="qualified" version="v20100218" id="TS14796-dataTypes.xsd">
+	<xs:complexType name="DATA_VALUE" abstract="true">
+		<xs:sequence>
+			<xs:element name="nullFlavor" type="CS" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="QUANTITY" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BL">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="value" type="xs:boolean"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="INT">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="value" type="xs:integer"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="REAL">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="value" type="xs:double"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="URI">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="value" type="xs:string" minOccurs="0"/>
+					<xs:element name="scheme" type="xs:string" minOccurs="0"/>
+					<xs:element name="path" type="xs:string" minOccurs="0"/>
+					<xs:element name="fragment_id" type="xs:string" minOccurs="0"/>
+					<xs:element name="uri_query" type="xs:string" minOccurs="0"/>
+					<xs:element name="literal" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ED">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="mediaType" type="CS" minOccurs="0"/>
+					<xs:element name="charset" type="CS" minOccurs="0"/>
+					<xs:element name="language" type="CS" minOccurs="0"/>
+					<xs:element name="size" type="xs:integer" minOccurs="0"/>
+					<xs:element name="compression" type="CS" minOccurs="0"/>
+					<xs:element name="reference"  type="URI" minOccurs="0"/>
+					<xs:element name="integrityCheck" type="xs:hexBinary" minOccurs="0"/>
+					<xs:element name="integrityCheckAlgorithm" type="CS" minOccurs="0"/>
+					<xs:element name="thumbnail" type="ED" minOccurs="0"/>
+					<xs:element name="data" type="xs:hexBinary" minOccurs="0"/>
+					<xs:element name="alternateString" type="SIMPLE_TEXT" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="IVL">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="low" type="QUANTITY" minOccurs="0"/>
+					<xs:element name="high" type="QUANTITY" minOccurs="0"/>
+					<xs:element name="lowClosed" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="highClosed" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="width" type="QUANTITY" minOccurs="0"/>			
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="IVLTS">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="low" type="TS" minOccurs="0"/>
+					<xs:element name="high" type="TS" minOccurs="0"/>
+					<xs:element name="lowClosed" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="highClosed" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="width" type="DURATION" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="II">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="extension" type="xs:string" minOccurs="0"/>
+					<xs:element name="assigningAuthorityName" type="xs:string" minOccurs="0"/>
+					<xs:element name="validTime" type="IVLTS" minOccurs="0"/>
+					<xs:element name="root" type="OID"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="OID">
+		<xs:sequence>
+			<xs:element name="oid" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CS">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="codingScheme" type="OID" minOccurs="0"/>
+					<xs:element name="codingSchemeName" type="xs:string" minOccurs="0"/>
+					<xs:element name="codingSchemeVersion" type="xs:string" minOccurs="0"/>
+					<xs:element name="codeValue" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CV">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="codingScheme" type="OID" minOccurs="0"/>
+					<xs:element name="codingSchemeName" type="xs:string" minOccurs="0"/>
+					<xs:element name="codingSchemeVersion" type="xs:string" minOccurs="0"/>
+					<xs:element name="codeValue" type="xs:string" minOccurs="0"/>
+					<xs:element name="displayName" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CE">
+		<xs:complexContent>
+			<xs:extension base="CV">
+				<xs:sequence>
+					<xs:element name="mappings" type="CD" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CD">
+		<xs:complexContent>
+			<xs:extension base="CE">
+				<xs:sequence>
+					<xs:element name="qualifiers" type="CR" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CR">
+		<xs:sequence>
+			<xs:element name="inverted" type="xs:boolean" minOccurs="0"/>
+			<xs:element name="qualCode" type="CV" minOccurs="0"/>
+			<xs:element name="role" type="CV" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TEXT" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="originalText" type="xs:string" minOccurs="0"/>
+					<xs:element name="language" type="CS" minOccurs="0"/>
+					<xs:element name="charset" type="CS" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SIMPLE_TEXT">
+		<xs:complexContent>
+			<xs:extension base="TEXT">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CODED_TEXT">
+		<xs:complexContent>
+			<xs:extension base="TEXT">
+				<xs:sequence>
+					<xs:element name="codedValue" type="CD"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	
+	<xs:complexType name="IVLPQ">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="low" type="PQ" minOccurs="0"/>
+					<xs:element name="high" type="PQ" minOccurs="0"/>
+					<xs:element name="lowClosed" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="highClosed" type="xs:boolean" minOccurs="0"/>
+					<xs:element name="width" type="PQ" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="RTO">
+		<xs:complexContent>
+			<xs:extension base="QUANTITY">
+				<xs:sequence>
+					<xs:element name="numerator" type="PQ"/>
+					<xs:element name="denominator" type="PQ"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ORD">
+		<xs:complexContent>
+			<xs:extension base="QUANTITY">
+				<xs:sequence>
+					<xs:element name="value" type="xs:integer"/>
+					<xs:element name="symbol" type="CODED_TEXT"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PQ">
+		<xs:complexContent>
+			<xs:extension base="QUANTITY">
+				<xs:sequence>
+					<xs:element name="value" type="xs:double"/>
+					<xs:element name="units" type="CS"/>
+					<xs:element name="property" type="CD" minOccurs="0"/>
+					<xs:element name="precision" type="xs:integer" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="DURATION">
+		<xs:complexContent>
+			<xs:extension base="QUANTITY">
+				<xs:sequence>
+					<xs:element name="days" type="xs:integer" minOccurs="0"/>
+					<xs:element name="hours" type="xs:integer" minOccurs="0"/>
+					<xs:element name="minutes" type="xs:integer" minOccurs="0"/>
+					<xs:element name="seconds" type="xs:integer" minOccurs="0"/>
+					<xs:element name="fractional_second" type="xs:double" minOccurs="0"/>
+					<xs:element name="sign" type="xs:integer" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="EIVL">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="event" type="CD" minOccurs="0"/>
+					<xs:element name="offset" type="DURATION" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PIVL">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="phase" type="IVLTS" minOccurs="0"/>
+					<xs:element name="period" type="DURATION" minOccurs="0"/>
+					<xs:element name="alignment" type="CD" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="TS">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="time" type="dateTime-time"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:simpleType name="dateTime-time">
+		<xs:union memberTypes="xs:dateTime xs:time" />
+	</xs:simpleType>
+	<xs:complexType name="DATE">
+		<xs:complexContent>
+			<xs:extension base="DATA_VALUE">
+				<xs:sequence>
+					<xs:element name="date" type="xs:date"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+</xs:schema>

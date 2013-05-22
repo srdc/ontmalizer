@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:salus="http://www.salusproject.eu/ontology/test" targetNamespace="http://www.salusproject.eu/ontology/test" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="roott" type="salus:Roott">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:complexType name="Roott">
+		<xs:sequence>
+			<xs:element name="elem1" type="xs:string"/>
+			<xs:element name="elem2" type="xs:int" maxOccurs="5"/>
+			<xs:element name="elem3" type="salus:simpletype1" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="elem4" type="salus:simpletype2" minOccurs="0"/>
+			<xs:element name="elem5" type="salus:simpletype5" maxOccurs="unbounded"/>
+			<xs:element name="elem6" type="salus:complextype1" maxOccurs="unbounded"/>
+			<xs:element name="elemSimpleAndComplex" type="salus:complextype3"/>
+		</xs:sequence>
+		<xs:attribute name="attr1" type="xs:string"/>
+		<xs:attribute name="attr2" type="xs:int"/>
+		<xs:attribute name="attr3" type="salus:simpletype3"/>
+		<xs:attribute name="attr4" type="salus:simpletype4"/>
+		<xs:attribute name="attr5" type="salus:simpletype6"/>
+	</xs:complexType>
+	<xs:complexType name="complextype1">
+		<xs:sequence>
+			<xs:element name="ctelem1" type="xs:string"/>
+			<xs:element name="ctelem2" type="salus:simpletype2" minOccurs="0"/>
+			<xs:element name="ctelem3" type="salus:simpletype5" maxOccurs="unbounded"/>
+			<xs:element name="ctelem4" type="salus:complextype2" minOccurs="0"/>
+			<xs:element name="elemSimpleAndComplex" type="salus:simpletype1"/>
+		</xs:sequence>
+		<xs:attribute name="ctattr1" type="xs:string"/>
+		<xs:attribute name="ctattr2" type="salus:simpletype1"/>
+	</xs:complexType>
+	<xs:complexType name="complextype2" mixed="true">
+		<xs:attribute name="mixedattr1" type="xs:string"/>
+		<xs:attribute name="mixedattr2" type="salus:simpletype1"/>
+	</xs:complexType>
+	<xs:complexType name="complextype3">
+		<xs:sequence>
+			<xs:element name="cmp3elem1" type="xs:float"/>
+		</xs:sequence>
+		<xs:attribute name="cmp3attr1" type="xs:string"/>
+	</xs:complexType>
+	<xs:simpleType name="simpletype1">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="NP"/>
+			<xs:enumeration value="NI"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="simpletype2">
+		<xs:union memberTypes="xs:string xs:date"/>
+	</xs:simpleType>
+	<xs:simpleType name="simpletype3">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="MSK"/>
+			<xs:enumeration value="NA"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="simpletype4">
+		<xs:union memberTypes="xs:int xs:float"/>
+	</xs:simpleType>
+	<xs:simpleType name="simpletype5">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="2"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="simpletype6">
+		<xs:restriction base="xs:string">
+			<xs:minLength value="4"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

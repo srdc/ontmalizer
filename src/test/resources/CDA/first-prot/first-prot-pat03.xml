@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 D:\SRDC\StateOfTheArt\eHealth\HL7\CDA\XSD\CDA.xsd">
+	<!-- 
+********************************************************
+CDA Header
+********************************************************
+-->
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+	<templateId root="2.16.840.1.113883.10.20.1"/>
+	<id root="db734647-fc99-424c-a864-7e3cda82e703"/>
+	<code code="34133-9" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Summarization of episode note"/>
+	<title>SALUS Patient Summary Instance</title>
+	<effectiveTime value="20130307130000+0200"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+	<languageCode code="en-US"/>
+	<recordTarget>
+		<patientRole>
+			<id extension="547003" root="2.16.840.1.113883.2.9.4.3.2" assigningAuthorityName="MEF - Italian Citizen Identity Authority"/>
+			<addr use="HP">
+				<city>Milan</city>
+				<state>MI</state>
+				<country>Italy</country>
+			</addr>
+			<patient>
+				<name>
+					<given>Patient3</given>
+					<family>Cremona</family>
+				</name>
+				<administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1" codeSystemName="AdministrativeGender"/>
+				<birthTime value="19540201"/>
+			</patient>
+			<providerOrganization>
+				<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178901"/>
+			</providerOrganization>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<time value="20130307130000+0200"/>
+		<assignedAuthor>
+			<id root="2.16.840.1.113883.2.9.4.3.2.5" extension="76543218901"/>
+			<assignedAuthoringDevice>
+				<softwareName>SALUS LISPA Connector v0.1</softwareName>
+			</assignedAuthoringDevice>
+			<representedOrganization>
+				<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178901"/>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id root="2.16.840.1.113883.2.9.4.3.2.4" extension="65432178901"/>
+				<name>Lombardy Region</name>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<component>
+		<structuredBody>
+			<!-- 
+********************************************************
+Active problems section
+********************************************************
+-->
+			<component>
+				<section>
+					<templateId root="2.16.840.1.113883.10.20.1.11"/>
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.6"/>
+					<id root="087e4130-770a-42ee-879e-e60a1fc76110"/>
+					<code code="11450-4" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="Problem list - Reported"/>
+					<title>Problem List</title>
+					<text>
+						<table>
+							<thead>
+								<tr>
+									<th>Condition</th>
+									<th>Effective Dates</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="actprob1">
+									<td ID="actprob1_condition">Malignant essential hypertension</td>
+									<td ID="actprob1_date">01.07.2009</td>
+								</tr>
+								<tr ID="actprob2">
+									<td ID="actprob2_condition">Hemorrhage of gastrointestinal tract, unspecified</td>
+									<td ID="actprob2_date">10.08.2009</td>
+								</tr>
+								<tr ID="actprob3">
+									<td ID="actprob3_condition">Obesity, unspecified</td>
+									<td ID="actprob3_date">01.06.2006</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20090701"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="401.0" displayName="Malignant essential hypertension" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Malignant essential hypertension</originalText>
+									</value>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob2"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob2_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20090810"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="578.9" displayName="Hemorrhage of gastrointestinal tract, unspecified" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Hemorrhage of gastrointestinal tract, unspecified</originalText>
+									</value>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="37e7fef6-2c79-41fe-850e-b1994cdbf869"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#actprob3"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="46190165-a977-4066-be72-1ba9a4f4025c"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#actprob3_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20060601"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="278.00" displayName="Obesity, unspecified" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Obesity, unspecified</originalText>
+									</value>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+				</section>
+			</component>
+			<!-- 
+********************************************************
+History of past illness section
+********************************************************
+-->
+			<component>
+				<section>
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.8"/>
+					<id root="93939ef9-05f7-4ad1-83e3-c23917d51d19"/>
+					<code code="11348-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="History of past illness"/>
+					<title>History of past illness</title>
+					<text>
+						<table>
+							<thead>
+								<tr>
+									<th>Condition</th>
+									<th>Effective Dates</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="pastprob1">
+									<td ID="pastprob1_condition">Acute myocardial infarction, unspecified site, subsequent episode of care</td>
+									<td ID="pastprob1_date">01.08.2009</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry>
+						<act classCode="ACT" moodCode="EVN">
+							<templateId root="2.16.840.1.113883.10.20.1.27"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.1"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5.2"/>
+							<id root="a0fff30c-b94e-4eee-b5f5-bf5a79ebb929"/>
+							<code nullFlavor="NA"/>
+							<text>
+								<reference value="#pastprob1"/>
+							</text>
+							<entryRelationship typeCode="SUBJ">
+								<observation classCode="OBS" moodCode="EVN">
+									<templateId root="2.16.840.1.113883.10.20.1.28"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.5"/>
+									<id root="2a29b507-3416-4a50-9e6a-9e05fa9f2af0"/>
+									<code code="55607006" displayName="Problem" codeSystem="2.16.840.1.113883.6.96" codeSystemName="SNOMED CT"/>
+									<text>
+										<reference value="#pastprob1_condition"/>
+									</text>
+									<statusCode code="completed"/>
+									<effectiveTime>
+										<low value="20090801"/>
+										<high value="20090801"/>
+									</effectiveTime>
+									<value xsi:type="CD" code="410.92" displayName="Acute myocardial infarction, unspecified site, subsequent episode of care" codeSystem="2.16.840.1.113883.6.2" codeSystemName="ICD-9-CM">
+										<originalText>Acute myocardial infarction, unspecified site, subsequent episode of care</originalText>
+									</value>
+								</observation>
+							</entryRelationship>
+						</act>
+					</entry>
+				</section>
+			</component>
+			<!-- 
+********************************************************
+Medications section
+********************************************************
+-->
+			<component>
+				<section>
+					<templateId root="2.16.840.1.113883.10.20.1.8"/>
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.19"/>
+					<id root="3876f056-6ed4-4f77-9e6a-fdee4f88411d"/>
+					<code code="10160-0" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="History of medication use"/>
+					<title>History of medication use</title>
+					<text>
+						<table>
+							<thead>
+								<tr>
+									<th>Medication</th>
+									<th>Date</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="med1">
+									<td ID="med1_name">nifedipine</td>
+									<td ID="med1_date">20.07.2009</td>
+								</tr>
+								<tr ID="med2">
+									<td ID="med2_name">acetylsalicylic acid</td>
+									<td ID="med2_date">02.08.2009</td>
+								</tr>
+							</tbody>
+						</table>
+					</text>
+					<entry>
+						<substanceAdministration classCode="SBADM" moodCode="INT">
+							<templateId root="2.16.840.1.113883.10.20.1.24"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7"/>
+							<id root="9e4c4be7-0d46-49cf-ba1e-170b5855bb5a"/>
+							<text>
+								<reference value="#med1"/>
+							</text>
+							<statusCode code="completed"/>
+							<effectiveTime xsi:type="IVL_TS">
+								<low value="20090720"/>
+							</effectiveTime>
+							<effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A">
+								<period value="8" unit="h"/>
+							</effectiveTime>
+							<routeCode code="PO" codeSystem="2.16.840.1.113883.5.112" codeSystemName="RouteOfAdministration" displayName="Swallow, oral"/>
+							<doseQuantity value="10" unit="mg"/>
+							<consumable>
+								<manufacturedProduct classCode="MANU">
+									<templateId root="2.16.840.1.113883.10.20.1.53"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.2"/>
+									<manufacturedMaterial>
+										<code code="316352" codeSystem="2.16.840.1.113883.6.88" codeSystemName="RxNorm" displayName="Nifedipine 10 MG">
+											<originalText>Nifedipine 10 MG</originalText>
+											<translation code="C08CA05" displayName="nifedipine" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC"/>
+										</code>
+									</manufacturedMaterial>
+								</manufacturedProduct>
+							</consumable>
+						</substanceAdministration>
+					</entry>
+					<entry>
+						<substanceAdministration classCode="SBADM" moodCode="INT">
+							<templateId root="2.16.840.1.113883.10.20.1.24"/>
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7"/>
+							<id root="9e4c4be7-0d46-49cf-ba1e-170b5855bb5a"/>
+							<text>
+								<reference value="#med2"/>
+							</text>
+							<statusCode code="completed"/>
+							<effectiveTime xsi:type="IVL_TS">
+								<low value="20090802"/>
+							</effectiveTime>
+							<effectiveTime xsi:type="PIVL_TS" institutionSpecified="true" operator="A">
+								<period value="1" unit="d"/>
+							</effectiveTime>
+							<routeCode code="PO" codeSystem="2.16.840.1.113883.5.112" codeSystemName="RouteOfAdministration" displayName="Swallow, oral"/>
+							<doseQuantity value="250" unit="mg"/>
+							<consumable>
+								<manufacturedProduct classCode="MANU">
+									<templateId root="2.16.840.1.113883.10.20.1.53"/>
+									<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7.2"/>
+									<manufacturedMaterial>
+										<code code="335953" codeSystem="2.16.840.1.113883.6.88" codeSystemName="RxNorm" displayName="Aspirin 250 MG">
+											<originalText>Aspirin 250 MG</originalText>
+											<translation code="B01AC06" displayName="acetylsalicylic acid" codeSystem="2.16.840.1.113883.6.73" codeSystemName="ATC"/>
+										</code>
+									</manufacturedMaterial>
+								</manufacturedProduct>
+							</consumable>
+						</substanceAdministration>
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>
