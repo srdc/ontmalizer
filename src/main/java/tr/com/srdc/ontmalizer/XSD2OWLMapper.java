@@ -287,6 +287,7 @@ public class XSD2OWLMapper {
 		for ( int i=0, length=facets.enumeration.length ; i<length ; i++ ) {
 			String memberURI = enumClass.getURI() + "_" 
 					   + facets.enumeration[i].replace('%', '_')
+										   	  .replace('[', ' ')
 										   	  .replace('[', '_')
 										   	  .replace(']', '_');
 			// If there are other characters that are not allowed, replace methods can be added.
