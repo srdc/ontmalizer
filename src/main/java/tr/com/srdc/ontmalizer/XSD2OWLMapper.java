@@ -5,12 +5,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import org.xml.sax.InputSource;
 
 import tr.com.srdc.ontmalizer.helper.Constants;
 import tr.com.srdc.ontmalizer.helper.NamingUtil;
 import tr.com.srdc.ontmalizer.helper.SimpleTypeRestriction;
+import tr.com.srdc.ontmalizer.helper.URLResolver;
 import tr.com.srdc.ontmalizer.helper.XSDUtil;
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
@@ -71,42 +75,72 @@ public class XSD2OWLMapper {
 	private String opprefix 		= Constants.DEFAULT_OBP_PREFIX;
 	private String dtpprefix 		= Constants.DEFAULT_DTP_PREFIX;
 	
-	private ArrayList<OntClass> abstractClasses 	= new ArrayList<OntClass>();
-	private ArrayList<OntClass> mixedClasses 		= new ArrayList<OntClass>();
+	private ArrayList<OntClass> abstractClasses 	= null;
+	private ArrayList<OntClass> mixedClasses 		= null;
 
 	private String mainURI 			= null;
 	
 	/**
-	 * Creates a new XSD2OWLMapper instance from a File. 
+	 * Creates a new XSD2OWLMapper instance. 
 	 * @param xsdFile
 	 * - An XML Schema File to be converted
 	 */
 	public XSD2OWLMapper(File xsdFile) {
-		parseXSD(xsdFile, null);
+		parseXSD(xsdFile);
+		initOntology();
 	}
 	
 	/**
-	 * Creates a new XSD2OWLMapper instance from an InputStream.
+	 * Creates a new XSD2OWLMapper instance. 
 	 * @param xsdInputStream
-	 * - An XML Schema File to be converted
+	 * - An XML Schema InputStream to be converted
 	 */
 	public XSD2OWLMapper(InputStream xsdInputStream) {
-		parseXSD(null, xsdInputStream);
+		parseXSD(xsdInputStream);
+		initOntology();
 	}
-
-	private void parseXSD(File file, InputStream inputStream) {
+	
+	/**
+	 * Creates a new XSD2OWLMapper instance. 
+	 * @param xsdInputStream
+	 * - An XML Schema URL to be converted
+	 */
+	public XSD2OWLMapper(URL xsdURL) {
+		parseXSD(xsdURL);
+		initOntology();
+	}
+	
+	private void parseXSD(File file) {
 		try {
 			XSOMParser parser = new XSOMParser();
-			if (file == null) {
-				parser.parse(inputStream);
-			} else {
-				parser.parse(file);
-			}
-			
+			parser.parse(file);
 			schemaSet = parser.getResult();
 			schema = schemaSet.getSchema(1);
-
-			initOntology();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void parseXSD(InputStream is) {
+		try {
+			XSOMParser parser = new XSOMParser();
+			parser.parse(is);
+			schemaSet = parser.getResult();
+			schema = schemaSet.getSchema(1);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void parseXSD(URL url) {
+		try {
+			XSOMParser parser = new XSOMParser();
+			parser.setEntityResolver(new URLResolver());
+			InputSource inputSource = new InputSource(url.openStream());
+			inputSource.setSystemId(url.toExternalForm());
+			parser.parse(inputSource);
+			schemaSet = parser.getResult();
+			schema = schemaSet.getSchema(1);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -129,6 +163,9 @@ public class XSD2OWLMapper {
 		ontology.setNsPrefix("", mainURI + "#");
 		
 		hasValue = ontology.createProperty(Constants.ONTMALIZER_VALUE_PROP_NAME);
+		
+		abstractClasses = new ArrayList<OntClass>();
+		mixedClasses = new ArrayList<OntClass>();
 	}
 	
 	/**

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package eu.salusproject.tr.com.srdc.ontmalizer;
+package tr.com.srdc.ontmalizer.test;
 
 import java.io.File;
 import java.io.FileOutputStream;

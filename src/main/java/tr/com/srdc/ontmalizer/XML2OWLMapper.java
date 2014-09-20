@@ -1,9 +1,11 @@
 package tr.com.srdc.ontmalizer;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,18 +16,19 @@ import java.util.Random;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
 import tr.com.srdc.ontmalizer.data.TypedResource;
 import tr.com.srdc.ontmalizer.helper.Constants;
 import tr.com.srdc.ontmalizer.helper.NamingUtil;
 import tr.com.srdc.ontmalizer.helper.XSDUtil;
-
 
 import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
 import com.hp.hpl.jena.ontology.AllValuesFromRestriction;
@@ -83,22 +86,80 @@ public class XML2OWLMapper {
 	 * Creates a new XML2OWLMapper instance. 
 	 *  
 	 * @param xmlFile
-	 * - XML file to be converted
+	 * - XML File to be converted
 	 * @param mapping
 	 * - mapping must be an XSD2OWLMapper instance which wraps 
 	 * the ontology that was created from the schema of the XML instance.
 	 */
 	public XML2OWLMapper(File xmlFile, XSD2OWLMapper mapping) {
 		try {
-			dbf = DocumentBuilderFactory.newInstance();
-			dbf.setNamespaceAware(true);
-			dbf.setIgnoringComments(true);
-			db = dbf.newDocumentBuilder();
+			initDocumentBuilder();
 			document = db.parse(xmlFile);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
+		initializeEnvironment(mapping);
+	}
+	
+	/**
+	 * Creates a new XML2OWLMapper instance. 
+	 *  
+	 * @param xmlInputStream
+	 * - XML InputStream to be converted
+	 * @param mapping
+	 * - mapping must be an XSD2OWLMapper instance which wraps 
+	 * the ontology that was created from the schema of the XML instance.
+	 */
+	public XML2OWLMapper(InputStream xmlInputStream, XSD2OWLMapper mapping) {
+		try {
+			initDocumentBuilder();
+			document = db.parse(xmlInputStream);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		initializeEnvironment(mapping);
+	}
+	
+	/**
+	 * Creates a new XML2OWLMapper instance. 
+	 *  
+	 * @param xmlInputStream
+	 * - XML URL to be converted
+	 * @param mapping
+	 * - mapping must be an XSD2OWLMapper instance which wraps 
+	 * the ontology that was created from the schema of the XML instance.
+	 */
+	public XML2OWLMapper(URL xmlURL, XSD2OWLMapper mapping) {
+		try {
+			initDocumentBuilder();
+			InputSource inputSource = new InputSource(xmlURL.openStream());
+			inputSource.setSystemId(xmlURL.toExternalForm());
+			document = db.parse(inputSource);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		initializeEnvironment(mapping);
+	}
+	
+	/**
+	 * Initializes the XML DocumentBuilder variables
+	 * @throws ParserConfigurationException
+	 */
+	private void initDocumentBuilder() throws ParserConfigurationException {
+		dbf = DocumentBuilderFactory.newInstance();
+		dbf.setNamespaceAware(true);
+		dbf.setIgnoringComments(true);
+		db = dbf.newDocumentBuilder();
+	}
+	
+	/**
+	 * initializes the variables required to map xml 2 owl
+	 * @param mapping
+	 */
+	private void initializeEnvironment(XSD2OWLMapper mapping) {
 		ontology = mapping.getOntology();
 //		abstractClasses = mapping.getAbstractClasses();
 		mixedClasses = mapping.getMixedClasses();
@@ -455,5 +516,9 @@ public class XML2OWLMapper {
 		this.NS = namespace;
 		this.nsPrefix = prefix;
 		model.setNsPrefix(prefix, namespace);
-	}	
+	}
+	
+	public Model getModel() {
+		return this.model;
+	}
 }
