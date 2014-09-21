@@ -14,8 +14,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-Ontmalizer
-==========
+Ontmalizer [![License Info](http://img.shields.io/badge/license-Apache%202.0-brightgreen.svg)](https://github.com/srdc/ontmalizer/blob/master/LICENSE.txt)
+===
 
 Ontmalizer performs comprehensive transformations of XML Schemas (XSD) and XML data to RDF/OWL automatically. Through this tool, it is possible to create RDF/OWL representation of XML Schemas, and XML instances that comply with such XML Schemas.
 
@@ -24,7 +24,6 @@ The state of the art open source and/or free tools for RDFizing XSD and XML are 
 Further information and technical details can be found in our blog post accessible at http://blog.salusproject.eu/?p=189.
 
 ## Installation
-===========
 
 Apache Maven is required to build the Ontmalizer. Please visit http://maven.apache.org/ in order to install Maven on your system.
 
@@ -39,7 +38,6 @@ In order to make a clean install run the following:
 These will build the Ontmalizer and also run a number of test cases, which will transform some XML Schemas (e.g. HL7 CDA R2, SALUS Common Information Model) and corresponding XML instances to RDF/OWL. 
 
 ## Transforming XSD to RDF/OWL
-===========
 
 XSD2OWLMapper is the main class to transform XML Schemas to RDF/OWL. The constructor of this class gets the root XSD file to be transformed. Configuration of the transformation operation is quite simple: the caller can set the prefixes for the object property and datatype property names to be created. Then, the call to the convertXSD2OWL() method performs the transformation. 
 
@@ -66,7 +64,6 @@ XSD2OWLMapper is able to print the output ontology in one of these formats: RDF/
 ```
 
 ## Transforming XML to RDF/OWL
-===========
 
 XML2OWLMapper is the main class to transform XML data to RDF/OWL by creating instances of the necessary OWL classes, RDFS datatypes, OWL datatype and object properties. The constructor of this class gets the XML file to be transformed together with an instance of XSD2OWLMapper that is already initialized with the corresponding XML Schema of the XML data. No other configuration is necessary for the transformation operation; the prefixes for the object property and datatype property names to be created are gathered from the XSD2OWLMapper configuration. Then, the call to the convertXML2OWL() method performs the transformation.
 
