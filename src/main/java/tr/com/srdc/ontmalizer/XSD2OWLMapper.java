@@ -11,6 +11,7 @@ import java.util.Iterator;
 
 import org.xml.sax.InputSource;
 
+import tr.com.srdc.ontmalizer.helper.AnnotationFactory;
 import tr.com.srdc.ontmalizer.helper.Constants;
 import tr.com.srdc.ontmalizer.helper.NamingUtil;
 import tr.com.srdc.ontmalizer.helper.SimpleTypeRestriction;
@@ -113,6 +114,7 @@ public class XSD2OWLMapper {
 	private void parseXSD(File file) {
 		try {
 			XSOMParser parser = new XSOMParser();
+			parser.setAnnotationParser(new AnnotationFactory());
 			parser.parse(file);
 			schemaSet = parser.getResult();
 			schema = schemaSet.getSchema(1);
@@ -124,6 +126,7 @@ public class XSD2OWLMapper {
 	private void parseXSD(InputStream is) {
 		try {
 			XSOMParser parser = new XSOMParser();
+			parser.setAnnotationParser(new AnnotationFactory());
 			parser.parse(is);
 			schemaSet = parser.getResult();
 			schema = schemaSet.getSchema(1);
@@ -135,6 +138,7 @@ public class XSD2OWLMapper {
 	private void parseXSD(URL url) {
 		try {
 			XSOMParser parser = new XSOMParser();
+			parser.setAnnotationParser(new AnnotationFactory());
 			parser.setEntityResolver(new URLResolver());
 			InputSource inputSource = new InputSource(url.openStream());
 			inputSource.setSystemId(url.toExternalForm());
@@ -201,7 +205,7 @@ public class XSD2OWLMapper {
 	private OntClass convertSimpleType(XSSimpleType simple, String parentURI) {
 		String NS 	= simple.getTargetNamespace() + "#";
 		String URI 	= getURI(simple);
-
+		
 		if (simple.isGlobal()) {
 			// TODO: Mustafa: Why would we define new simple types in the XSD namespace?
 			// The following if should not evaluate to true...
@@ -225,6 +229,7 @@ public class XSD2OWLMapper {
 				eqDataType.addProperty(OWL2.onDatatype, xsdResource);
 				dataType.addEquivalentClass(eqDataType);
 				
+				addTextAnnotation(simple, dataType);
 				return dataType;
 			}
 			else if (parentURI!=null) {
@@ -266,6 +271,7 @@ public class XSD2OWLMapper {
 					}
 				}
 				
+				addTextAnnotation(simple, datatype);
 				return datatype;
 			}
 			else if (simple.isList() || simple.isUnion()) {
@@ -347,6 +353,7 @@ public class XSD2OWLMapper {
 			
 			enumResource.addProperty(hasValue, oneOf);
 		}
+		addTextAnnotation(simple, enumClass);
 		return enumClass;
 	}
 	
@@ -397,8 +404,10 @@ public class XSD2OWLMapper {
 										   simple, 
 									       facets );
 			}
-			else 
+			else {
+				addTextAnnotation(simple, datatype);
 				return datatype;
+			}
 
 	}
 	
@@ -411,6 +420,7 @@ public class XSD2OWLMapper {
 				OntClass element = ontology.createClass(parentURI);
 				element.addSuperClass(complexClass);
 				
+				addTextAnnotation(complex, complexClass);
 				return complexClass;
 			}
 		}
@@ -516,6 +526,7 @@ public class XSD2OWLMapper {
 		if (complex.isAbstract())
 			abstractClasses.add(complexClass);
 		
+		addTextAnnotation(complex, complexClass);
 		return complexClass;
 	}
 	
@@ -712,6 +723,13 @@ public class XSD2OWLMapper {
 		for(OntClass mixedClass: mixedClasses) {
 			ontology.createAllValuesFromRestriction(null, prop, XSD.xstring).addSubClass(mixedClass);
 			ontology.createMaxCardinalityRestriction(null, prop, 1).addSubClass(mixedClass);
+		}
+	}
+	
+	private void addTextAnnotation(XSType xsType, OntClass ontClass) {
+		if(xsType.getAnnotation() != null && xsType.getAnnotation().getAnnotation() != null) {
+			String textAnnotation = xsType.getAnnotation().getAnnotation().toString();
+			ontClass.addProperty(RDFS.comment, textAnnotation);
 		}
 	}
 	
