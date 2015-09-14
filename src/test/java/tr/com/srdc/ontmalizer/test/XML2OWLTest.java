@@ -5,6 +5,8 @@ package tr.com.srdc.ontmalizer.test;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.Writer;
 
 import org.junit.Test;
 
@@ -156,4 +158,29 @@ public class XML2OWLTest {
 		}
 	}
 
+	@Test
+	public void testWriter() {
+
+		// This part converts XML schema to OWL ontology.
+		XSD2OWLMapper mapping = new XSD2OWLMapper(new File("src/test/resources/test/test.xsd"));
+		mapping.setObjectPropPrefix("");
+		mapping.setDataTypePropPrefix("");
+		mapping.convertXSD2OWL();
+
+		// This part converts XML instance to RDF data model.
+		XML2OWLMapper generator = new XML2OWLMapper(new File("src/test/resources/test/test.xml"), mapping);
+		generator.convertXML2OWL();
+		
+		// This part prints the RDF data model to the specified file.
+		try{
+			File f = new File("src/test/resources/output/test-instance.rdf");
+			f.getParentFile().mkdirs();
+			Writer writer = new FileWriter(f);
+			generator.writeModel(writer, "RDF/XML-ABBREV");
+			writer.close();
+
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
 }
