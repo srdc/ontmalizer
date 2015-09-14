@@ -3,6 +3,7 @@ package tr.com.srdc.ontmalizer;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -748,6 +749,15 @@ public class XSD2OWLMapper {
 	 */
 	public void writeOntology(OutputStream out, String format) {
 		ontology.write(out, format, null);
+	}
+	
+	/**
+	 * @param out
+	 * @param format
+	 * - Output format may be one of these values; "RDF/XML","RDF/XML-ABBREV","N-TRIPLE","N3".
+	 */
+	public void writeOntology(Writer writer, String format) {
+		ontology.write(writer, format, null);
 	}
 	
 	private RDFList getFacetList(SimpleTypeRestriction facets, XSRestrictionSimpleType restriction) {
