@@ -1,6 +1,7 @@
 package tr.com.srdc.ontmalizer;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -114,6 +115,9 @@ public class XSD2OWLMapper {
 	
 	private void parseXSD(File file) {
 		try {
+			if (!file.exists()) {
+				throw new FileNotFoundException(file.getAbsolutePath());
+			}
 			XSOMParser parser = new XSOMParser();
 			parser.setAnnotationParser(new AnnotationFactory());
 			parser.parse(file);
