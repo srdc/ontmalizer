@@ -104,7 +104,7 @@ public class XSD2OWLMapper {
     /**
      * Creates a new XSD2OWLMapper instance.
      *
-     * @param xsdInputStream - An XML Schema URL to be converted
+     * @param xsdURL - An XML Schema URL to be converted
      */
     public XSD2OWLMapper(URL xsdURL) {
         parseXSD(xsdURL);
@@ -758,7 +758,7 @@ public class XSD2OWLMapper {
     }
 
     /**
-     * @param out
+     * @param writer
      * @param format - Output format may be one of these values;
      * "RDF/XML","RDF/XML-ABBREV","N-TRIPLE","N3".
      */
