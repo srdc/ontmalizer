@@ -169,7 +169,7 @@ public class XML2OWLMapper {
         while (it.hasNext()) {
             Resource resource = (Resource) it.next();
             if (resource != null && resource.getURI() != null) {
-                count.put(resource.getURI(), new Integer(1));
+                count.put(resource.getURI(), 1);
             }
         }
 
