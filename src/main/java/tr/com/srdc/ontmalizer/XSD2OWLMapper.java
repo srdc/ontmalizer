@@ -19,6 +19,7 @@ import com.sun.xml.xsom.XSType;
 import com.sun.xml.xsom.parser.XSOMParser;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -42,6 +43,7 @@ import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.XSD;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import tr.com.srdc.ontmalizer.helper.AnnotationFactory;
 import tr.com.srdc.ontmalizer.helper.Constants;
 import tr.com.srdc.ontmalizer.helper.NamingUtil;
@@ -119,7 +121,7 @@ public class XSD2OWLMapper {
             parser.parse(file);
             schemaSet = parser.getResult();
             schema = schemaSet.getSchema(1);
-        } catch (Exception e) {
+        } catch (SAXException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -146,7 +148,7 @@ public class XSD2OWLMapper {
             parser.parse(inputSource);
             schemaSet = parser.getResult();
             schema = schemaSet.getSchema(1);
-        } catch (Exception e) {
+        } catch (IOException | SAXException e) {
             e.printStackTrace();
         }
     }

@@ -1,6 +1,7 @@
 package tr.com.srdc.ontmalizer;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -35,6 +36,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import tr.com.srdc.ontmalizer.data.TypedResource;
 import tr.com.srdc.ontmalizer.helper.Constants;
 import tr.com.srdc.ontmalizer.helper.NamingUtil;
@@ -89,7 +91,7 @@ public class XML2OWLMapper {
         try {
             initDocumentBuilder();
             document = db.parse(xmlFile);
-        } catch (Exception e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
 
@@ -107,7 +109,7 @@ public class XML2OWLMapper {
         try {
             initDocumentBuilder();
             document = db.parse(xmlInputStream);
-        } catch (Exception e) {
+        } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
 
@@ -127,7 +129,7 @@ public class XML2OWLMapper {
             InputSource inputSource = new InputSource(xmlURL.openStream());
             inputSource.setSystemId(xmlURL.toExternalForm());
             document = db.parse(inputSource);
-        } catch (Exception e) {
+        } catch (ParserConfigurationException | IOException | SAXException e) {
             e.printStackTrace();
         }
 
