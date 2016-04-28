@@ -721,7 +721,7 @@ public class XSD2OWLMapper {
     }
 
     private void createDefaultTextPropertyForMixedClasses() {
-        if (mixedClasses.size() == 0) {
+        if (mixedClasses.isEmpty()) {
             return;
         }
 
