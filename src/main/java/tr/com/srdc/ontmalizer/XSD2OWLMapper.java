@@ -42,6 +42,8 @@ import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.OWL2;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.XSD;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import tr.com.srdc.ontmalizer.helper.AnnotationFactory;
@@ -58,6 +60,8 @@ import tr.com.srdc.ontmalizer.helper.XSDUtil;
  *
  */
 public class XSD2OWLMapper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(XSD2OWLMapper.class);
 
     // Variables to parse XSD schema
     private XSSchemaSet schemaSet = null;
@@ -122,7 +126,7 @@ public class XSD2OWLMapper {
             schemaSet = parser.getResult();
             schema = schemaSet.getSchema(1);
         } catch (SAXException | IOException e) {
-            e.printStackTrace();
+            LOGGER.error("{}", e.getMessage());
         }
     }
 
@@ -134,7 +138,7 @@ public class XSD2OWLMapper {
             schemaSet = parser.getResult();
             schema = schemaSet.getSchema(1);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("{}", e.getMessage());
         }
     }
 
@@ -149,7 +153,7 @@ public class XSD2OWLMapper {
             schemaSet = parser.getResult();
             schema = schemaSet.getSchema(1);
         } catch (IOException | SAXException e) {
-            e.printStackTrace();
+            LOGGER.error("{}", e.getMessage());
         }
     }
 

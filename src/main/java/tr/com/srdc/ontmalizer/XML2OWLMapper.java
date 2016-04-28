@@ -30,6 +30,8 @@ import org.apache.jena.rdf.model.RDFWriter;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.util.iterator.ExtendedIterator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -51,6 +53,8 @@ import tr.com.srdc.ontmalizer.helper.XSDUtil;
  *
  */
 public class XML2OWLMapper {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(XML2OWLMapper.class);
 
     // Variables for parsing XML instance
     private DocumentBuilderFactory dbf = null;
@@ -92,7 +96,7 @@ public class XML2OWLMapper {
             initDocumentBuilder();
             document = db.parse(xmlFile);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            LOGGER.error("{}", e.getMessage());
         }
 
         initializeEnvironment(mapping);
@@ -110,7 +114,7 @@ public class XML2OWLMapper {
             initDocumentBuilder();
             document = db.parse(xmlInputStream);
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            LOGGER.error("{}", e.getMessage());
         }
 
         initializeEnvironment(mapping);
@@ -130,7 +134,7 @@ public class XML2OWLMapper {
             inputSource.setSystemId(xmlURL.toExternalForm());
             document = db.parse(inputSource);
         } catch (ParserConfigurationException | IOException | SAXException e) {
-            e.printStackTrace();
+            LOGGER.error("{}", e.getMessage());
         }
 
         initializeEnvironment(mapping);
