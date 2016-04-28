@@ -28,6 +28,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Iterator;
+import javax.xml.parsers.SAXParserFactory;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.EnumeratedClass;
 import org.apache.jena.ontology.Individual;
@@ -120,7 +121,7 @@ public class XSD2OWLMapper {
             if (!file.exists()) {
                 throw new FileNotFoundException(file.getAbsolutePath());
             }
-            XSOMParser parser = new XSOMParser();
+            XSOMParser parser = new XSOMParser(SAXParserFactory.newInstance());
             parser.setAnnotationParser(new AnnotationFactory());
             parser.parse(file);
             schemaSet = parser.getResult();
@@ -132,7 +133,7 @@ public class XSD2OWLMapper {
 
     private void parseXSD(InputStream is) {
         try {
-            XSOMParser parser = new XSOMParser();
+            XSOMParser parser = new XSOMParser(SAXParserFactory.newInstance());
             parser.setAnnotationParser(new AnnotationFactory());
             parser.parse(is);
             schemaSet = parser.getResult();
@@ -144,7 +145,7 @@ public class XSD2OWLMapper {
 
     private void parseXSD(URL url) {
         try {
-            XSOMParser parser = new XSOMParser();
+            XSOMParser parser = new XSOMParser(SAXParserFactory.newInstance());
             parser.setAnnotationParser(new AnnotationFactory());
             parser.setEntityResolver(new URLResolver());
             InputSource inputSource = new InputSource(url.openStream());
