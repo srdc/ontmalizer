@@ -172,8 +172,8 @@ public class XSD2OWLMapper {
 
         hasValue = ontology.createProperty(Constants.ONTMALIZER_VALUE_PROP_NAME);
 
-        abstractClasses = new ArrayList<OntClass>();
-        mixedClasses = new ArrayList<OntClass>();
+        abstractClasses = new ArrayList<>();
+        mixedClasses = new ArrayList<>();
     }
 
     /**

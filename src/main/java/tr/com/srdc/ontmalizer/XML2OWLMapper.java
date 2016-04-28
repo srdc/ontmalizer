@@ -164,7 +164,7 @@ public class XML2OWLMapper {
         no = random.nextInt(9999999);
 
         // Get all the named resources the count map
-        count = new HashMap<String, Integer>();
+        count = new HashMap<>();
         ResIterator it = ontology.listResourcesWithProperty(null);
         while (it.hasNext()) {
             Resource resource = (Resource) it.next();
@@ -341,7 +341,7 @@ public class XML2OWLMapper {
     }
 
     private TypedResource findObjectType(Resource root, String prop) {
-        Queue<OntClass> queue = new LinkedList<OntClass>();
+        Queue<OntClass> queue = new LinkedList<>();
         TypedResource result = new TypedResource();
 
         OntClass temp = (OntClass) root;
