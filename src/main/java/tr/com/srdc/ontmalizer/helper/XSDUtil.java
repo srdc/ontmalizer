@@ -1,197 +1,202 @@
 /**
- * 
+ *
  */
 package tr.com.srdc.ontmalizer.helper;
 
-import com.hp.hpl.jena.datatypes.xsd.XSDDatatype;
-import com.hp.hpl.jena.rdf.model.Resource;
-import com.hp.hpl.jena.vocabulary.XSD;
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.XSD;
 
 /**
  * @author Mustafa
  *
  */
 public class XSDUtil {
-	
-	public static Resource getXSDResource(String type) {
-		if (type.equals("anyURI"))
-			return XSD.anyURI;
-		else if (type.equals("base64Binary"))
-			return XSD.base64Binary;
-		else if (type.equals("date"))
-			return XSD.date;
-		else if (type.equals("dateTime"))
-			return XSD.dateTime;
-		else if (type.equals("decimal"))
-			return XSD.decimal;
-		else if (type.equals("duration"))
-			return XSD.duration;
-		else if (type.equals("ENTITIES"))
-			return XSD.ENTITIES;
-		else if (type.equals("ENTITY"))
-			return XSD.ENTITY;
-		else if (type.equals("gDay"))
-			return XSD.gDay;
-		else if (type.equals("gMonth"))
-			return XSD.gMonth;
-		else if (type.equals("gMonthDay"))
-			return XSD.gMonthDay;
-		else if (type.equals("gYear"))
-			return XSD.gYear;
-		else if (type.equals("gYearMonth"))
-			return XSD.gYearMonth;
-		else if (type.equals("hexBinary"))
-			return XSD.hexBinary;
-		else if (type.equals("ID"))
-			return XSD.ID;
-		else if (type.equals("IDREF"))
-			return XSD.IDREF;
-//		else if (type.equals("IDREFS"))
-//			return XSD.IDREFS;
-		else if (type.equals("integer"))
-			return XSD.integer;
-		else if (type.equals("language"))
-			return XSD.language;
-		else if (type.equals("Name"))
-			return XSD.Name;		
-		else if (type.equals("NCName"))
-			return XSD.NCName;
-		else if (type.equals("negativeInteger"))
-			return XSD.negativeInteger;
-		else if (type.equals("NMTOKEN"))
-			return XSD.NMTOKEN;		
-//		else if (type.equals("NMTOKENS"))
-//			return XSD.NMTOKENS;
-		else if (type.equals("nonNegativeInteger"))
-			return XSD.nonNegativeInteger;
-		else if (type.equals("nonPositiveInteger"))
-			return XSD.nonPositiveInteger;		
-		else if (type.equals("normalizedString"))
-			return XSD.normalizedString;
-		else if (type.equals("NOTATION"))
-			return XSD.NOTATION;
-		else if (type.equals("positiveInteger"))
-			return XSD.positiveInteger;		
-		else if (type.equals("QName"))
-			return XSD.QName;
-		else if (type.equals("time"))
-			return XSD.time;
-		else if (type.equals("token"))
-			return XSD.token;		
-		else if (type.equals("unsignedByte"))
-			return XSD.unsignedByte;
-		else if (type.equals("unsignedInt"))
-			return XSD.unsignedInt;
-		else if (type.equals("unsignedLong"))
-			return XSD.unsignedLong;		
-		else if (type.equals("unsignedShort"))
-			return XSD.unsignedShort;
-		else if (type.equals("boolean"))
-			return XSD.xboolean;
-		else if (type.equals("byte"))
-			return XSD.xbyte;		
-		else if (type.equals("double"))
-			return XSD.xdouble;
-		else if (type.equals("float"))
-			return XSD.xfloat;		
-		else if (type.equals("int"))
-			return XSD.xint;
-		else if (type.equals("long"))
-			return XSD.xlong;		
-		else if (type.equals("short"))
-			return XSD.xshort;	
-		else if (type.equals("string"))
-			return XSD.xstring;		
-		
-		return null;
-	}
-	
-	
-	public static XSDDatatype getXSDDatatype(String name) {
-		if (name.equals("anyURI")) 
-			return XSDDatatype.XSDanyURI;
-		else if (name.equals("base64Binary"))
-			return XSDDatatype.XSDbase64Binary;
-		else if (name.equals("boolean"))
-			return XSDDatatype.XSDboolean;
-		else if (name.equals("byte"))
-			return XSDDatatype.XSDbyte;
-		else if (name.equals("date"))
-			return XSDDatatype.XSDdate;
-		else if (name.equals("dateTime"))
-			return XSDDatatype.XSDdateTime;
-		else if (name.equals("decimal"))
-			return XSDDatatype.XSDdecimal;
-		else if (name.equals("double"))
-			return XSDDatatype.XSDdouble;
-		else if (name.equals("duration"))
-			return XSDDatatype.XSDduration;
-		else if (name.equals("ENTITY"))
-			return XSDDatatype.XSDENTITY;
-		else if (name.equals("float"))
-			return XSDDatatype.XSDfloat;
-		else if (name.equals("gDay"))
-			return XSDDatatype.XSDgDay;
-		else if (name.equals("gMonth"))
-			return XSDDatatype.XSDgMonth;
-		else if (name.equals("gMonthDay"))
-			return XSDDatatype.XSDgMonthDay;
-		else if (name.equals("gYear"))
-			return XSDDatatype.XSDgYear;
-		else if (name.equals("gYearMonth"))
-			return XSDDatatype.XSDgYearMonth;
-		else if (name.equals("hexBinary"))
-			return XSDDatatype.XSDhexBinary;
-		else if (name.equals("ID"))
-			return XSDDatatype.XSDID;
-		else if (name.equals("IDREF"))
-			return XSDDatatype.XSDIDREF;
-		else if (name.equals("int"))
-			return XSDDatatype.XSDint;
-		else if (name.equals("integer"))
-			return XSDDatatype.XSDinteger;
-		else if (name.equals("language"))
-			return XSDDatatype.XSDlanguage;
-		else if (name.equals("long"))
-			return XSDDatatype.XSDlong;
-		else if (name.equals("Name"))
-			return XSDDatatype.XSDName;
-		else if (name.equals("NCName"))
-			return XSDDatatype.XSDNCName;
-		else if (name.equals("negativeInteger"))
-			return XSDDatatype.XSDnegativeInteger;
-		else if (name.equals("NMTOKEN"))
-			return XSDDatatype.XSDNMTOKEN;
-		else if (name.equals("nonNegativeInteger"))
-			return XSDDatatype.XSDnonNegativeInteger;
-		else if (name.equals("nonPositiveInteger"))
-			return XSDDatatype.XSDnonPositiveInteger;
-		else if (name.equals("normalizedString"))
-			return XSDDatatype.XSDnormalizedString;
-		else if (name.equals("NOTATION"))
-			return XSDDatatype.XSDNOTATION;
-		else if (name.equals("positiveInteger"))
-			return XSDDatatype.XSDpositiveInteger;
-		else if (name.equals("QName"))
-			return XSDDatatype.XSDQName;
-		else if (name.equals("short"))
-			return XSDDatatype.XSDshort;	
-		else if (name.equals("string"))
-			return XSDDatatype.XSDstring;
-		else if (name.equals("time"))
-			return XSDDatatype.XSDtime;
-		else if (name.equals("token"))
-			return XSDDatatype.XSDtoken;
-		else if (name.equals("unsignedByte"))
-			return XSDDatatype.XSDunsignedByte;
-		else if (name.equals("unsignedInt"))
-			return XSDDatatype.XSDunsignedInt;
-		else if (name.equals("unsignedLong"))
-			return XSDDatatype.XSDunsignedLong;
-		else if (name.equals("unsignedShort"))
-			return XSDDatatype.XSDunsignedShort;
 
-		return null;
-	}
+    public static Resource getXSDResource(String type) {
+        switch (type) {
+            case "anyURI":
+                return XSD.anyURI;
+            case "base64Binary":
+                return XSD.base64Binary;
+            case "date":
+                return XSD.date;
+            case "dateTime":
+                return XSD.dateTime;
+            case "decimal":
+                return XSD.decimal;
+            case "duration":
+                return XSD.duration;
+            case "ENTITIES":
+                return XSD.ENTITIES;
+            case "ENTITY":
+                return XSD.ENTITY;
+            case "gDay":
+                return XSD.gDay;
+            case "gMonth":
+                return XSD.gMonth;
+            case "gMonthDay":
+                return XSD.gMonthDay;
+            case "gYear":
+                return XSD.gYear;
+            case "gYearMonth":
+                return XSD.gYearMonth;
+            case "hexBinary":
+                return XSD.hexBinary;
+            case "ID":
+                return XSD.ID;
+            //		else if (type.equals("IDREFS"))
+            case "IDREF":
+                return XSD.IDREF;
+            case "integer":
+                return XSD.integer;
+            case "language":
+                return XSD.language;
+            case "Name":
+                return XSD.Name;
+            case "NCName":
+                return XSD.NCName;
+            case "negativeInteger":
+                return XSD.negativeInteger;
+            //		else if (type.equals("NMTOKENS"))
+            case "NMTOKEN":
+                return XSD.NMTOKEN;
+            case "nonNegativeInteger":
+                return XSD.nonNegativeInteger;
+            case "nonPositiveInteger":
+                return XSD.nonPositiveInteger;
+            case "normalizedString":
+                return XSD.normalizedString;
+            case "NOTATION":
+                return XSD.NOTATION;
+            case "positiveInteger":
+                return XSD.positiveInteger;
+            case "QName":
+                return XSD.QName;
+            case "time":
+                return XSD.time;
+            case "token":
+                return XSD.token;
+            case "unsignedByte":
+                return XSD.unsignedByte;
+            case "unsignedInt":
+                return XSD.unsignedInt;
+            case "unsignedLong":
+                return XSD.unsignedLong;
+            case "unsignedShort":
+                return XSD.unsignedShort;
+            case "boolean":
+                return XSD.xboolean;
+            case "byte":
+                return XSD.xbyte;
+            case "double":
+                return XSD.xdouble;
+            case "float":
+                return XSD.xfloat;
+            case "int":
+                return XSD.xint;
+            case "long":
+                return XSD.xlong;
+            case "short":
+                return XSD.xshort;
+            case "string":
+                return XSD.xstring;
+            default:
+                break;
+        }
+
+        return null;
+    }
+
+    public static XSDDatatype getXSDDatatype(String name) {
+        switch (name) {
+            case "anyURI":
+                return XSDDatatype.XSDanyURI;
+            case "base64Binary":
+                return XSDDatatype.XSDbase64Binary;
+            case "boolean":
+                return XSDDatatype.XSDboolean;
+            case "byte":
+                return XSDDatatype.XSDbyte;
+            case "date":
+                return XSDDatatype.XSDdate;
+            case "dateTime":
+                return XSDDatatype.XSDdateTime;
+            case "decimal":
+                return XSDDatatype.XSDdecimal;
+            case "double":
+                return XSDDatatype.XSDdouble;
+            case "duration":
+                return XSDDatatype.XSDduration;
+            case "ENTITY":
+                return XSDDatatype.XSDENTITY;
+            case "float":
+                return XSDDatatype.XSDfloat;
+            case "gDay":
+                return XSDDatatype.XSDgDay;
+            case "gMonth":
+                return XSDDatatype.XSDgMonth;
+            case "gMonthDay":
+                return XSDDatatype.XSDgMonthDay;
+            case "gYear":
+                return XSDDatatype.XSDgYear;
+            case "gYearMonth":
+                return XSDDatatype.XSDgYearMonth;
+            case "hexBinary":
+                return XSDDatatype.XSDhexBinary;
+            case "ID":
+                return XSDDatatype.XSDID;
+            case "IDREF":
+                return XSDDatatype.XSDIDREF;
+            case "int":
+                return XSDDatatype.XSDint;
+            case "integer":
+                return XSDDatatype.XSDinteger;
+            case "language":
+                return XSDDatatype.XSDlanguage;
+            case "long":
+                return XSDDatatype.XSDlong;
+            case "Name":
+                return XSDDatatype.XSDName;
+            case "NCName":
+                return XSDDatatype.XSDNCName;
+            case "negativeInteger":
+                return XSDDatatype.XSDnegativeInteger;
+            case "NMTOKEN":
+                return XSDDatatype.XSDNMTOKEN;
+            case "nonNegativeInteger":
+                return XSDDatatype.XSDnonNegativeInteger;
+            case "nonPositiveInteger":
+                return XSDDatatype.XSDnonPositiveInteger;
+            case "normalizedString":
+                return XSDDatatype.XSDnormalizedString;
+            case "NOTATION":
+                return XSDDatatype.XSDNOTATION;
+            case "positiveInteger":
+                return XSDDatatype.XSDpositiveInteger;
+            case "QName":
+                return XSDDatatype.XSDQName;
+            case "short":
+                return XSDDatatype.XSDshort;
+            case "string":
+                return XSDDatatype.XSDstring;
+            case "time":
+                return XSDDatatype.XSDtime;
+            case "token":
+                return XSDDatatype.XSDtoken;
+            case "unsignedByte":
+                return XSDDatatype.XSDunsignedByte;
+            case "unsignedInt":
+                return XSDDatatype.XSDunsignedInt;
+            case "unsignedLong":
+                return XSDDatatype.XSDunsignedLong;
+            case "unsignedShort":
+                return XSDDatatype.XSDunsignedShort;
+            default:
+                break;
+        }
+
+        return null;
+    }
 
 }
