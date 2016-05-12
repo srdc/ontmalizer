@@ -38,6 +38,7 @@ import org.apache.jena.ontology.OntModelSpec;
 import org.apache.jena.rdf.model.ModelFactory;
 import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.RDFNode;
 import org.apache.jena.rdf.model.Resource;
 import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.OWL2;
@@ -175,7 +176,7 @@ public class XSD2OWLMapper {
 
         ontology.setNsPrefix("", mainURI + "#");
 
-        hasValue = ontology.createProperty(Constants.ONTMALIZER_VALUE_PROP_NAME);
+        hasValue = ontology.createOntProperty(Constants.ONTMALIZER_VALUE_PROP_NAME);
 
         abstractClasses = new ArrayList<>();
         mixedClasses = new ArrayList<>();
