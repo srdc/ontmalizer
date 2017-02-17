@@ -755,7 +755,7 @@ public class XSD2OWLMapper {
     }
 
     /**
-     * @param out
+     * @param out - Output stream to write to.
      * @param format - Output format may be one of these values;
      * "RDF/XML","RDF/XML-ABBREV","N-TRIPLE","N3".
      */
@@ -764,7 +764,7 @@ public class XSD2OWLMapper {
     }
 
     /**
-     * @param writer
+     * @param writer - Output writer to write to.
      * @param format - Output format may be one of these values;
      * "RDF/XML","RDF/XML-ABBREV","N-TRIPLE","N3".
      */
