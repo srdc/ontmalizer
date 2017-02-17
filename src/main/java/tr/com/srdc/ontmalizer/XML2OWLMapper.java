@@ -201,7 +201,7 @@ public class XML2OWLMapper {
      * features are supported by a XSD2OWLMapper instance.
      *
      * @param xmlFile - XML File to be converted
-     * @param ontology
+     * @param ontology - Output ontology file to write to.
      */
     public XML2OWLMapper(File xmlFile, File ontology) {
         this(xmlFile, new XSD2OWLMapper(ontology));
@@ -433,7 +433,7 @@ public class XML2OWLMapper {
     }
 
     /**
-     * @param out
+     * @param out - Output stream to write the model to.
      * @param format - Output format may be one of these values;
      * "RDF/XML","RDF/XML-ABBREV","N-TRIPLE","N3".
      */
@@ -449,7 +449,7 @@ public class XML2OWLMapper {
     }
 
     /**
-     * @param out
+     * @param out - Output writer to write the model to.
      * @param format - Output format may be one of these values;
      * "RDF/XML","RDF/XML-ABBREV","N-TRIPLE","N3".
      */
@@ -465,7 +465,7 @@ public class XML2OWLMapper {
     }
 
     /**
-     * @param out
+     * @param out - Output stream to write the ontology to.
      * @param format - Output format may be one of these values;
      * "RDF/XML","RDF/XML-ABBREV","N-TRIPLE","N3".
      */
@@ -474,7 +474,7 @@ public class XML2OWLMapper {
     }
 
     /**
-     * @param out
+     * @param out - Output writer to write the ontology to.
      * @param format - Output format may be one of these values;
      * "RDF/XML","RDF/XML-ABBREV","N-TRIPLE","N3".
      */
