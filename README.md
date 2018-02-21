@@ -19,9 +19,9 @@ Ontmalizer [![License Info](http://img.shields.io/badge/license-Apache%202.0-bri
 
 Ontmalizer performs comprehensive transformations of XML Schemas (XSD) and XML data to RDF/OWL automatically. Through this tool, it is possible to create RDF/OWL representation of XML Schemas, and XML instances that comply with such XML Schemas.
 
-The state of the art open source and/or free tools for RDFizing XSD and XML are not able to handle complex schemas and XML instances such as HL7 Clinical Document Architecture (CDA) R2. Only a few commercial tools such as TopBraid Composer are successfully able to do so. However, we do not want to use commercial tools in our SALUS Project: http://www.salusproject.eu/. As a result, we implemented our own solution. We make use of Sun's XSOM library for processing XML Schemas, Apache Xerces for processing XML data and Apache Jena for managing RDF data.
+The state of the art open source and/or free tools for RDFizing XSD and XML are not able to handle complex schemas and XML instances such as HL7 Clinical Document Architecture (CDA) R2. Only a few commercial tools such as TopBraid Composer are successfully able to do so. However, we do not want to use commercial tools in our SALUS Project: http://www.srdc.com.tr/projects/salus/. As a result, we implemented our own solution. We make use of Sun's XSOM library for processing XML Schemas, Apache Xerces for processing XML data and Apache Jena for managing RDF data.
 
-Further information and technical details can be found in our blog post accessible at http://blog.salusproject.eu/?p=189.
+Further information and technical details can be found in our blog post accessible at http://www.srdc.com.tr/projects/salus/blog/?p=189.
 
 ## Installation
 
@@ -94,4 +94,4 @@ Similar to XSD2OWLMapper, XML2OWLMapper is able to print the output ontology ins
     }
 ```
 
-Please refer to our blog post (http://blog.salusproject.eu/?p=189) for further details.
+Please refer to our blog post (http://www.srdc.com.tr/projects/salus/blog/?p=189) for further details.
