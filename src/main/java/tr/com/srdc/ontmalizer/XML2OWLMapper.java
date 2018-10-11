@@ -177,19 +177,22 @@ public class XML2OWLMapper {
             }
         }
 
+        
+        //Updated to use 'setNsPrefixes' since setNsPrefix is no longer a method in Jena 3.7
         // Import all the namespace prefixes to the model
         Map<String, String> nsmap = ontology.getBaseModel().getNsPrefixMap();
+        Map<String, String> newNsMap = new HashMap<String, String>();
         Iterator<String> keys = nsmap.keySet().iterator();
         while (keys.hasNext()) {
-            String key = (String) keys.next();
+            String key = keys.next();
             // The default namespace (i.e. the null prefix) should always refer to baseURI in instances
             if (key.equals("")) {
-                model.setNsPrefix("", baseURI);
+                newNsMap.put("", baseURI);
             } else {
-                model.setNsPrefix(key, nsmap.get(key));
+                newNsMap.put(key,  nsmap.get(key));
             }
         }
-
+        model.setNsPrefixes(newNsMap);
         this.opprefix = mapping.getObjectPropPrefix();
         this.dtpprefix = mapping.getDataTypePropPrefix();
     }
@@ -219,6 +222,12 @@ public class XML2OWLMapper {
         }
 
         OntClass rootType = ontology.getOntClass(NS + root.getLocalName());
+        if (rootType == null) {
+            // add relevant details to NPE
+            LOGGER.error("NS={}, rootlocalname={}", NS, root.getLocalName());
+            LOGGER.error("\n");
+            throw new NullPointerException("rootType is null. Could not getOntClass for NS=" + NS + ", rootLocalName=" + root.getLocalName());
+        }
         Resource modelRoot = model.createResource(baseURI
                 + Constants.ONTMALIZER_INSTANCE_NAME_PREFIX
                 + no
@@ -240,8 +249,11 @@ public class XML2OWLMapper {
 
     private void traverseAttributes(Node node, Resource subject, Resource subjectType) {
         NamedNodeMap attributes = node.getAttributes();
+        LOGGER.debug("There are {} attributes for this node", attributes.getLength());
         for (int i = 0, length = attributes.getLength(); i < length; i++) {
-            TypedResource atObjType = findObjectType(subjectType, attributes.item(i).getLocalName());
+            Node attributeNode = attributes.item(i);
+            LOGGER.debug("Node: {}, attribute Node: {}, attribute local name: {}, subject: {}, subjectType:{}", node, attributeNode, attributeNode.getLocalName(), subject, subjectType);
+            TypedResource atObjType = findObjectType(subjectType, attributeNode.getLocalName(), attributeNode, true);
 
             if (atObjType != null) {
                 Property atProp = model.createProperty(NS + NamingUtil.createPropertyName(dtpprefix, attributes.item(i).getLocalName()));
@@ -258,15 +270,15 @@ public class XML2OWLMapper {
         if (node == null) {
             return;
         }
-
+        LOGGER.debug("Traversing child. Node={}, subject={}, subjectType={}", node, subject, subjectType);
         TypedResource objectType = null;
         Resource object = null;
 
         if (node.getNodeType() == Node.ELEMENT_NODE) {
-            objectType = findObjectType(subjectType, node.getLocalName());
-
+            LOGGER.debug("Node {} is an element node. Local name: {}, Node name: {}, Node namespace: {},", node, node.getLocalName(), node.getNodeName(), node.getNamespaceURI());
+            objectType = findObjectType(subjectType, node.getLocalName(), node, false);
             if (objectType != null) {
-
+            	LOGGER.debug("Object type: {} objectType.resource: {}", objectType, objectType.getResource());
                 /**
                  * The type of the element might be overridden with the use of
                  * xsi:type, if the original type of the element is abstract, or
@@ -274,7 +286,9 @@ public class XML2OWLMapper {
                  * type.
                  */
                 Element element = (Element) node;
+                LOGGER.trace("Type: {}", element.getAttribute("type"));
                 String overriddenXsiType = element.getAttributeNS(Constants.XSI_NS, "type");
+                LOGGER.trace("overridden type: {}", overriddenXsiType);
                 if (overriddenXsiType != null && !overriddenXsiType.equals("")) {
                     String overriddenNS = null;
                     String overriddenType = null;
@@ -291,26 +305,37 @@ public class XML2OWLMapper {
                 }
 
                 if (!objectType.isDatatype()) {
-                    object = model.createResource(baseURI
-                            + Constants.ONTMALIZER_INSTANCE_NAME_PREFIX
-                            + no
-                            + "_"
-                            + objectType.getResource().getLocalName()
-                            + "_"
-                            + count.get(objectType.getResource().getURI()), objectType.getResource());
-                    count.put(objectType.getResource().getURI(), count.get(objectType.getResource().getURI()) + 1);
-
-                    Property prop = model.createProperty(NS + NamingUtil.createPropertyName(opprefix, node.getLocalName()));
-
-                    subject.addProperty(prop, object);
+                    if (objectType.getResource() == null) {
+                        LOGGER.warn("Object type has null resource! ObjectType: {}", objectType);
+                    }else {
+                        if (!count.containsKey(objectType.getResource().getURI())){
+                            LOGGER.warn("Haven't seen resource with URI '{}' before. Known URIs: {}", objectType.getResource().getURI(), count.keySet());
+                            if (!count.containsKey(objectType.getResource().getURI())){
+                                throw new NullPointerException("Count doesn't contain URI: " + objectType.getResource().getURI() 
+                                +"\nfor resource: " + objectType.getResource() + "\n for objectType: " + objectType);
+                            }
+                        }
+                        object = model.createResource(baseURI
+                                + Constants.ONTMALIZER_INSTANCE_NAME_PREFIX
+                                + no
+                                + "_"
+                                + objectType.getResource().getLocalName()
+                                + "_"
+                                + count.get(objectType.getResource().getURI()), objectType.getResource());
+                        LOGGER.trace("objectType: {}, objectType.getResource(): {}", objectType, objectType.getResource());                    
+                        count.put(objectType.getResource().getURI(), count.get(objectType.getResource().getURI()) + 1);
+                        Property prop = model.createProperty(NS + NamingUtil.createPropertyName(opprefix, node.getLocalName()));
+                        subject.addProperty(prop, object);
+                  }
                 } else if (node.getFirstChild() != null && node.getFirstChild().getNodeValue() != null) {
                     Property prop = model.createProperty(NS + NamingUtil.createPropertyName(dtpprefix, node.getLocalName()));
                     Literal value = model.createTypedLiteral(node.getFirstChild().getNodeValue().trim(), objectType.getResource().getURI());
                     subject.addLiteral(prop, value);
                 }
             }
-
-            traverseAttributes(node, object, objectType.getResource());
+            if (node.hasAttributes() && objectType != null) {
+                traverseAttributes(node, object, objectType.getResource());
+            }
 
         } // This case is only valid for instances of mixed classes
         else if (node.getNodeType() == Node.TEXT_NODE) {
@@ -334,7 +359,7 @@ public class XML2OWLMapper {
             subject.addProperty(hasTextContent, node.getNodeValue().trim(), XSDDatatype.XSDstring);
 
         }
-
+        LOGGER.debug("Object: {}", object);
         if (object != null) {
             NodeList list = node.getChildNodes();
             for (int i = 0, length = list.getLength(); i < length; i++) {
@@ -344,12 +369,18 @@ public class XML2OWLMapper {
 
     }
 
-    private TypedResource findObjectType(Resource root, String prop) {
+    private TypedResource findObjectType(Resource root, String prop, Node node, boolean isNodeAttribute) {
         Queue<OntClass> queue = new LinkedList<>();
         TypedResource result = new TypedResource();
-
-        OntClass temp = (OntClass) root;
-
+        
+        OntClass temp;
+        if (!isNodeAttribute && !root.getNameSpace().equals(node.getNamespaceURI()+'#') && node.getNamespaceURI() != null) {
+            LOGGER.info("DIFFERENT NAME SPACES: {}, {}\nNode:{}", root.getNameSpace(), node.getNamespaceURI(), node);
+            
+            return findResourceType(node.getNamespaceURI()+'#'+ node.getLocalName());
+        } else {
+            temp = (OntClass) root;
+        }
         while (temp != null) {
             ExtendedIterator<OntClass> itres = temp.listSuperClasses();
             while (itres.hasNext()) {
@@ -492,8 +523,9 @@ public class XML2OWLMapper {
     }
 
     private void setNSPrefix(Element root) {
+        LOGGER.debug("Root: {}", root);
         NS = root.getNamespaceURI() + "#";
-
+        LOGGER.debug("NS: {}", NS);
         // This part tries to get a prefix. For example, if NS is A/B/C or A:B:C then it will get C.
         try {
             URI uri = new URI(root.getNamespaceURI());
