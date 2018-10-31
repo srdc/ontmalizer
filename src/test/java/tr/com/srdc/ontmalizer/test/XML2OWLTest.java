@@ -57,27 +57,29 @@ public class XML2OWLTest {
         mapping.convertXSD2OWL();
 
         File folder = new File("src/test/resources/CDA/first-prot");
-        for (File child : folder.listFiles()) {
-            String inName = child.getName();
-            String outName = inName.substring(0, inName.lastIndexOf(".")) + "-cda.n3";
-
-            // This part converts XML instance to RDF data model.
-            XML2OWLMapper generator = new XML2OWLMapper(child, mapping);
-            generator.convertXML2OWL();
-
-            // This part prints the RDF data model to the specified file.
-            try {
-                File f = new File("src/test/resources/output/first-prot/" + outName);
-                f.getParentFile().mkdirs();
-                FileOutputStream fout = new FileOutputStream(f);
-                generator.writeModel(fout, "N3");
-                fout.close();
-
-            } catch (Exception e) {
-                LOGGER.error("{}", e.getMessage());
-            }
+        File[] files = folder.listFiles();
+        if(files != null) {
+	        for (File child : files) {
+	            String inName = child.getName();
+	            String outName = inName.substring(0, inName.lastIndexOf(".")) + "-cda.n3";
+	
+	            // This part converts XML instance to RDF data model.
+	            XML2OWLMapper generator = new XML2OWLMapper(child, mapping);
+	            generator.convertXML2OWL();
+	
+	            // This part prints the RDF data model to the specified file.
+	            try {
+	                File f = new File("src/test/resources/output/first-prot/" + outName);
+	                f.getParentFile().mkdirs();
+	                FileOutputStream fout = new FileOutputStream(f);
+	                generator.writeModel(fout, "N3");
+	                fout.close();
+	
+	            } catch (Exception e) {
+	                LOGGER.error("{}", e.getMessage());
+	            }
+	        }
         }
-
     }
 
     @Test

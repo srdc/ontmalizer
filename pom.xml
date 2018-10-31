@@ -4,7 +4,7 @@
 
     <groupId>tr.com.srdc</groupId>
     <artifactId>ontmalizer</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>jar</packaging>
     <name>Ontology Normalizer</name>
     <description>Automatic lifting from XSD and XML to RDF/OWL ontologies.</description>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>org.apache.jena</groupId>
             <artifactId>jena-core</artifactId>
-            <version>3.0.1</version>
+            <version>3.7.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>org.slf4j</groupId>

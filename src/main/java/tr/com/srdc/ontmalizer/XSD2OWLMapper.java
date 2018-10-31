@@ -1,5 +1,44 @@
 package tr.com.srdc.ontmalizer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Writer;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Map;
+
+import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.jena.datatypes.xsd.XSDDatatype;
+import org.apache.jena.ontology.AllValuesFromRestriction;
+import org.apache.jena.ontology.EnumeratedClass;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntModelSpec;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.rdf.model.Property;
+import org.apache.jena.rdf.model.RDFList;
+import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.OWL;
+import org.apache.jena.vocabulary.OWL2;
+import org.apache.jena.vocabulary.RDFS;
+import org.apache.jena.vocabulary.XSD;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
+
 import com.sun.xml.xsom.XSAttGroupDecl;
 import com.sun.xml.xsom.XSAttributeDecl;
 import com.sun.xml.xsom.XSAttributeUse;
@@ -16,38 +55,9 @@ import com.sun.xml.xsom.XSSchemaSet;
 import com.sun.xml.xsom.XSSimpleType;
 import com.sun.xml.xsom.XSTerm;
 import com.sun.xml.xsom.XSType;
+import com.sun.xml.xsom.parser.AnnotationParserFactory;
 import com.sun.xml.xsom.parser.XSOMParser;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.Writer;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Iterator;
-import javax.xml.parsers.SAXParserFactory;
-import org.apache.jena.datatypes.xsd.XSDDatatype;
-import org.apache.jena.ontology.EnumeratedClass;
-import org.apache.jena.ontology.Individual;
-import org.apache.jena.ontology.OntClass;
-import org.apache.jena.ontology.OntModel;
-import org.apache.jena.ontology.OntModelSpec;
-import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.rdf.model.Property;
-import org.apache.jena.rdf.model.RDFList;
-import org.apache.jena.rdf.model.RDFNode;
-import org.apache.jena.rdf.model.Resource;
-import org.apache.jena.vocabulary.OWL;
-import org.apache.jena.vocabulary.OWL2;
-import org.apache.jena.vocabulary.RDFS;
-import org.apache.jena.vocabulary.XSD;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+
 import tr.com.srdc.ontmalizer.helper.AnnotationFactory;
 import tr.com.srdc.ontmalizer.helper.Constants;
 import tr.com.srdc.ontmalizer.helper.NamingUtil;
@@ -67,7 +77,6 @@ public class XSD2OWLMapper {
 
     // Variables to parse XSD schema
     private XSSchemaSet schemaSet = null;
-    private XSSchema schema = null;
 
     // Variables to create ontology
     private OntModel ontology = null;
@@ -85,7 +94,7 @@ public class XSD2OWLMapper {
     private ArrayList<OntClass> abstractClasses = null;
     private ArrayList<OntClass> mixedClasses = null;
 
-    private String mainURI = null;
+    private XSOMParser parser;
 
     /**
      * Creates a new XSD2OWLMapper instance.
@@ -93,6 +102,7 @@ public class XSD2OWLMapper {
      * @param xsdFile - An XML Schema File to be converted
      */
     public XSD2OWLMapper(File xsdFile) {
+        initParser();
         parseXSD(xsdFile);
         initOntology();
     }
@@ -103,6 +113,7 @@ public class XSD2OWLMapper {
      * @param xsdInputStream - An XML Schema InputStream to be converted
      */
     public XSD2OWLMapper(InputStream xsdInputStream) {
+        initParser();
         parseXSD(xsdInputStream);
         initOntology();
     }
@@ -113,47 +124,97 @@ public class XSD2OWLMapper {
      * @param xsdURL - An XML Schema URL to be converted
      */
     public XSD2OWLMapper(URL xsdURL) {
+        initParser();
+        parser.setEntityResolver(new URLResolver());
         parseXSD(xsdURL);
         initOntology();
     }
 
-    private void parseXSD(File file) {
+    
+
+    /**
+     * This constructor allows the caller to customize the parser before the XSD is parsed, by calling 
+     * setParserAnnotationParser, setParserEntityResolver, setParserErrorHandler
+     * 
+     * When using this constructor, the caller must call parseXSD before convertXSD2OWL.
+     */
+    public XSD2OWLMapper() {
+        initParser();
+        initOntology();
+    }
+    
+    public void setParserAnnotationParser(AnnotationParserFactory annotationParserFactory) {
+        parser.setAnnotationParser(annotationParserFactory);
+    }
+    
+    public void setParserAnnotationParser(Class<?> annotationParser) {
+        parser.setAnnotationParser(annotationParser);
+    }
+    
+    public void setParserEntityResolver (EntityResolver resolver) {
+        parser.setEntityResolver(resolver);
+    }
+    
+    public void setParserErrorHandler (ErrorHandler errorHandler) {
+        parser.setErrorHandler(errorHandler);
+    }
+    
+    private void initParser() {
+        parser = new XSOMParser(SAXParserFactory.newInstance());
+        parser.setAnnotationParser(new AnnotationFactory());
+        parser.setErrorHandler(new MyErrorHandler());  
+    }
+    
+    public void parseXSD(File file) {
         try {
             if (!file.exists()) {
                 throw new FileNotFoundException(file.getAbsolutePath());
             }
-            XSOMParser parser = new XSOMParser(SAXParserFactory.newInstance());
-            parser.setAnnotationParser(new AnnotationFactory());
+            
             parser.parse(file);
             schemaSet = parser.getResult();
-            schema = schemaSet.getSchema(1);
+            LOGGER.debug("Schema size: {}, Schema Set: {}", schemaSet.getSchemaSize(), schemaSet);
         } catch (SAXException | IOException e) {
             LOGGER.error("{}", e.getMessage());
         }
     }
 
-    private void parseXSD(InputStream is) {
+    public void parseXSD(InputStream is) {
         try {
-            XSOMParser parser = new XSOMParser(SAXParserFactory.newInstance());
-            parser.setAnnotationParser(new AnnotationFactory());
             parser.parse(is);
             schemaSet = parser.getResult();
-            schema = schemaSet.getSchema(1);
         } catch (Exception e) {
             LOGGER.error("{}", e.getMessage());
         }
     }
+    // Used to customize logging for Errors 
+    class MyErrorHandler implements ErrorHandler{
 
-    private void parseXSD(URL url) {
+        @Override
+        public void warning(SAXParseException paramSAXParseException) throws SAXException {
+            LOGGER.debug("SAX ParseException, ", paramSAXParseException);
+        }
+
+        @Override
+        public void error(SAXParseException paramSAXParseException) throws SAXException {
+            LOGGER.error("SAX ParseException, ", paramSAXParseException);
+            
+        }
+
+        @Override
+        public void fatalError(SAXParseException paramSAXParseException) throws SAXException {
+            LOGGER.error("FATAL ERROR: SAX ParseException, ", paramSAXParseException);
+            throw paramSAXParseException;
+        }
+        
+    }
+
+    public void parseXSD(URL url) {
         try {
-            XSOMParser parser = new XSOMParser(SAXParserFactory.newInstance());
-            parser.setAnnotationParser(new AnnotationFactory());
-            parser.setEntityResolver(new URLResolver());
             InputSource inputSource = new InputSource(url.openStream());
             inputSource.setSystemId(url.toExternalForm());
             parser.parse(inputSource);
             schemaSet = parser.getResult();
-            schema = schemaSet.getSchema(1);
         } catch (IOException | SAXException e) {
             LOGGER.error("{}", e.getMessage());
         }
@@ -162,64 +223,91 @@ public class XSD2OWLMapper {
     private void initOntology() {
         ontology = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 
-        ontology.setNsPrefix(Constants.ONTMALIZER_BASE_URI_PREFIX, Constants.ONTMALIZER_BASE_URI);
-        try {
-            URI uri = new URI(schema.getTargetNamespace());
-            if (uri.isAbsolute()) {
-                mainURI = schema.getTargetNamespace();
-            } else {
-                mainURI = "http://uri-not-absolute.com";
-            }
-        } catch (URISyntaxException e) {
-            mainURI = "http://uri-not-valid.com";
-        }
-
-        ontology.setNsPrefix("", mainURI + "#");
-
+        Map<String, String> prefixMap = ontology.getNsPrefixMap();
+        prefixMap.put(Constants.ONTMALIZER_BASE_URI_PREFIX, Constants.ONTMALIZER_BASE_URI);
+        ontology.setNsPrefixes(prefixMap);
+        
         hasValue = ontology.createOntProperty(Constants.ONTMALIZER_VALUE_PROP_NAME);
 
         abstractClasses = new ArrayList<>();
         mixedClasses = new ArrayList<>();
+    }
+    
+    public URI convertURNtoURI(String targetNamespace) throws URISyntaxException {
+        String uriString = targetNamespace;
+        if (targetNamespace.startsWith("urn:")) {
+            uriString = targetNamespace.replaceAll(":", "/");
+            uriString = "http://www.urn.com/" + uriString;
+        }
+        return new URI(uriString);
     }
 
     /**
      * Converts the XML schema file to an ontology.
      */
     public void convertXSD2OWL() {
-        Iterator<XSSimpleType> simpleTypes = schema.iterateSimpleTypes();
-        while (simpleTypes.hasNext()) {
-            convertSimpleType((XSSimpleType) simpleTypes.next(), null);
-        }
+        
+        Collection<XSSchema> schemaCollection = schemaSet.getSchemas();
+        for (XSSchema schema : schemaCollection) {
+            String mainURI;
+            String nameSpace = schema.getTargetNamespace();
+            if ("".equals(nameSpace)) {
+                LOGGER.warn("Namespace for schema {} is empty string.", schema);
+            }
 
-        Iterator<XSComplexType> complexTypes = schema.iterateComplexTypes();
-        while (complexTypes.hasNext()) {
-            convertComplexType((XSComplexType) complexTypes.next(), null);
-        }
+            try {
+                URI uri = new URI(schema.getTargetNamespace());
+                if (uri.isAbsolute()) {
+                    mainURI = uri.toString();
+                } else {
+                    mainURI = "http://uri-not-absolute.com";
+                }
+            
+            } catch (URISyntaxException e) {
+                LOGGER.warn("Exception creating URI for {}", nameSpace, e);
+                mainURI = "http://malformed-uri.com";
+            }
 
-        Iterator<XSElementDecl> elements = schema.iterateElementDecls();
-        while (elements.hasNext()) {
-            convertElement((XSElementDecl) elements.next(), null);
-        }
+            ontology.setNsPrefix("", mainURI + "#");
+            
+            LOGGER.info("Main URI: {}", mainURI);
+            Iterator<XSSimpleType> simpleTypes = schema.iterateSimpleTypes();
+            while (simpleTypes.hasNext()) {
+                convertSimpleType(mainURI, (XSSimpleType) simpleTypes.next(), null);
+            }
+            Iterator<XSComplexType> complexTypes = schema.iterateComplexTypes();
+            while (complexTypes.hasNext()) {
+                convertComplexType(mainURI, (XSComplexType) complexTypes.next(), null);
+            }
+    
+            Iterator<XSElementDecl> elements = schema.iterateElementDecls();
+            while (elements.hasNext()) {
+                convertElement(mainURI, (XSElementDecl) elements.next(), null);
+            }
 
-        Iterator<XSModelGroupDecl> groups = schema.iterateModelGroupDecls();
-        while (groups.hasNext()) {
-            convertModelGroupDecl(groups.next());
+            Iterator<XSModelGroupDecl> groups = schema.iterateModelGroupDecls();
+            while (groups.hasNext()) {
+                convertModelGroupDecl(mainURI, groups.next());
+            }
+    
+            Iterator<XSAttGroupDecl> attGroups = schema.iterateAttGroupDecls();
+            while (attGroups.hasNext()) {
+                convertAttributeGroup(mainURI, (XSAttGroupDecl) attGroups.next());
+            }
+    
+            createDefaultTextPropertyForMixedClasses(mainURI);
         }
-
-        Iterator<XSAttGroupDecl> attGroups = schema.iterateAttGroupDecls();
-        while (attGroups.hasNext()) {
-            convertAttributeGroup((XSAttGroupDecl) attGroups.next());
-        }
-
-        createDefaultTextPropertyForMixedClasses();
     }
+
+
 
     /* This function creates RDFS Datatypes except for Enumerated Simple Types.
 	 * If there are both enumeration facets and other facets, then other facets will be ignored.
      */
-    private OntClass convertSimpleType(XSSimpleType simple, String parentURI) {
+    private OntClass convertSimpleType(String mainURI, XSSimpleType simple, String parentURI) {
         String NS = simple.getTargetNamespace() + "#";
-        String URI = getURI(simple);
+        String URI = getURI(mainURI, simple);
+        LOGGER.debug("NS: {}, URI: {}, simple: {}", NS, URI, simple);
 
         if (simple.isGlobal()) {
             // TODO: Mustafa: Why would we define new simple types in the XSD namespace?
@@ -229,21 +317,30 @@ public class XSD2OWLMapper {
                 // An example case:
                 // <xs:element name="test" type="xs:string" />
 
-                OntClass dataType = ontology.createOntResource(OntClass.class,
+                // adds a nullDatatype
+                /*OntClass dataType = ontology.createOntResource(OntClass.class,
                         RDFS.Datatype,
                         parentURI + Constants.DATATYPE_SUFFIX);
-
-                // Set super class to the element type
+                        */
+                OntClass dataType = ontology.createOntResource(OntClass.class,
+                    RDFS.Datatype,
+                    URI + Constants.DATATYPE_SUFFIX);
                 Resource xsdResource = XSDUtil.getXSDResource(simple.getName());
-                dataType.addSuperClass(xsdResource);
+                
+                if (xsdResource !=null && !"nullDatatype".equals(dataType.toString())) {
+                    // Set super class to the element type
+                    dataType.addSuperClass(xsdResource);
 
-                // Set Equivalent Datatype
-                OntClass eqDataType = ontology.createOntResource(OntClass.class,
-                        RDFS.Datatype,
-                        null);
-                eqDataType.addProperty(OWL2.onDatatype, xsdResource);
-                dataType.addEquivalentClass(eqDataType);
-
+                    // Set Equivalent Datatype
+                    OntClass eqDataType = ontology.createOntResource(OntClass.class,
+                            RDFS.Datatype,
+                            null);
+                    eqDataType.addProperty(OWL2.onDatatype, xsdResource);
+                    dataType.addEquivalentClass(eqDataType);
+                }
+                if ("nullDataType".equals(dataType.toString())) {
+                    return null;
+                }
                 addTextAnnotation(simple, dataType);
                 return dataType;
             } else if (parentURI != null) {
@@ -253,6 +350,7 @@ public class XSD2OWLMapper {
                 OntClass datatype = ontology.createOntResource(OntClass.class,
                         RDFS.Datatype,
                         parentURI + Constants.DATATYPE_SUFFIX);
+                LOGGER.debug("datatype: {} used RDFS.Datatype", datatype);
 
                 /**
                  * The following part adds equivalentClass to an enumarated
@@ -278,6 +376,7 @@ public class XSD2OWLMapper {
                         OntClass equivClass = ontology.createOntResource(OntClass.class,
                                 RDFS.Datatype,
                                 null);
+                        LOGGER.debug("equivClass: {} used RDFS.Datatype", equivClass);
                         equivClass.addProperty(OWL2.onDatatype, onDatatype);
                         datatype.addEquivalentClass(equivClass);
                     }
@@ -290,14 +389,14 @@ public class XSD2OWLMapper {
                 // It will create an rdfs:Datatype which is a subclass of xs:anySimpleType.
                 return convertListOrUnion(URI);
             } else if (simple.isRestriction()) {
-                return convertRestriction(simple, URI);
+                return convertRestriction(mainURI, simple, URI);
             }
         } else if (simple.isLocal()) {
             if (simple.isList() || simple.isUnion()) {
                 // It will create an rdfs:Datatype which is a subclass of xs:anySimpleType
                 return convertListOrUnion(parentURI);
             } else if (simple.isRestriction()) {
-                return convertRestriction(simple, parentURI);
+                return convertRestriction(mainURI, simple, parentURI);
             }
         }
 
@@ -309,24 +408,26 @@ public class XSD2OWLMapper {
                 RDFS.Datatype,
                 URI + Constants.DATATYPE_SUFFIX);
 
+        LOGGER.debug("datatype: {} used rdf datatyep", dataType);
         Resource anySimpleType = ontology.getResource(XSD.getURI() + "anySimpleType");
         dataType.addSuperClass(anySimpleType);
 
         OntClass eqDataType = ontology.createOntResource(OntClass.class,
                 RDFS.Datatype,
                 null);
+        LOGGER.debug("equivDatatype: {} used RDFS.Datatype", eqDataType);
         eqDataType.addProperty(OWL2.onDatatype, anySimpleType);
         dataType.addEquivalentClass(eqDataType);
 
         return dataType;
     }
 
-    private OntClass convertEnumeration(EnumeratedClass enumClass, XSSimpleType simple, SimpleTypeRestriction facets) {
+    private OntClass convertEnumeration(String mainURI, EnumeratedClass enumClass, XSSimpleType simple, SimpleTypeRestriction facets) {
         XSRestrictionSimpleType restriction = simple.asRestriction();
 
         XSType base = restriction.getBaseType();
         String baseNS = base.getTargetNamespace() + "#";
-        String baseURI = getURI(base);
+        String baseURI = getURI(mainURI, base);
 
         enumClass.addSuperClass(ontology.createClass(Constants.ONTMALIZER_ENUMERATEDVALUE_CLASS_NAME));
 
@@ -365,14 +466,14 @@ public class XSD2OWLMapper {
         return enumClass;
     }
 
-    private OntClass convertRestriction(XSSimpleType simple, String URI) {
+    private OntClass convertRestriction(String mainURI, XSSimpleType simple, String URI) {
         XSRestrictionSimpleType restriction = simple.asRestriction();
 
         SimpleTypeRestriction facets = new SimpleTypeRestriction();
         facets.initFacets(restriction);
 
         XSSimpleType baseType = restriction.getBaseType().asSimpleType();
-        String baseURI = getURI(baseType);
+        String baseURI = getURI(mainURI, baseType);
 
         SimpleTypeRestriction baseFacets = new SimpleTypeRestriction();
         if (baseType.isRestriction()) {
@@ -394,23 +495,25 @@ public class XSD2OWLMapper {
                     baseURI + Constants.DATATYPE_SUFFIX);
         }
         // I did not use getResource methods because the class I am looking for may not be created yet.
-
+        LOGGER.debug("datatype: {}, onDataType: {} both use rdf datatype", datatype, onDatatype);
         datatype.addSuperClass(onDatatype);
 
         OntClass equivClass = ontology.createOntResource(OntClass.class,
                 RDFS.Datatype,
                 null);
+        LOGGER.debug("equiv class: {} used rdf data type", equivClass);
         equivClass.addProperty(OWL2.onDatatype, onDatatype);
 
         RDFList list = getFacetList(facets, restriction);
         if (list != null) {
             equivClass.addProperty(OWL2.withRestrictions, list);
         }
+        LOGGER.debug("Data type: {}, equiv class: {}", datatype, equivClass);
         datatype.addEquivalentClass(equivClass);
 
         // If an enumeration facet is available, then we also generate an OWL:Class containing the EnumeratedValues.
         if (facets.enumeration != null) {
-            return convertEnumeration(ontology.createEnumeratedClass(URI, null),
+            return convertEnumeration(mainURI, ontology.createEnumeratedClass(URI, null),
                     simple,
                     facets);
         } else {
@@ -420,11 +523,11 @@ public class XSD2OWLMapper {
 
     }
 
-    private OntClass convertComplexType(XSComplexType complex, String parentURI) {
+    private OntClass convertComplexType(String mainURI, XSComplexType complex, String parentURI) {
         OntClass complexClass = null;
 
         if (complex.isGlobal()) {
-            complexClass = ontology.createClass(getURI(complex));
+            complexClass = ontology.createClass(getURI(mainURI, complex));
             if (parentURI != null) {
                 OntClass element = ontology.createClass(parentURI);
                 element.addSuperClass(complexClass);
@@ -437,7 +540,7 @@ public class XSD2OWLMapper {
         }
 
         XSType baseType = complex.getBaseType();
-        String baseURI = getURI(baseType);
+        String baseURI = getURI(mainURI, baseType);
 
         if (baseType.isSimpleType()) {
             if (ontology.getOntResource(baseURI) != null
@@ -462,7 +565,7 @@ public class XSD2OWLMapper {
             Iterator<? extends XSAttributeUse> attributeUses = complex.getAttributeUses().iterator();
             while (attributeUses.hasNext()) {
                 XSAttributeUse attributeUse = (XSAttributeUse) attributeUses.next();
-                convertAttribute(attributeUse, complexClass);
+                convertAttribute(mainURI, attributeUse, complexClass);
             }
         } else if (baseType.isComplexType()) {
             if (complex.getDerivationMethod() == XSType.EXTENSION) {
@@ -474,11 +577,11 @@ public class XSD2OWLMapper {
                     if (particle != null) {
                         XSTerm term = particle.getTerm();
                         if (term.isModelGroup()) {
-                            convertGroup(term.asModelGroup(), complexClass);
+                            convertGroup(mainURI, term.asModelGroup(), complexClass);
                         } else if (term.isModelGroupDecl()) {
                             XSModelGroupDecl group = term.asModelGroupDecl();
-                            OntClass groupClass = ontology.createClass(getURI(group));
-
+                            OntClass groupClass = ontology.createClass(getURI(mainURI, group));
+                            LOGGER.debug("Adding groupclass as superclass: {}", groupClass);
                             groupClass.addSubClass(complexClass);
                         }
                     }
@@ -497,11 +600,11 @@ public class XSD2OWLMapper {
                 if (particle != null) {
                     XSTerm term = particle.getTerm();
                     if (term.isModelGroup()) {
-                        convertGroup(term.asModelGroup(), complexClass);
+                        convertGroup(mainURI, term.asModelGroup(), complexClass);
                     } else if (term.isModelGroupDecl()) {
                         XSModelGroupDecl group = term.asModelGroupDecl();
-                        OntClass groupClass = ontology.createClass(getURI(group));
-
+                        OntClass groupClass = ontology.createClass(getURI(mainURI, group));
+                        LOGGER.trace("Adding groupclass as superclass: {}", groupClass);
                         groupClass.addSubClass(complexClass);
                     }
                 }
@@ -509,13 +612,14 @@ public class XSD2OWLMapper {
 				 * Note that this part is slightly different from TopBraid.
 				 * I added the allowed restrictions by getDeclaredAttributeUses below
              */ {
+                ontology.createClass(baseURI);
                 complexClass.addSuperClass(ontology.createClass(baseURI));
             }
 
             Iterator<? extends XSAttributeUse> attributeUses = complex.getDeclaredAttributeUses().iterator();
             while (attributeUses.hasNext()) {
                 XSAttributeUse attributeUse = (XSAttributeUse) attributeUses.next();
-                convertAttribute(attributeUse, complexClass);
+                convertAttribute(mainURI, attributeUse, complexClass);
             }
         }
 
@@ -523,7 +627,7 @@ public class XSD2OWLMapper {
         while (attGroups.hasNext()) {
             XSAttGroupDecl attGroup = (XSAttGroupDecl) attGroups
                     .next();
-            OntClass attgClass = ontology.createClass(getURI(attGroup));
+            OntClass attgClass = ontology.createClass(getURI(mainURI, attGroup));
             attgClass.addSubClass(complexClass);
         }
 
@@ -538,34 +642,35 @@ public class XSD2OWLMapper {
         return complexClass;
     }
 
-    private void convertElement(XSElementDecl element, OntClass parent) {
+    private void convertElement(String mainURI, XSElementDecl element, OntClass parent) {
         XSType elementType = element.getType();
-        String URI = getURI(element);
+        String URI = getURI(mainURI, element);
 
         OntClass elementClass = null;
         if (element.isGlobal()) {
             if (elementType.isSimpleType()) {
-                elementClass = convertSimpleType(elementType.asSimpleType(), URI);
+                elementClass = convertSimpleType(mainURI, elementType.asSimpleType(), URI);
             } else if (elementType.isComplexType()) {
-                elementClass = convertComplexType(elementType.asComplexType(), URI);
+                elementClass = convertComplexType(mainURI, elementType.asComplexType(), URI);
             }
         }
 
         XSElementDecl subs = element.getSubstAffiliation();
         if (subs != null && elementClass != null) {
-            OntClass subsClass = ontology.createClass(getURI(subs));
+            OntClass subsClass = ontology.createClass(getURI(mainURI, subs));
+            LOGGER.debug("Adding superclass: {}", subsClass);
             subsClass.addSubClass(elementClass);
         }
     }
-
-    private void convertAttribute(XSAttributeUse attributeUse, OntClass complexClass) {
+    // mainURI is schema-specific
+    private void convertAttribute(String mainURI, XSAttributeUse attributeUse, OntClass complexClass) {
         XSAttributeDecl attribute = attributeUse.getDecl();
 
         String NS = attribute.getType().getTargetNamespace();
         String URI = null;
 
         if (attribute.getType().isGlobal()) {
-            URI = getURI(attribute.getType());
+            URI = getURI(mainURI, attribute.getType());
         } else {
             URI = mainURI + "#Class_" + attrLocalSimpleTypeCount;
         }
@@ -585,12 +690,10 @@ public class XSD2OWLMapper {
 
         // Mustafa: All simple types are datatype properties now!
         Property prop = ontology.createDatatypeProperty(mainURI + "#" + NamingUtil.createPropertyName(dtpprefix, attribute.getName()));
-
         if (!NS.equals(XSDDatatype.XSD)) {
-            convertSimpleType(attribute.getType(), URI);
+            convertSimpleType(mainURI, attribute.getType(), URI);
             attrLocalSimpleTypeCount++;
         }
-
         if (attributeUse.isRequired()) {
             ontology.createCardinalityRestriction(null, prop, 1).addSubClass(complexClass);
         } else {
@@ -612,7 +715,9 @@ public class XSD2OWLMapper {
         }
     }
 
-    private void convertGroup(XSModelGroup group, OntClass parent) {
+    // mainURI is schema-specific
+    private void convertGroup(String mainURI, XSModelGroup group, OntClass parent) {
+        LOGGER.debug("working with group={}, parent={}", group, parent);
         XSParticle[] particles = group.getChildren();
         for (XSParticle p : particles) {
             XSTerm term = p.getTerm();
@@ -622,29 +727,29 @@ public class XSD2OWLMapper {
                 if (element.getType().isSimpleType()) {
 
                     prop = ontology.createDatatypeProperty(mainURI + "#" + NamingUtil.createPropertyName(dtpprefix, element.getName()));
-
                     if (element.getType().getTargetNamespace().equals(XSDDatatype.XSD)) {
+                        AllValuesFromRestriction superClass;
                         if (element.getType().getName().equals("anyType")) {
-                            parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
-                                    prop,
-                                    OWL.Thing));
+                            superClass = ontology.createAllValuesFromRestriction(null,
+                                    prop, OWL.Thing);
                         } else {
-                            parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
-                                    prop,
-                                    XSDUtil.getXSDResource(element.getType().getName())));
+                            superClass = ontology.createAllValuesFromRestriction(null,
+                                prop, XSDUtil.getXSDResource(element.getType().getName()));
                         }
-
+                        LOGGER.debug("Adding superclass to parent: {}", superClass);
+                        parent.addSuperClass(superClass);
                     } else {
-                        parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
-                                prop,
-                                ontology.getResource(getURI(element.getType()) + Constants.DATATYPE_SUFFIX)));
+                    AllValuesFromRestriction superClass = ontology.createAllValuesFromRestriction(null,
+                            prop,
+                            ontology.getResource(getURI(mainURI, element.getType()) + Constants.DATATYPE_SUFFIX));
+                        LOGGER.debug("Adding superclass to parent: {}", superClass);
+                        parent.addSuperClass(superClass);
 
-                        convertSimpleType(element.getType().asSimpleType(), getURI(element.getType()));
+                        convertSimpleType(mainURI, element.getType().asSimpleType(), getURI(mainURI, element.getType()));
                     }
 
                 } else if (element.getType().isComplexType()) {
                     prop = ontology.createObjectProperty(mainURI + "#" + NamingUtil.createPropertyName(opprefix, element.getName()));
-
                     // TODO: Mustafa: How will this be possible?
                     if (element.getType().getTargetNamespace().equals(XSDDatatype.XSD)) {
                         if (element.getType().getName().equals("anyType")) {
@@ -657,14 +762,28 @@ public class XSD2OWLMapper {
                                     XSDUtil.getXSDResource(element.getType().getName())));
                         }
                     } else if (element.getType().isGlobal()) {
+                        
+                        XSType type = element.getType();
+                        String typeNS = type.getTargetNamespace();
+                        LOGGER.trace("Main URI: {}, type target namespace: {}", mainURI, typeNS);
+                        
+                        //TODO is it correct to use the type namespace in all cases? There are at least some cases where this is necessary.  
+                        //Resource resource = ontology.createResource(getURI(mainURI, element.getType()));
+                        Resource resource;
+                        if ("".equals(typeNS)) {
+                            LOGGER.debug("typeNS is empty string so using mainURI: {}", mainURI);
+                            resource = ontology.createResource(getURI(mainURI, element.getType()));
+                        } else {
+                            resource = ontology.createResource(getURI(typeNS, element.getType()));
+                        }
                         parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
-                                prop,
-                                ontology.createResource(getURI(element.getType()))));
+                                prop, resource));
                     } else if (element.getType().isLocal()) {
                         OntClass anonClass = ontology.createClass(mainURI
                                 + "#"
                                 + "Anon_"
                                 + anonCount++);
+                        LOGGER.debug("Adding anon class: {}", anonClass);
                         anonClass.addSuperClass(ontology.createClass(mainURI
                                 + "#"
                                 + "Anon"));
@@ -673,14 +792,13 @@ public class XSD2OWLMapper {
                                 anonClass));
 
                         if (element.getType().isSimpleType()) {
-                            convertSimpleType(element.getType().asSimpleType(), anonClass.getURI());
+                            convertSimpleType(mainURI, element.getType().asSimpleType(), anonClass.getURI());
                         } else if (element.getType().isComplexType()) {
-                            convertComplexType(element.getType().asComplexType(), anonClass.getURI());
+                            convertComplexType(mainURI, element.getType().asComplexType(), anonClass.getURI());
                         }
                     }
 
                 }
-
                 // Cardinality constraints for the elements
                 int minOccurs = p.getMinOccurs().intValue();
                 int maxOccurs = p.getMaxOccurs().intValue();
@@ -699,34 +817,44 @@ public class XSD2OWLMapper {
                         parent.addSuperClass(ontology.createMaxCardinalityRestriction(null, prop, maxOccurs));
                     }
                 }
-
             } else if (term.isModelGroup()) {
-                convertGroup(term.asModelGroup(), parent);
+                convertGroup(mainURI, term.asModelGroup(), parent);
             } else if (term.isModelGroupDecl()) {
                 XSModelGroupDecl groupDecl = term.asModelGroupDecl();
-                OntClass groupClass = ontology.createClass(getURI(groupDecl));
-
+                OntClass groupClass = ontology.createClass(getURI(mainURI, groupDecl));
+                LOGGER.debug("Adding groupclass as superclass: {}", groupClass);
                 groupClass.addSubClass(parent);
             }
+            
         }
+        LOGGER.debug("parent superclasses: {}", parent.listSuperClasses().toList());
     }
-
-    private void convertModelGroupDecl(XSModelGroupDecl group) {
-        OntClass groupClass = ontology.createClass(getURI(group));
-
-        convertGroup(group.getModelGroup(), groupClass);
+    
+    /**
+     * 
+     * @param mainURI - mainURI for the current schema
+     * @param group
+     */
+    private void convertModelGroupDecl(String mainURI, XSModelGroupDecl group) {
+        OntClass groupClass = ontology.createClass(getURI(mainURI, group));
+        convertGroup(mainURI, group.getModelGroup(), groupClass);
     }
-
-    private void convertAttributeGroup(XSAttGroupDecl attGroup) {
-        OntClass attgClass = ontology.createClass(getURI(attGroup));
+    
+    /**
+     * 
+     * @param mainURI - mainURI for the current schema
+     * @param attGroup
+     */
+    private void convertAttributeGroup(String mainURI, XSAttGroupDecl attGroup) {
+        OntClass attgClass = ontology.createClass(getURI(mainURI, attGroup));
 
         Iterator<? extends XSAttributeUse> attributes = attGroup.iterateAttributeUses();
         while (attributes.hasNext()) {
-            convertAttribute((XSAttributeUse) attributes.next(), attgClass);
+            convertAttribute(mainURI, (XSAttributeUse) attributes.next(), attgClass);
         }
     }
 
-    private void createDefaultTextPropertyForMixedClasses() {
+    private void createDefaultTextPropertyForMixedClasses(String mainURI) {
         if (mixedClasses.isEmpty()) {
             return;
         }
@@ -734,6 +862,7 @@ public class XSD2OWLMapper {
         Property prop = ontology.createDatatypeProperty(mainURI + "#" + NamingUtil.createPropertyName(dtpprefix, Constants.MIXED_CLASS_DEFAULT_PROP_NAME));
 
         for (OntClass mixedClass : mixedClasses) {
+            LOGGER.debug("adding subclass: {}", mixedClass);
             ontology.createAllValuesFromRestriction(null, prop, XSD.xstring).addSubClass(mixedClass);
             ontology.createMaxCardinalityRestriction(null, prop, 1).addSubClass(mixedClass);
         }
@@ -849,7 +978,13 @@ public class XSD2OWLMapper {
         return list;
     }
 
-    private String getURI(XSDeclaration decl) {
+    /**
+     * 
+     * @param mainURI - mainURI for the current schema
+     * @param decl
+     * @return
+     */
+    private String getURI(String mainURI, XSDeclaration decl) {
         if (decl.getTargetNamespace().equals(XSDDatatype.XSD)) {
             return XSD.getURI() + decl.getName();
         }
