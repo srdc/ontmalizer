@@ -84,12 +84,11 @@ public class XSD2OWLMapper {
 
     // Variables to parse XSD schema
     private XSSchemaSet schemaSet = null;
-    //private XSSchema schema = null;
 
     // Variables to create ontology
     private OntModel ontology = null;
 
-    // To number classes named and Class_#
+    // To number classes named Class_#
     private int attrLocalSimpleTypeCount = 1;
 
     // To handle nodes with text content
@@ -101,9 +100,8 @@ public class XSD2OWLMapper {
     private ArrayList<OntClass> abstractClasses = null;
     private ArrayList<OntClass> mixedClasses = null;
 
-    //private String mainURI = null;
-    
     private XSOMParser parser;
+    // Used by XML2OWLMapper
     /*default */ Map<String, OntClass> rootTypeMap = new HashMap<>();
 
     /**
@@ -236,8 +234,6 @@ public class XSD2OWLMapper {
             parser.parse(file);
             schemaSet = parser.getResult();
             LOGGER.info("Schema size: {}, Schema Set: {}", schemaSet.getSchemaSize(), schemaSet);
-
-            //schema = schemaSet.getSchema(1);
         } catch (SAXException | IOException e) {
             LOGGER.error("{}", e.getMessage());
         }
@@ -247,12 +243,11 @@ public class XSD2OWLMapper {
         try {
             parser.parse(is);
             schemaSet = parser.getResult();
-            //schema = schemaSet.getSchema(1);
         } catch (Exception e) {
             LOGGER.error("{}", e.getMessage());
         }
     }
-    
+    // Used to customize logging for Errors    
     class MyErrorHandler implements ErrorHandler{
 
         @Override
@@ -320,10 +315,8 @@ public class XSD2OWLMapper {
             if ("".equals(nameSpace)) {
                 LOGGER.warn("Namespace for schema {} is empty string.", schema);
             }
-            
+
             try {
-                //URI uri = convertURNtoURI(nameSpace);
-            
                 URI uri = new URI(schema.getTargetNamespace());
                 if (uri.isAbsolute()) {
                     mainURI = uri.toString();
@@ -735,7 +728,6 @@ public class XSD2OWLMapper {
 				 * I added the allowed restrictions by getDeclaredAttributeUses below
              */ {
                 ontology.createClass(baseURI);
-                //LOGGER.debug("Adding superclass: {}", superClass);
                 complexClass.addSuperClass(ontology.createClass(baseURI));
             }
 
@@ -751,7 +743,6 @@ public class XSD2OWLMapper {
             XSAttGroupDecl attGroup = (XSAttGroupDecl) attGroups
                     .next();
             OntClass attgClass = ontology.createClass(getURI(mainURI, attGroup));
-            //LOGGER.debug("Adding attgClass as superclass: {}", attgClass);
             attgClass.addSubClass(complexClass);
         }
 
@@ -767,17 +758,7 @@ public class XSD2OWLMapper {
         return complexClass;
     }
     
-    public static boolean isQualified(XSElementDecl element){
-        Boolean qualified = element.getForm();
-        if (qualified == null) {
-            return false;
-        }
-        return qualified;
-    }
-
     private void convertElement(String mainURI, XSElementDecl element, OntClass parent) {
-        //LOGGER.debug("Element. element={}, parent={}", element, parent);
-        boolean qualified = isQualified(element);
         XSType elementType = element.getType();
         String URI;
         if (parent != null) {
@@ -906,10 +887,8 @@ public class XSD2OWLMapper {
                     }
                 } else if (element.getType().isComplexType()) {
                     prop = ontology.createObjectProperty(mainURI + "#" + NamingUtil.createPropertyName(opprefix, element.getName()));
-                    //LOGGER.trace("Property: {}", prop);
                     // TODO: Mustafa: How will this be possible?
                     if (element.getType().getTargetNamespace().equals(XSDDatatype.XSD)) {
-                        //LOGGER.trace("data type");
                         if (element.getType().getName().equals("anyType")) {
                             parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
                                     prop,
@@ -937,12 +916,6 @@ public class XSD2OWLMapper {
                         parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
                                 prop, resource));
                     } else if (element.getType().isLocal()) {
-//                        OntClass elementTypeClass = ontology.createClass(parentURI + "_complexType_"
-//
-//                                //use the hash of the schema to avoid Anon collisions between different schemas with the same target or imported namespace
-////                                + schemaHash //TODO add the schema hash somewhere else
-//                                + "_"
-//                                + anonCount++);
                         OntClass elementTypeClass = null;
                         if (element.getType().isSimpleType()) {
                             elementTypeClass = convertSimpleType(mainURI, element.getType().asSimpleType(), parentURI, element.getName());
@@ -950,7 +923,6 @@ public class XSD2OWLMapper {
                             elementTypeClass = convertComplexType(mainURI, element.getType().asComplexType(), parentURI, element.getName());
                         }
                     LOGGER.debug("Adding class for element in group: {}", elementTypeClass);
-//                    elementTypeClass.addSuperClass(ontology.createClass(mainURI + "#" + "Anon"));
                     parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
                             prop, elementTypeClass));
                     }
@@ -1183,9 +1155,6 @@ public class XSD2OWLMapper {
         }
         // mainURI contains at most one '#'
         assert(mainURI.split("#").length <3);
-//        if (mainURI.contains("#")) {
-//            mainURI = mainURI.substring(0, mainURI.indexOf('#'));
-//        }
         mainURI = mainURI.replaceFirst("#", "/");
         return mainURI + "#" + decl.getName();
     }

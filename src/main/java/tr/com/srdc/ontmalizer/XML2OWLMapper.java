@@ -199,11 +199,7 @@ public class XML2OWLMapper {
                 newNsMap.put(key,  nsmap.get(key));
             }
         }
-        
         model.setNsPrefixes(newNsMap);
-        
-        
-        
         this.opprefix = mapping.getObjectPropPrefix();
         this.dtpprefix = mapping.getDataTypePropPrefix();
     }
@@ -226,16 +222,13 @@ public class XML2OWLMapper {
      */
     public void convertXML2OWL() {
         Element root = document.getDocumentElement();
-        
 
         // Set namespace and its prefix if it is not set before.
         if (NS == null) {
             setNSPrefix(root);
         }
 
-        
         OntClass rootType = xsdMapper.rootTypeMap.get(NS + root.getLocalName());
-        
         if (rootType == null) {
             // add relevant details to NPE
             LOGGER.error("NS={}, rootlocalname={}", NS, root.getLocalName());
@@ -267,7 +260,6 @@ public class XML2OWLMapper {
         NamedNodeMap attributes = node.getAttributes();
         LOGGER.debug("There are {} attributes for this node", attributes.getLength());
         for (int i = 0, length = attributes.getLength(); i < length; i++) {
-        
             Node attributeNode = attributes.item(i);
             LOGGER.debug("Node: {}, attribute Node: {}, attribute local name: {}, subject: {}, subjectType:{}", node, attributeNode, attributeNode.getLocalName(), subject, subjectType);
             TypedResource atObjType = findObjectType(subjectType, attributeNode.getLocalName(), attributeNode, true);
@@ -292,11 +284,8 @@ public class XML2OWLMapper {
         Resource object = null;
 
         if (node.getNodeType() == Node.ELEMENT_NODE) {
-            
             LOGGER.debug("Node {} is an element node. Local name: {}, Node name: {}, Node namespace: {},", node, node.getLocalName(), node.getNodeName(), node.getNamespaceURI());
-            
             objectType = findObjectType(subjectType, node.getLocalName(), node, false);
-            
             if (objectType != null) {
             	LOGGER.debug("Object type: {} objectType.resource: {}", objectType, objectType.getResource());
                 /**
@@ -329,11 +318,7 @@ public class XML2OWLMapper {
                         LOGGER.warn("Object type has null resource! ObjectType: {}", objectType);
                     }else {
                         if (!count.containsKey(objectType.getResource().getURI())){
-                            // wrong URI because different namespace from root object, try using the node's namespace
                             LOGGER.warn("Haven't seen resource with URI '{}' before. Known URIs: {}", objectType.getResource().getURI(), count.keySet());
-                            //objectType = findResourceType(node.getNamespaceURI() + '#' + node.getLocalName());
-                            //LOGGER.debug("New object type: {}, new object type is datatype: {}, new resource: {}, ", objectType, objectType.isDatatype(), objectType.getResource());
-                            //count.put(resource.getURI(), 0);
                             if (!count.containsKey(objectType.getResource().getURI())){
                                 throw new NullPointerException("Count doesn't contain URI: " + objectType.getResource().getURI() 
                                 +"\nfor resource: " + objectType.getResource() + "\n for objectType: " + objectType);
@@ -347,11 +332,8 @@ public class XML2OWLMapper {
                                 + "_"
                                 + count.get(objectType.getResource().getURI()), objectType.getResource());
                         LOGGER.trace("objectType: {}, objectType.getResource(): {}", objectType, objectType.getResource());                    
-                        
                         count.put(objectType.getResource().getURI(), count.get(objectType.getResource().getURI()) + 1);
-    
                         Property prop = model.createProperty(NS + NamingUtil.createPropertyName(opprefix, node.getLocalName()));
-    
                         subject.addProperty(prop, object);
                   }
                 } else if (node.getFirstChild() != null && node.getFirstChild().getNodeValue() != null) {
@@ -402,10 +384,8 @@ public class XML2OWLMapper {
         
         OntClass temp;
         if (!isNodeAttribute && !root.getNameSpace().equals(node.getNamespaceURI()+'#') && node.getNamespaceURI() != null) {
-            LOGGER.info("DIFFERENT NAME SPACES: {}, {}\nNode:{}", root.getNameSpace(), node.getNamespaceURI(), node);
+            LOGGER.info("Different name spaces: {}, {}\nNode:{}", root.getNameSpace(), node.getNamespaceURI(), node);
             
-            //temp = ontology.getOntClass(node.getNamespaceURI()+'#'+ node.getLocalName());
-            //LOGGER.info("TEMP: {}", temp);
             return findResourceType(node.getNamespaceURI()+'#'+ node.getLocalName());
         } else {
             temp = (OntClass) root;
