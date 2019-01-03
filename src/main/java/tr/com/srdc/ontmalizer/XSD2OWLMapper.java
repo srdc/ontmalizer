@@ -1,6 +1,7 @@
 package tr.com.srdc.ontmalizer;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,13 +10,18 @@ import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.jena.atlas.logging.Log;
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.ontology.AllValuesFromRestriction;
 import org.apache.jena.ontology.EnumeratedClass;
@@ -47,6 +53,7 @@ import com.sun.xml.xsom.XSContentType;
 import com.sun.xml.xsom.XSDeclaration;
 import com.sun.xml.xsom.XSElementDecl;
 import com.sun.xml.xsom.XSModelGroup;
+import com.sun.xml.xsom.XSModelGroup.Compositor;
 import com.sun.xml.xsom.XSModelGroupDecl;
 import com.sun.xml.xsom.XSParticle;
 import com.sun.xml.xsom.XSRestrictionSimpleType;
@@ -77,12 +84,12 @@ public class XSD2OWLMapper {
 
     // Variables to parse XSD schema
     private XSSchemaSet schemaSet = null;
+    //private XSSchema schema = null;
 
     // Variables to create ontology
     private OntModel ontology = null;
 
-    // To number classes named Anon_# and Class_#
-    private int anonCount = 1;
+    // To number classes named and Class_#
     private int attrLocalSimpleTypeCount = 1;
 
     // To handle nodes with text content
@@ -94,7 +101,10 @@ public class XSD2OWLMapper {
     private ArrayList<OntClass> abstractClasses = null;
     private ArrayList<OntClass> mixedClasses = null;
 
+    //private String mainURI = null;
+    
     private XSOMParser parser;
+    /*default */ Map<String, OntClass> rootTypeMap = new HashMap<>();
 
     /**
      * Creates a new XSD2OWLMapper instance.
@@ -165,15 +175,69 @@ public class XSD2OWLMapper {
         parser.setErrorHandler(new MyErrorHandler());  
     }
     
+    public static byte[] createChecksum(String filename) throws NoSuchAlgorithmException, IOException {
+        //actually lets us get the file (if it isn't in a jar)
+        if (filename.startsWith("file:")) {
+            filename = filename.replaceFirst("file:", "");
+        }
+        
+        InputStream fis;
+        File file = new File(filename);
+        if (file.exists()) {
+            fis = new FileInputStream(filename);
+        }
+        else {
+            fis =  XSD2OWLMapper.class.getResourceAsStream(filename);
+        }
+        
+        MessageDigest complete = MessageDigest.getInstance("MD5");
+        if (fis == null) {
+            LOGGER.warn("File " + filename + " not found, taking hash of filename");
+            return complete.digest(filename.getBytes());
+        } else {
+            byte[] buffer = new byte[1024];
+
+            int numRead;
+    
+            do {
+                numRead = fis.read(buffer);
+                if (numRead > 0) {
+                    complete.update(buffer, 0, numRead);
+                }
+            } while (numRead != -1);
+    
+            fis.close();
+            return complete.digest();
+        }
+    }
+    
+    
+    public static String getMD5Checksum(String filename) {
+        try {
+            byte[] b = createChecksum(filename);
+            String result = "";
+            for (int i=0; i < b.length; i++) {
+                result += Integer.toString( ( b[i] & 0xff ) + 0x100, 16).substring( 1 );
+            }
+            return result;
+        } catch (NoSuchAlgorithmException | IOException e) {
+            LOGGER.error("Error computing hash for {}, using filename as hash!", filename, e);
+            return filename;
+        }
+    }
+    
+    
     public void parseXSD(File file) {
         try {
             if (!file.exists()) {
                 throw new FileNotFoundException(file.getAbsolutePath());
             }
-            
+                       
             parser.parse(file);
             schemaSet = parser.getResult();
-            LOGGER.debug("Schema size: {}, Schema Set: {}", schemaSet.getSchemaSize(), schemaSet);
+            LOGGER.info("Schema size: {}, Schema Set: {}", schemaSet.getSchemaSize(), schemaSet);
+
+            //schema = schemaSet.getSchema(1);
         } catch (SAXException | IOException e) {
             LOGGER.error("{}", e.getMessage());
         }
@@ -183,11 +247,12 @@ public class XSD2OWLMapper {
         try {
             parser.parse(is);
             schemaSet = parser.getResult();
+            //schema = schemaSet.getSchema(1);
         } catch (Exception e) {
             LOGGER.error("{}", e.getMessage());
         }
     }
-    // Used to customize logging for Errors 
+    
     class MyErrorHandler implements ErrorHandler{
 
         @Override
@@ -215,6 +280,7 @@ public class XSD2OWLMapper {
             inputSource.setSystemId(url.toExternalForm());
             parser.parse(inputSource);
             schemaSet = parser.getResult();
+            //schema = schemaSet.getSchema(1);
         } catch (IOException | SAXException e) {
             LOGGER.error("{}", e.getMessage());
         }
@@ -226,7 +292,7 @@ public class XSD2OWLMapper {
         Map<String, String> prefixMap = ontology.getNsPrefixMap();
         prefixMap.put(Constants.ONTMALIZER_BASE_URI_PREFIX, Constants.ONTMALIZER_BASE_URI);
         ontology.setNsPrefixes(prefixMap);
-        
+
         hasValue = ontology.createOntProperty(Constants.ONTMALIZER_VALUE_PROP_NAME);
 
         abstractClasses = new ArrayList<>();
@@ -254,13 +320,19 @@ public class XSD2OWLMapper {
             if ("".equals(nameSpace)) {
                 LOGGER.warn("Namespace for schema {} is empty string.", schema);
             }
-
+            
             try {
+                //URI uri = convertURNtoURI(nameSpace);
+            
                 URI uri = new URI(schema.getTargetNamespace());
                 if (uri.isAbsolute()) {
                     mainURI = uri.toString();
                 } else {
-                    mainURI = "http://uri-not-absolute.com";
+                    String filename = schema.getLocator().getSystemId();
+                    String schemaHash = getMD5Checksum(filename);
+                    System.out.println("Filename: " + filename + ", md5: " + schemaHash);
+                    
+                    mainURI = filename +"/" + schemaHash + "/";
                 }
             
             } catch (URISyntaxException e) {
@@ -273,23 +345,35 @@ public class XSD2OWLMapper {
             LOGGER.info("Main URI: {}", mainURI);
             Iterator<XSSimpleType> simpleTypes = schema.iterateSimpleTypes();
             while (simpleTypes.hasNext()) {
-                convertSimpleType(mainURI, (XSSimpleType) simpleTypes.next(), null);
+                XSSimpleType type = (XSSimpleType) simpleTypes.next();
+                if (type.isGlobal()) {
+                    convertSimpleType(mainURI, type, null, null);
+                }
             }
+            
             Iterator<XSComplexType> complexTypes = schema.iterateComplexTypes();
             while (complexTypes.hasNext()) {
-                convertComplexType(mainURI, (XSComplexType) complexTypes.next(), null);
+                XSComplexType type = (XSComplexType) complexTypes.next();
+                if (type.isGlobal()) {
+                    convertComplexType(mainURI, type, null, null);
+                }
             }
     
             Iterator<XSElementDecl> elements = schema.iterateElementDecls();
             while (elements.hasNext()) {
-                convertElement(mainURI, (XSElementDecl) elements.next(), null);
+                XSElementDecl element = (XSElementDecl) elements.next();
+                if (element.isGlobal()) {
+                    convertElement(mainURI, element, null);
+                }
             }
 
+            // these are all global
             Iterator<XSModelGroupDecl> groups = schema.iterateModelGroupDecls();
             while (groups.hasNext()) {
                 convertModelGroupDecl(mainURI, groups.next());
             }
     
+            // these are also all global
             Iterator<XSAttGroupDecl> attGroups = schema.iterateAttGroupDecls();
             while (attGroups.hasNext()) {
                 convertAttributeGroup(mainURI, (XSAttGroupDecl) attGroups.next());
@@ -304,9 +388,15 @@ public class XSD2OWLMapper {
     /* This function creates RDFS Datatypes except for Enumerated Simple Types.
 	 * If there are both enumeration facets and other facets, then other facets will be ignored.
      */
-    private OntClass convertSimpleType(String mainURI, XSSimpleType simple, String parentURI) {
+    private OntClass convertSimpleType(String mainURI, XSSimpleType simple, String parentURI, String elementName) {
         String NS = simple.getTargetNamespace() + "#";
-        String URI = getURI(mainURI, simple);
+        String URI;
+        String simpleTypeName = makeSimpleTypeName(simple, elementName);
+        if (parentURI != null) {
+             URI = getURI(parentURI, simpleTypeName);
+        }else {
+            URI = getURI(mainURI, simpleTypeName);
+        }
         LOGGER.debug("NS: {}, URI: {}, simple: {}", NS, URI, simple);
 
         if (simple.isGlobal()) {
@@ -522,26 +612,55 @@ public class XSD2OWLMapper {
         }
 
     }
+    public String makeSimpleTypeName(XSSimpleType type, String elementName) {
+        if (type.getName() == null) {
+            return elementName + ".simpleType";
+        } else {
+            return type.getName();
+        }
+    }
+    
+    public String makeComplexTypeName(XSComplexType complex, String elementName) {
+        if (complex.getName() == null) {
+            return elementName + ".complexType";
+        } else {
+            return complex.getName();
+        }
+    }
 
-    private OntClass convertComplexType(String mainURI, XSComplexType complex, String parentURI) {
+    private OntClass convertComplexType(String mainURI, XSComplexType complex, String parentURI, String elementName) {
         OntClass complexClass = null;
+        String URI;
+        String typeName = makeComplexTypeName(complex, elementName);
 
+        // if the name is null, it is an anon type and must have a (non-null) parent
+        if (parentURI != null) {
+            URI = getURI(parentURI, typeName);
+        }else {
+            URI = getURI(mainURI, typeName);
+        }
+        
         if (complex.isGlobal()) {
+            // because global, do not include the parent URI here
             complexClass = ontology.createClass(getURI(mainURI, complex));
             if (parentURI != null) {
                 OntClass element = ontology.createClass(parentURI);
                 element.addSuperClass(complexClass);
 
                 addTextAnnotation(complex, complexClass);
+                // This case occurs when an element refers to a named complex type 
+                // (it will get processed with the global ones, so we don't process it again here)
                 return complexClass;
             }
         } else if (complex.isLocal()) {
-            complexClass = ontology.createClass(parentURI);
+            complexClass = ontology.createClass(URI);
         }
 
         XSType baseType = complex.getBaseType();
         String baseURI = getURI(mainURI, baseType);
 
+        LOGGER.debug("Complex Type. Basetype: {}, baseURI: {}, complex: {}", baseType, baseURI, complex);
+        
         if (baseType.isSimpleType()) {
             if (ontology.getOntResource(baseURI) != null
                     && !baseType.getTargetNamespace().equals(XSDDatatype.XSD)) // If base type is an enumeration simple type
@@ -573,11 +692,14 @@ public class XSD2OWLMapper {
 
                 XSContentType expl = complex.getExplicitContent();
                 if (expl != null) {
+                    // particle is a thing in a schema that can be repeating
                     XSParticle particle = expl.asParticle();
                     if (particle != null) {
+                        // term is an element or a model group (or a reference to one of those)
                         XSTerm term = particle.getTerm();
+                        // model group = sequence or choice
                         if (term.isModelGroup()) {
-                            convertGroup(mainURI, term.asModelGroup(), complexClass);
+                            convertGroup(mainURI, term.asModelGroup(), complexClass, complexClass.getURI());
                         } else if (term.isModelGroupDecl()) {
                             XSModelGroupDecl group = term.asModelGroupDecl();
                             OntClass groupClass = ontology.createClass(getURI(mainURI, group));
@@ -600,7 +722,7 @@ public class XSD2OWLMapper {
                 if (particle != null) {
                     XSTerm term = particle.getTerm();
                     if (term.isModelGroup()) {
-                        convertGroup(mainURI, term.asModelGroup(), complexClass);
+                        convertGroup(mainURI, term.asModelGroup(), complexClass, complexClass.getURI());
                     } else if (term.isModelGroupDecl()) {
                         XSModelGroupDecl group = term.asModelGroupDecl();
                         OntClass groupClass = ontology.createClass(getURI(mainURI, group));
@@ -613,6 +735,7 @@ public class XSD2OWLMapper {
 				 * I added the allowed restrictions by getDeclaredAttributeUses below
              */ {
                 ontology.createClass(baseURI);
+                //LOGGER.debug("Adding superclass: {}", superClass);
                 complexClass.addSuperClass(ontology.createClass(baseURI));
             }
 
@@ -628,6 +751,7 @@ public class XSD2OWLMapper {
             XSAttGroupDecl attGroup = (XSAttGroupDecl) attGroups
                     .next();
             OntClass attgClass = ontology.createClass(getURI(mainURI, attGroup));
+            //LOGGER.debug("Adding attgClass as superclass: {}", attgClass);
             attgClass.addSubClass(complexClass);
         }
 
@@ -637,29 +761,48 @@ public class XSD2OWLMapper {
         if (complex.isAbstract()) {
             abstractClasses.add(complexClass);
         }
-
+        
         addTextAnnotation(complex, complexClass);
+
         return complexClass;
+    }
+    
+    public static boolean isQualified(XSElementDecl element){
+        Boolean qualified = element.getForm();
+        if (qualified == null) {
+            return false;
+        }
+        return qualified;
     }
 
     private void convertElement(String mainURI, XSElementDecl element, OntClass parent) {
+        //LOGGER.debug("Element. element={}, parent={}", element, parent);
+        boolean qualified = isQualified(element);
         XSType elementType = element.getType();
-        String URI = getURI(mainURI, element);
-
-        OntClass elementClass = null;
-        if (element.isGlobal()) {
-            if (elementType.isSimpleType()) {
-                elementClass = convertSimpleType(mainURI, elementType.asSimpleType(), URI);
-            } else if (elementType.isComplexType()) {
-                elementClass = convertComplexType(mainURI, elementType.asComplexType(), URI);
-            }
+        String URI;
+        if (parent != null) {
+            URI = getURI(parent.getURI(), element);
+        }else {
+            URI = getURI(mainURI, element);
         }
 
+        OntClass elementTypeClass = null;
+
+        if (elementType.isSimpleType()) {
+            elementTypeClass = convertSimpleType(mainURI, elementType.asSimpleType(), URI, element.getName());
+        } else if (elementType.isComplexType()) {
+            elementTypeClass = convertComplexType(mainURI, elementType.asComplexType(), URI, element.getName());
+        }
+        if (element.isGlobal()) {
+            rootTypeMap.put(element.getTargetNamespace() + "#" + element.getName(), elementTypeClass);
+        }
+        
         XSElementDecl subs = element.getSubstAffiliation();
-        if (subs != null && elementClass != null) {
+        if (subs != null && elementTypeClass != null) {
             OntClass subsClass = ontology.createClass(getURI(mainURI, subs));
+            
             LOGGER.debug("Adding superclass: {}", subsClass);
-            subsClass.addSubClass(elementClass);
+            subsClass.addSubClass(elementTypeClass);
         }
     }
     // mainURI is schema-specific
@@ -672,6 +815,7 @@ public class XSD2OWLMapper {
         if (attribute.getType().isGlobal()) {
             URI = getURI(mainURI, attribute.getType());
         } else {
+            // attribute types are almost always global
             URI = mainURI + "#Class_" + attrLocalSimpleTypeCount;
         }
 
@@ -691,9 +835,10 @@ public class XSD2OWLMapper {
         // Mustafa: All simple types are datatype properties now!
         Property prop = ontology.createDatatypeProperty(mainURI + "#" + NamingUtil.createPropertyName(dtpprefix, attribute.getName()));
         if (!NS.equals(XSDDatatype.XSD)) {
-            convertSimpleType(mainURI, attribute.getType(), URI);
+            convertSimpleType(mainURI, attribute.getType(), URI, attribute.getName());
             attrLocalSimpleTypeCount++;
         }
+        //LOGGER.debug("Adding stuff to complex class={}", complexClass);
         if (attributeUse.isRequired()) {
             ontology.createCardinalityRestriction(null, prop, 1).addSubClass(complexClass);
         } else {
@@ -715,11 +860,18 @@ public class XSD2OWLMapper {
         }
     }
 
-    // mainURI is schema-specific
-    private void convertGroup(String mainURI, XSModelGroup group, OntClass parent) {
+    
+    // mainURI is schema-specific 
+    // parentURI gets more specific as we recursivey call this method, but we don't want a new parent class for each recursion
+    private void convertGroup(String mainURI, XSModelGroup group, OntClass parent, String parentURI) {
+        assert(parent != null);
+        
         LOGGER.debug("working with group={}, parent={}", group, parent);
         XSParticle[] particles = group.getChildren();
+
+        int childParticleCounter = 1;
         for (XSParticle p : particles) {
+            
             XSTerm term = p.getTerm();
             if (term.isElementDecl()) {
                 XSElementDecl element = term.asElementDecl();
@@ -729,12 +881,13 @@ public class XSD2OWLMapper {
                     prop = ontology.createDatatypeProperty(mainURI + "#" + NamingUtil.createPropertyName(dtpprefix, element.getName()));
                     if (element.getType().getTargetNamespace().equals(XSDDatatype.XSD)) {
                         AllValuesFromRestriction superClass;
-                        if (element.getType().getName().equals("anyType")) {
+                        String typeName = element.getType().getName();
+                        if ("anyType".equals(typeName) || "anySimpleType".equals(typeName)) {
                             superClass = ontology.createAllValuesFromRestriction(null,
                                     prop, OWL.Thing);
                         } else {
                             superClass = ontology.createAllValuesFromRestriction(null,
-                                prop, XSDUtil.getXSDResource(element.getType().getName()));
+                                prop, XSDUtil.getXSDResource(typeName));
                         }
                         LOGGER.debug("Adding superclass to parent: {}", superClass);
                         parent.addSuperClass(superClass);
@@ -744,14 +897,19 @@ public class XSD2OWLMapper {
                             ontology.getResource(getURI(mainURI, element.getType()) + Constants.DATATYPE_SUFFIX));
                         LOGGER.debug("Adding superclass to parent: {}", superClass);
                         parent.addSuperClass(superClass);
-
-                        convertSimpleType(mainURI, element.getType().asSimpleType(), getURI(mainURI, element.getType()));
+                        XSSimpleType simpleType = element.getType().asSimpleType();
+                        if (simpleType.isGlobal()) {
+                            convertSimpleType(mainURI, simpleType, getURI(mainURI, element.getType()), element.getName());
+                        } else {
+                            convertSimpleType(mainURI, simpleType, getURI(parentURI, element.getType()), element.getName());
+                        }
                     }
-
                 } else if (element.getType().isComplexType()) {
                     prop = ontology.createObjectProperty(mainURI + "#" + NamingUtil.createPropertyName(opprefix, element.getName()));
+                    //LOGGER.trace("Property: {}", prop);
                     // TODO: Mustafa: How will this be possible?
                     if (element.getType().getTargetNamespace().equals(XSDDatatype.XSD)) {
+                        //LOGGER.trace("data type");
                         if (element.getType().getName().equals("anyType")) {
                             parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
                                     prop,
@@ -779,25 +937,23 @@ public class XSD2OWLMapper {
                         parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
                                 prop, resource));
                     } else if (element.getType().isLocal()) {
-                        OntClass anonClass = ontology.createClass(mainURI
-                                + "#"
-                                + "Anon_"
-                                + anonCount++);
-                        LOGGER.debug("Adding anon class: {}", anonClass);
-                        anonClass.addSuperClass(ontology.createClass(mainURI
-                                + "#"
-                                + "Anon"));
-                        parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
-                                prop,
-                                anonClass));
-
+//                        OntClass elementTypeClass = ontology.createClass(parentURI + "_complexType_"
+//
+//                                //use the hash of the schema to avoid Anon collisions between different schemas with the same target or imported namespace
+////                                + schemaHash //TODO add the schema hash somewhere else
+//                                + "_"
+//                                + anonCount++);
+                        OntClass elementTypeClass = null;
                         if (element.getType().isSimpleType()) {
-                            convertSimpleType(mainURI, element.getType().asSimpleType(), anonClass.getURI());
+                            elementTypeClass = convertSimpleType(mainURI, element.getType().asSimpleType(), parentURI, element.getName());
                         } else if (element.getType().isComplexType()) {
-                            convertComplexType(mainURI, element.getType().asComplexType(), anonClass.getURI());
+                            elementTypeClass = convertComplexType(mainURI, element.getType().asComplexType(), parentURI, element.getName());
                         }
+                    LOGGER.debug("Adding class for element in group: {}", elementTypeClass);
+//                    elementTypeClass.addSuperClass(ontology.createClass(mainURI + "#" + "Anon"));
+                    parent.addSuperClass(ontology.createAllValuesFromRestriction(null,
+                            prop, elementTypeClass));
                     }
-
                 }
                 // Cardinality constraints for the elements
                 int minOccurs = p.getMinOccurs().intValue();
@@ -818,16 +974,36 @@ public class XSD2OWLMapper {
                     }
                 }
             } else if (term.isModelGroup()) {
-                convertGroup(mainURI, term.asModelGroup(), parent);
+                XSModelGroup modelGroup = term.asModelGroup();
+                String thisURI = parentURI + getGroupTypeString(modelGroup) + childParticleCounter+"_";
+                convertGroup(mainURI, modelGroup, parent, thisURI);
             } else if (term.isModelGroupDecl()) {
+                // group decl's are global
                 XSModelGroupDecl groupDecl = term.asModelGroupDecl();
                 OntClass groupClass = ontology.createClass(getURI(mainURI, groupDecl));
                 LOGGER.debug("Adding groupclass as superclass: {}", groupClass);
                 groupClass.addSubClass(parent);
             }
+            childParticleCounter++;
             
         }
         LOGGER.debug("parent superclasses: {}", parent.listSuperClasses().toList());
+    }
+    
+    public static String getGroupTypeString(XSModelGroup modelGroup) {
+        Compositor compositor = modelGroup.getCompositor();
+        switch (compositor) {
+        case ALL:
+            return "_all_";
+        case CHOICE:
+            return "_choice_";
+        case SEQUENCE:
+            return "_sequence_";
+        default:
+            LOGGER.error("Unknown XSModelGroup: {}", modelGroup);
+            assert(false);
+            return "_";
+        }
     }
     
     /**
@@ -837,7 +1013,7 @@ public class XSD2OWLMapper {
      */
     private void convertModelGroupDecl(String mainURI, XSModelGroupDecl group) {
         OntClass groupClass = ontology.createClass(getURI(mainURI, group));
-        convertGroup(mainURI, group.getModelGroup(), groupClass);
+        convertGroup(mainURI, group.getModelGroup(), groupClass, groupClass.getURI());
     }
     
     /**
@@ -980,7 +1156,24 @@ public class XSD2OWLMapper {
 
     /**
      * 
-     * @param mainURI - mainURI for the current schema
+     * @param parentURI - parentURI
+     * @param currentObject
+     * @return
+     */
+    private String getURI(String mainURI, String currentObject) {
+
+        // mainURI contains at most one '#'
+        assert(mainURI.split("#").length <3);
+//        if (mainURI.contains("#")) {
+//            mainURI = mainURI.substring(0, mainURI.indexOf('#'));
+//        }
+        mainURI = mainURI.replaceFirst("#", "/");
+        return mainURI + "#" + currentObject;
+    }
+    
+    /**
+     * 
+     * @param parentURI - 
      * @param decl
      * @return
      */
@@ -988,6 +1181,12 @@ public class XSD2OWLMapper {
         if (decl.getTargetNamespace().equals(XSDDatatype.XSD)) {
             return XSD.getURI() + decl.getName();
         }
+        // mainURI contains at most one '#'
+        assert(mainURI.split("#").length <3);
+//        if (mainURI.contains("#")) {
+//            mainURI = mainURI.substring(0, mainURI.indexOf('#'));
+//        }
+        mainURI = mainURI.replaceFirst("#", "/");
         return mainURI + "#" + decl.getName();
     }
 

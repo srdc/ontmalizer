@@ -29,6 +29,7 @@ import org.apache.jena.rdf.model.Property;
 import org.apache.jena.rdf.model.RDFWriter;
 import org.apache.jena.rdf.model.ResIterator;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.shared.PrefixMapping.IllegalPrefixException;
 import org.apache.jena.util.iterator.ExtendedIterator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -83,6 +84,9 @@ public class XML2OWLMapper {
 
     private String NS = null;
     private String nsPrefix = null;
+
+    private XSD2OWLMapper xsdMapper;
+    private int prefixCount = 0;
 
     /**
      * Creates a new XML2OWLMapper instance.
@@ -158,6 +162,7 @@ public class XML2OWLMapper {
      * @param mapping
      */
     private void initializeEnvironment(XSD2OWLMapper mapping) {
+        xsdMapper = mapping;
         ontology = mapping.getOntology();
 //		abstractClasses = mapping.getAbstractClasses();
         mixedClasses = mapping.getMixedClasses();
@@ -187,12 +192,18 @@ public class XML2OWLMapper {
             String key = keys.next();
             // The default namespace (i.e. the null prefix) should always refer to baseURI in instances
             if (key.equals("")) {
+                //model.setNsPrefix("", baseURI);
                 newNsMap.put("", baseURI);
             } else {
+                //model.setNsPrefix(key, nsmap.get(key));
                 newNsMap.put(key,  nsmap.get(key));
             }
         }
+        
         model.setNsPrefixes(newNsMap);
+        
+        
+        
         this.opprefix = mapping.getObjectPropPrefix();
         this.dtpprefix = mapping.getDataTypePropPrefix();
     }
@@ -215,19 +226,24 @@ public class XML2OWLMapper {
      */
     public void convertXML2OWL() {
         Element root = document.getDocumentElement();
+        
 
         // Set namespace and its prefix if it is not set before.
         if (NS == null) {
             setNSPrefix(root);
         }
 
-        OntClass rootType = ontology.getOntClass(NS + root.getLocalName());
+        
+        OntClass rootType = xsdMapper.rootTypeMap.get(NS + root.getLocalName());
+        
         if (rootType == null) {
             // add relevant details to NPE
             LOGGER.error("NS={}, rootlocalname={}", NS, root.getLocalName());
+            LOGGER.error("root map: {}", xsdMapper.rootTypeMap);
             LOGGER.error("\n");
             throw new NullPointerException("rootType is null. Could not getOntClass for NS=" + NS + ", rootLocalName=" + root.getLocalName());
         }
+        
         Resource modelRoot = model.createResource(baseURI
                 + Constants.ONTMALIZER_INSTANCE_NAME_PREFIX
                 + no
@@ -251,6 +267,7 @@ public class XML2OWLMapper {
         NamedNodeMap attributes = node.getAttributes();
         LOGGER.debug("There are {} attributes for this node", attributes.getLength());
         for (int i = 0, length = attributes.getLength(); i < length; i++) {
+        
             Node attributeNode = attributes.item(i);
             LOGGER.debug("Node: {}, attribute Node: {}, attribute local name: {}, subject: {}, subjectType:{}", node, attributeNode, attributeNode.getLocalName(), subject, subjectType);
             TypedResource atObjType = findObjectType(subjectType, attributeNode.getLocalName(), attributeNode, true);
@@ -275,8 +292,11 @@ public class XML2OWLMapper {
         Resource object = null;
 
         if (node.getNodeType() == Node.ELEMENT_NODE) {
+            
             LOGGER.debug("Node {} is an element node. Local name: {}, Node name: {}, Node namespace: {},", node, node.getLocalName(), node.getNodeName(), node.getNamespaceURI());
+            
             objectType = findObjectType(subjectType, node.getLocalName(), node, false);
+            
             if (objectType != null) {
             	LOGGER.debug("Object type: {} objectType.resource: {}", objectType, objectType.getResource());
                 /**
@@ -309,7 +329,11 @@ public class XML2OWLMapper {
                         LOGGER.warn("Object type has null resource! ObjectType: {}", objectType);
                     }else {
                         if (!count.containsKey(objectType.getResource().getURI())){
+                            // wrong URI because different namespace from root object, try using the node's namespace
                             LOGGER.warn("Haven't seen resource with URI '{}' before. Known URIs: {}", objectType.getResource().getURI(), count.keySet());
+                            //objectType = findResourceType(node.getNamespaceURI() + '#' + node.getLocalName());
+                            //LOGGER.debug("New object type: {}, new object type is datatype: {}, new resource: {}, ", objectType, objectType.isDatatype(), objectType.getResource());
+                            //count.put(resource.getURI(), 0);
                             if (!count.containsKey(objectType.getResource().getURI())){
                                 throw new NullPointerException("Count doesn't contain URI: " + objectType.getResource().getURI() 
                                 +"\nfor resource: " + objectType.getResource() + "\n for objectType: " + objectType);
@@ -323,8 +347,11 @@ public class XML2OWLMapper {
                                 + "_"
                                 + count.get(objectType.getResource().getURI()), objectType.getResource());
                         LOGGER.trace("objectType: {}, objectType.getResource(): {}", objectType, objectType.getResource());                    
+                        
                         count.put(objectType.getResource().getURI(), count.get(objectType.getResource().getURI()) + 1);
+    
                         Property prop = model.createProperty(NS + NamingUtil.createPropertyName(opprefix, node.getLocalName()));
+    
                         subject.addProperty(prop, object);
                   }
                 } else if (node.getFirstChild() != null && node.getFirstChild().getNodeValue() != null) {
@@ -377,6 +404,8 @@ public class XML2OWLMapper {
         if (!isNodeAttribute && !root.getNameSpace().equals(node.getNamespaceURI()+'#') && node.getNamespaceURI() != null) {
             LOGGER.info("DIFFERENT NAME SPACES: {}, {}\nNode:{}", root.getNameSpace(), node.getNamespaceURI(), node);
             
+            //temp = ontology.getOntClass(node.getNamespaceURI()+'#'+ node.getLocalName());
+            //LOGGER.info("TEMP: {}", temp);
             return findResourceType(node.getNamespaceURI()+'#'+ node.getLocalName());
         } else {
             temp = (OntClass) root;
@@ -536,19 +565,23 @@ public class XML2OWLMapper {
                 if (nsPrefix != null) {
                     model.setNsPrefix(nsPrefix, NS);
                 } else {
-                    // Mustafa: If the XML instance has a prefix already, use it!
-                    String xmlNSprefix = root.getPrefix();
-                    if (xmlNSprefix != null && !xmlNSprefix.equals("")) {
-                        model.setNsPrefix(xmlNSprefix, NS);
-                    } else if (last != -1) {
-                        model.setNsPrefix(root.getNamespaceURI().substring(last + 1), NS);
-                    } else {
-                        last = NS.lastIndexOf(':');
-                        if (last != -1) {
+                    try {
+                        // Mustafa: If the XML instance has a prefix already, use it!
+                        String xmlNSprefix = root.getPrefix();
+                        if (xmlNSprefix != null && !xmlNSprefix.equals("")) {
+                            model.setNsPrefix(xmlNSprefix, NS);
+                        } else if (last != -1) {
                             model.setNsPrefix(root.getNamespaceURI().substring(last + 1), NS);
                         } else {
-                            model.setNsPrefix("NS", NS);
+                            last = NS.lastIndexOf(':');
+                            if (last != -1) {
+                                model.setNsPrefix(root.getNamespaceURI().substring(last + 1), NS);
+                            } else {
+                                model.setNsPrefix("NS", NS);
+                            }
                         }
+                    } catch (IllegalPrefixException e) {
+                        model.setNsPrefix("ont" + prefixCount++, NS);
                     }
                 }
             } else {

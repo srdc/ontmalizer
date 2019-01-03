@@ -5,6 +5,7 @@ package tr.com.srdc.ontmalizer.helper;
 
 import org.apache.jena.datatypes.xsd.XSDDatatype;
 import org.apache.jena.rdf.model.Resource;
+import org.apache.jena.vocabulary.OWL;
 import org.apache.jena.vocabulary.XSD;
 
 /**
@@ -101,6 +102,9 @@ public class XSDUtil {
                 return XSD.xshort;
             case "string":
                 return XSD.xstring;
+            case "anyType":
+            case "anySimpleType":
+                return OWL.Thing;
             default:
                 break;
         }
