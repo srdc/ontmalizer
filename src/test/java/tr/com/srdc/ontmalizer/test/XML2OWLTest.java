@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.Writer;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -121,6 +123,7 @@ public class XML2OWLTest {
         XML2OWLMapper generator = new XML2OWLMapper(new File("src/test/resources/salus-common-xsd/salus-eligibility-instance.xml"), mapping);
         generator.convertXML2OWL();
 
+        LOGGER.info("Converted XML 2 OWL");
         // This part prints the RDF data model to the specified file.
         try {
             File f = new File("src/test/resources/output/salus-eligibility-instance.n3");
